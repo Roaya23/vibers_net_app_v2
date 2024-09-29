@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
@@ -1246,7 +1247,7 @@ class _DownloadPageState extends State<DownloadPage>
         ? Text(
             translate("Downloaded_"),
             style: TextStyle(
-                fontFamily: 'Lato',
+                fontFamily: kFontFamilyName,
                 fontSize: 12.0,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.0,
@@ -1255,7 +1256,7 @@ class _DownloadPageState extends State<DownloadPage>
         : Text(
             translate("Download_"),
             style: TextStyle(
-              fontFamily: 'Lato',
+              fontFamily: kFontFamilyName,
               fontSize: 12.0,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.0,
@@ -1362,7 +1363,7 @@ class _DownloadPageState extends State<DownloadPage>
             Text(
               translate("Download_"),
               style: TextStyle(
-                fontFamily: 'Lato',
+                fontFamily: kFontFamilyName,
                 fontSize: 12.0,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.0,
@@ -1526,7 +1527,7 @@ class _DownloadPageState extends State<DownloadPage>
                   Text(
                     translate("Download_"),
                     style: TextStyle(
-                      fontFamily: 'Lato',
+                      fontFamily: kFontFamilyName,
                       fontSize: 12.0,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.0,

@@ -8,6 +8,7 @@ import '/common/route_paths.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import '/common/shimmer-effect.dart';
 import '/ui/widgets/grid_movie_tv.dart';
+import 'package:vibers_net/common/styles.dart';
 
 class Heading1 extends StatefulWidget {
   final String heading;
@@ -34,7 +35,7 @@ class _Heading1State extends State<Heading1> {
               child: Text(
                 translate("Loading_"),
                 style: TextStyle(
-                  fontFamily: 'Lato',
+                  fontFamily: kFontFamilyName,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -49,7 +50,7 @@ class _Heading1State extends State<Heading1> {
                 Text(
                   widget.heading,
                   style: TextStyle(
-                    fontFamily: 'Lato',
+                    fontFamily: kFontFamilyName,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
                   ),
@@ -60,7 +61,7 @@ class _Heading1State extends State<Heading1> {
                     child: Text(
                       translate("View_All"),
                       style: TextStyle(
-                        fontFamily: 'Lato',
+                        fontFamily: kFontFamilyName,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColor,
@@ -138,7 +139,7 @@ class _Heading2State extends State<Heading2> {
               Text(
                 "${widget.heading}",
                 style: TextStyle(
-                    fontFamily: 'Lato',
+                    fontFamily: kFontFamilyName,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
                     color: Colors.red),
@@ -159,7 +160,7 @@ class _Heading2State extends State<Heading2> {
               child: Text(
                 translate("View_All"),
                 style: TextStyle(
-                  fontFamily: 'Lato',
+                  fontFamily: kFontFamilyName,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).primaryColor,

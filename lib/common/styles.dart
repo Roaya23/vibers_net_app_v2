@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
+const String kFontFamilyName = "GothicA1";
+
 /// basic colors
 const cStatusBarColor = Color.fromRGBO(20, 20, 20, 1.0);
 const cSystemNavigationColor = Color.fromRGBO(20, 20, 20, 1.0);
@@ -137,12 +139,12 @@ TextTheme _buildTextTheme(TextTheme base) {
         ),
       )
       .apply(
-        fontFamily: 'Raleway',
+        fontFamily: kFontFamilyName,
         displayColor: kGrey900,
         bodyColor: kGrey900,
       )
       .copyWith(
-          headlineSmall: base.headlineSmall!.copyWith(fontFamily: 'Roboto'));
+          headlineSmall: base.headlineSmall!.copyWith(fontFamily: kFontFamilyName));
 }
 
 const ColorScheme kColorScheme = ColorScheme(

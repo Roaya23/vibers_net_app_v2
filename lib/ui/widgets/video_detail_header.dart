@@ -6,6 +6,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/models/user_profile_model.dart';
 import 'package:vibers_net/providers/app_config.dart';
 // import '../../common/google-ads.dart';
@@ -1067,7 +1068,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                           const EdgeInsets.fromLTRB(0, 10.0, 0.0, 10.0)),
                       textStyle: WidgetStateProperty.all(
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontFamily: 'Lato',
+                              fontFamily: kFontFamilyName,
                             ),
                       ),
                     ),
@@ -1111,7 +1112,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                           const EdgeInsets.fromLTRB(0, 10.0, 0.0, 10.0)),
                       textStyle: WidgetStateProperty.all(
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontFamily: 'Lato',
+                              fontFamily: kFontFamilyName,
                             ),
                       ),
                     ),
@@ -1185,7 +1186,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                                 translate("Play_"),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: 'Lato',
+                                  fontFamily: kFontFamilyName,
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 0.9,
@@ -1237,7 +1238,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                           translate("Trailer_"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Lato',
+                            fontFamily: kFontFamilyName,
                             fontSize: 15.0,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.9,

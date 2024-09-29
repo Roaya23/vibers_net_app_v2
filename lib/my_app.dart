@@ -85,6 +85,7 @@ class _MyAppState extends State<MyApp> {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: RoutePaths.appTitle,
+              darkTheme: buildDarkTheme(),
               theme:
                   themeNotifier.isDark ? buildDarkTheme() : buildLightTheme(),
               initialRoute: RoutePaths.splashScreen,

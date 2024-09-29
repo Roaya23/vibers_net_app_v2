@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/models/datum.dart';
+import 'package:vibers_net/common/styles.dart';
 
 // Share tab
 class CopyPassword extends StatelessWidget {
@@ -39,7 +40,7 @@ class CopyPassword extends StatelessWidget {
               Text(
                 translate("Copy_"),
                 style: TextStyle(
-                  fontFamily: 'Lato',
+                  fontFamily: kFontFamilyName,
                   fontSize: 12.0,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.0,

@@ -31,6 +31,7 @@ import '/ui/gateways/razor_payment.dart';
 import '/ui/gateways/stripe_payment.dart';
 import '/ui/screens/apply_coupon_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:vibers_net/common/styles.dart';
 
 List listPaymentGateways = [];
 String couponMSG = '';
@@ -683,7 +684,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
       child: new Text(
         label,
         style: TextStyle(
-          fontFamily: 'Lato',
+          fontFamily: kFontFamilyName,
           fontSize: 13.0,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.9,

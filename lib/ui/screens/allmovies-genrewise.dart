@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
 import '../../models/comment.dart';
 import '../../models/datum.dart';
 import '../../models/episode.dart';
@@ -410,7 +411,7 @@ class _AllHorizontalGenreListState extends State<AllHorizontalGenreList> {
                           genres[index].name.toString(),
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontFamily: 'Lato',
+                              fontFamily: kFontFamilyName,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),

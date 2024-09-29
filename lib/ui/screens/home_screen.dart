@@ -14,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '/common/apipath.dart';
 import 'home-screen-shimmer.dart';
+import 'package:vibers_net/common/styles.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -265,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: new Text(
                           '${menus[index].name}',
                           style: TextStyle(
-                            fontFamily: 'Lato',
+                            fontFamily: kFontFamilyName,
                             fontSize: 15.0,
                             letterSpacing: 0.9,
                           ),

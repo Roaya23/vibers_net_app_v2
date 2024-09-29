@@ -7,6 +7,7 @@ import '/common/global.dart';
 import '/models/datum.dart';
 import '/models/episode.dart';
 import 'package:http/http.dart' as http;
+import 'package:vibers_net/common/styles.dart';
 
 class WishListView extends StatefulWidget {
   WishListView(this.videoDetail);
@@ -156,7 +157,7 @@ class _WishListViewState extends State<WishListView> {
                         ? Text(
                             translate("Wishlist_"),
                             style: TextStyle(
-                              fontFamily: 'Lato',
+                              fontFamily: kFontFamilyName,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.0,
@@ -166,7 +167,7 @@ class _WishListViewState extends State<WishListView> {
                         : Text(
                             translate("Wishlist_"),
                             style: TextStyle(
-                              fontFamily: 'Lato',
+                              fontFamily: kFontFamilyName,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.0,

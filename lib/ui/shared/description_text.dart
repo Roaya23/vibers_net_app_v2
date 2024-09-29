@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
 
 class DescriptionText extends StatefulWidget {
   DescriptionText(this.text);
@@ -32,7 +33,7 @@ class _DescriptionTextState extends State<DescriptionText> {
                     ? Text(
                         '',
                         style: TextStyle(
-                          fontFamily: 'Lato',
+                          fontFamily: kFontFamilyName,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.9,
@@ -42,7 +43,7 @@ class _DescriptionTextState extends State<DescriptionText> {
                     : Text(
                         '',
                         style: TextStyle(
-                            fontFamily: 'Lato',
+                            fontFamily: kFontFamilyName,
                             fontSize: 15.0,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.9,
@@ -88,7 +89,7 @@ class _DescriptionTextState extends State<DescriptionText> {
                 child: Text(
                   widget.text!,
                   style: TextStyle(
-                    fontFamily: 'Lato',
+                    fontFamily: kFontFamilyName,
                     fontSize: 13.0,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.9,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+import 'dart:io';import 'package:vibers_net/common/styles.dart';
+
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -158,7 +159,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
       child: Text(
         heading,
         style: TextStyle(
-          fontFamily: 'Lato',
+          fontFamily: kFontFamilyName,
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
         ),

@@ -6,6 +6,7 @@ import '../../models/CountViewModel.dart' as CVM;
 import '../../models/datum.dart';
 import '../../models/seasons.dart';
 import '../../providers/count_view_provider.dart';
+import 'package:vibers_net/common/styles.dart';
 
 class SeasonsTab extends StatelessWidget {
   SeasonsTab(this.season, this.videoDetail);
@@ -51,7 +52,7 @@ class SeasonsTab extends StatelessWidget {
           new Text(
             translate("Season_") + ' ${season.seasonNo}',
             style: TextStyle(
-              fontFamily: 'Lato',
+              fontFamily: kFontFamilyName,
               fontSize: 15.0,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.9,

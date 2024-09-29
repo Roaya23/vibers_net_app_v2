@@ -10,6 +10,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // ignore: import_of_legacy_library_into_null_safe
 //import 'package:rating_bar/rating_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:vibers_net/common/styles.dart';
 
 class RateUs extends StatefulWidget {
   RateUs(
@@ -31,7 +32,7 @@ class _RateUsState extends State<RateUs> {
     return Text(
       translate("Rate_"),
       style: TextStyle(
-        fontFamily: 'Lato',
+        fontFamily: kFontFamilyName,
         fontSize: 12.0,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
 
 class TabWidget extends StatelessWidget {
   TabWidget(this.title);
@@ -11,7 +12,7 @@ class TabWidget extends StatelessWidget {
         child: new Text(
           title,
           style: TextStyle(
-              fontFamily: 'Lato',
+              fontFamily: kFontFamilyName,
               fontSize: 13.0,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.7,

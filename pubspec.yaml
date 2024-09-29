@@ -136,4 +136,26 @@ flutter:
     - icons/
     - assets/native_splash/
     - assets/launcher_ic/
+    - assets/fonts/
+    - assets/fonts/gothic_a1/
     - assets/animations/
+
+  fonts:
+    - family: GothicA1
+      fonts:
+        - asset: assets/fonts/gothic_a1/GothicA1-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/gothic_a1/GothicA1-Light.ttf
+          weight: 300
+        - asset: assets/fonts/gothic_a1/GothicA1-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/gothic_a1/GothicA1-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/gothic_a1/GothicA1-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/gothic_a1/GothicA1-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/gothic_a1/GothicA1-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/gothic_a1/GothicA1-Black.ttf
+          weight: 900
