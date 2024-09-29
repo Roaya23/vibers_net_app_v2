@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:nexthour/services/countryProvider.dart';
+import 'package:vibers_net/services/countryProvider.dart';
 import '../localization/language_model.dart';
 import '../localization/language_provider.dart';
 import '../models/RecommendedDataModel.dart';

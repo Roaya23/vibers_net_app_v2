@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:nexthour/models/datum.dart';
+import 'package:vibers_net/models/datum.dart';
 import '../../providers/menu_data_provider.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';

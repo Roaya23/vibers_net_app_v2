@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:nexthour/models/upi_details_model.dart';
+import 'package:vibers_net/models/upi_details_model.dart';
 import 'package:http/http.dart' as http;
 import '../common/apipath.dart';
 import '../common/global.dart';

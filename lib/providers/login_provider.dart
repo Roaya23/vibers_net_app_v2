@@ -12,9 +12,9 @@ import '/providers/slider_provider.dart';
 import '/providers/user_profile_provider.dart';
 import 'package:provider/provider.dart';
 import '../common/apipath.dart';
-import 'package:nexthour/providers/audio_provider.dart';
-import 'package:nexthour/providers/count_view_provider.dart';
-import 'package:nexthour/providers/live_event_provider.dart';
+import 'package:vibers_net/providers/audio_provider.dart';
+import 'package:vibers_net/providers/count_view_provider.dart';
+import 'package:vibers_net/providers/live_event_provider.dart';
 
 class LoginProvider extends ChangeNotifier {
   late LoginModel loginModel;

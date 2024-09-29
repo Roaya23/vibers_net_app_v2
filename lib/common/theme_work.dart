@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nexthour/common/global.dart';
-import 'package:nexthour/common/styles.dart';
+import 'package:vibers_net/common/global.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyThemePreferences {

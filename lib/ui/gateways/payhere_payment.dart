@@ -4,16 +4,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/common/global.dart';
-import 'package:nexthour/common/route_paths.dart';
-import 'package:nexthour/providers/app_config.dart';
-import 'package:nexthour/providers/payment_key_provider.dart';
-import 'package:nexthour/providers/user_profile_provider.dart';
-import 'package:nexthour/ui/screens/splash_screen.dart';
-import 'package:nexthour/ui/shared/appbar.dart';
-import 'package:nexthour/ui/shared/success_ticket.dart';
-import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/common/global.dart';
+import 'package:vibers_net/common/route_paths.dart';
+import 'package:vibers_net/providers/app_config.dart';
+import 'package:vibers_net/providers/payment_key_provider.dart';
+import 'package:vibers_net/providers/user_profile_provider.dart';
+import 'package:vibers_net/ui/screens/splash_screen.dart';
+import 'package:vibers_net/ui/shared/appbar.dart';
+import 'package:vibers_net/ui/shared/success_ticket.dart';
+// import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -311,17 +311,18 @@ class _PayHerePaymentState extends State<PayHerePayment> {
       "custom_2": ""
     };
 
-    PayHere.startPayment(paymentObject, (paymentId) {
-      print("One Time Payment Success. Payment Id: $paymentId");
-      sendPaymentDetails(paymentId, "PayHere");
-      showAlert(context, "Payment Success!", "Payment Id: $paymentId");
-    }, (error) {
-      print("One Time Payment Failed. Error: $error");
-      showAlert(context, "Payment Failed", "$error");
-    }, () {
-      print("One Time Payment Dismissed");
-      showAlert(context, "Payment Dismissed", "");
-    });
+    // TODO : SOLVE PAY HERE AND UN COMMINT THIS
+    // PayHere.startPayment(paymentObject, (paymentId) {
+    //   print("One Time Payment Success. Payment Id: $paymentId");
+    //   sendPaymentDetails(paymentId, "PayHere");
+    //   showAlert(context, "Payment Success!", "Payment Id: $paymentId");
+    // }, (error) {
+    //   print("One Time Payment Failed. Error: $error");
+    //   showAlert(context, "Payment Failed", "$error");
+    // }, () {
+    //   print("One Time Payment Dismissed");
+    //   showAlert(context, "Payment Dismissed", "");
+    // });
   }
 
   goToDialog2() {

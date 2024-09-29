@@ -175,13 +175,13 @@ class _DownloadEpisodePageState extends State<DownloadEpisodePage>
   }
 
   static void downloadCallback(String id, int statusValue, int progress) {
-    final status = DownloadTaskStatus.fromInt(statusValue);
+    // final status = DownloadTaskStatus.fromInt(statusValue);
 
     print(
-        'Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
+        'Background Isolate Callback: task ($id) is in status ($statusValue) and process ($progress)');
     final SendPort send =
         IsolateNameServer.lookupPortByName('downloader_senddPort')!;
-    send.send([id, status, progress]);
+    send.send([id, statusValue, progress]);
   }
 
   void _showDialog(task, userDetails) {

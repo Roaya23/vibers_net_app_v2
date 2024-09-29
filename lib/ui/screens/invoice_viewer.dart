@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/common/global.dart';
-import 'package:nexthour/ui/screens/pdf_viewer.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/common/global.dart';
+import 'package:vibers_net/ui/screens/pdf_viewer.dart';
 import 'package:path_provider/path_provider.dart';
 
 // ignore: must_be_immutable

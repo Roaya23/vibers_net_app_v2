@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
+import 'package:vibers_net/common/apipath.dart';
 import '/ui/gateways/paypal/paypal_screen.dart';
 import '/ui/shared/appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';

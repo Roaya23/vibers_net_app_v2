@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     final SendPort send =
         IsolateNameServer.lookupPortByName('downloader_send_port')!;
-    send.send([id, status, progress]);
+    send.send([id, statusValue, progress]);
   }
 
   @override

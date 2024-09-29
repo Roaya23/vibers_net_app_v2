@@ -4,7 +4,7 @@ import 'package:chewie/chewie.dart' as chewei;
 import 'package:flutter/services.dart';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:nexthour/common/styles.dart';
+import 'package:vibers_net/common/styles.dart';
 
 import 'package:provider/provider.dart';
 import 'package:subtitle_wrapper_package/data/models/style/subtitle_position.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/models/AudioModel.dart';
-import 'package:nexthour/models/user_profile_model.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/models/AudioModel.dart';
+import 'package:vibers_net/models/user_profile_model.dart';
 import 'package:provider/provider.dart';
 import '../../common/global.dart';
 import '../../common/route_paths.dart';

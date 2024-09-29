@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
-import 'package:nexthour/common/unity_ads.dart';
+import 'package:vibers_net/common/unity_ads.dart';
 import '/common/apipath.dart';
 import '/ui/shared/appbar.dart';
 

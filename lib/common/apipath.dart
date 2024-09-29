@@ -1,6 +1,5 @@
 class APIData {
-  // Replace with your domain link : http://example.com/public/
-  static const String domainLink = "http://yourdomain.com/public/";
+  static const String domainLink = "https://new.vibersnet.com/";
 
   static const String domainApiLink = domainLink + "api/";
 
@@ -127,7 +126,7 @@ class APIData {
       domainLink + "images/tvseries/episodes/";
 
   // Replace with your app name
-  static const String appName = 'ENTER_APP_NAME_HERE';
+  static const String appName = 'Vibers Net';
 
   // Replace with your app secret key
   static const String secretKey = "ENTER_APP_SECRET_KEY_HERE";

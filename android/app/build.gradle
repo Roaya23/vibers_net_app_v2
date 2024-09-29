@@ -37,7 +37,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'com.mediacity.nexthour'
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     // compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
     ndkVersion flutter.ndkVersion
 
@@ -61,7 +61,7 @@ android {
         multiDexEnabled true
         applicationId "com.mediacity.nexthour"
         minSdkVersion 24
-        targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -95,7 +95,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        
         }
     }
     lint {

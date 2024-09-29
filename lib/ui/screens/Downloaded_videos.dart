@@ -86,14 +86,14 @@ class _DownloadedVideosState extends State<DownloadedVideos> {
 
   static void downloadCallback(
       String id, int statusValue, int progress) {
-    final status = DownloadTaskStatus.fromInt(statusValue);
+    // final status = DownloadTaskStatus.fromInt(statusValue);
     if (debug) {
       print(
-          'Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
+          'Background Isolate Callback: task ($id) is in status ($statusValue) and process ($progress)');
     }
     final SendPort send =
         IsolateNameServer.lookupPortByName('downloader_senddPort')!;
-    send.send([id, status, progress]);
+    send.send([id, statusValue, progress]);
   }
 
   @override

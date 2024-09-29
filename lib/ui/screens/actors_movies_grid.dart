@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/unity_ads.dart';
+import 'package:vibers_net/common/unity_ads.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
 import '/models/episode.dart';

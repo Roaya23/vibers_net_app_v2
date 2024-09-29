@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/models/LiveEventModel.dart' as liveEvent_;
-import 'package:nexthour/ui/screens/liveEventScreen.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/models/LiveEventModel.dart' as liveEvent_;
+import 'package:vibers_net/ui/screens/liveEventScreen.dart';
 import '../../models/menu_by_category.dart';
 import '/common/route_paths.dart';
 

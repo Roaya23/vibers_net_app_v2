@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:nexthour/ui/shared/recommended_grid_view.dart';
-import 'package:nexthour/ui/shared/top_grid_view.dart';
+import 'package:vibers_net/ui/shared/recommended_grid_view.dart';
+import 'package:vibers_net/ui/shared/top_grid_view.dart';
 import '../../models/datum.dart';
 import '/common/route_paths.dart';
 // ignore: import_of_legacy_library_into_null_safe

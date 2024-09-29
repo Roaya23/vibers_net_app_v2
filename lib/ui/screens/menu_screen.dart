@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:nexthour/ui/screens/subscription_plans.dart';
+import 'package:vibers_net/ui/screens/subscription_plans.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';

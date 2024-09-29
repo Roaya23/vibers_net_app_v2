@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/models/LiveEventModel.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/models/LiveEventModel.dart';
 
 class GridLiveEventBox extends StatelessWidget {
   GridLiveEventBox(this.buildContext, this.liveEvent);

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:nexthour/models/AppUiShortingModel.dart';
-import 'package:nexthour/providers/app_ui_shorting_provider.dart';
-import 'package:nexthour/ui/screens/horizontal_audio_list.dart';
-import 'package:nexthour/ui/screens/horizontal_liveEvent_list.dart';
-import 'package:nexthour/ui/screens/recommended_video_list.dart';
+import 'package:vibers_net/models/AppUiShortingModel.dart';
+import 'package:vibers_net/providers/app_ui_shorting_provider.dart';
+import 'package:vibers_net/ui/screens/horizontal_audio_list.dart';
+import 'package:vibers_net/ui/screens/horizontal_liveEvent_list.dart';
+import 'package:vibers_net/ui/screens/recommended_video_list.dart';
 import '../../common/facebook_ads.dart';
 import '/models/episode.dart';
 import '/providers/app_config.dart';

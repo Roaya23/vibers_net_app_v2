@@ -1,0 +1,16 @@
+flutter_native_splash:
+  color: "#070010"
+  color_dark: "#070010"
+  image: assets/native_splash/native_splash_ic.png
+  image_dark: assets/native_splash/native_splash_ic.png
+  android_12:
+    color: "#070010"
+    color_dark: "#070010"
+    image: assets/native_splash/native_splash_android_12_ic.png
+  fullscreen: true
+  android: true
+  ios: true
+  web: false
+
+## Run Command :
+#  dart run flutter_native_splash:create --path=flutter_native_splash.yaml

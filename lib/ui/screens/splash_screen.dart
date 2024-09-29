@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:lottie/lottie.dart';
 import '../../localization/language_provider.dart';
 import '../../providers/audio_provider.dart';
 import '../../providers/count_view_provider.dart';
@@ -227,21 +228,6 @@ class SplashScreenState extends State<SplashScreen> {
     // });
   }
 
-  Widget logoImage(myModel) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          child: Image.asset(
-            'assets/logo.png',
-            fit: BoxFit.cover,
-          ),
-        )
-      ],
-    );
-  }
-
   Future checkLoginStatus() async {
     // Loading Languages
     LanguageProvider languageProvider =
@@ -359,12 +345,13 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(
-            "assets/splash.png",
-            fit: BoxFit.fill,
-            height: double.infinity,
-            width: double.infinity,
-          ),
+          Lottie.asset('assets/animations/animated_splash.json',),
+          // Image.asset(
+          //   "assets/splash.png",
+          //   fit: BoxFit.fill,
+          //   height: double.infinity,
+          //   width: double.infinity,
+          // ),
           Align(
             alignment: FractionalOffset.bottomCenter,
             heightFactor: 10,
@@ -372,10 +359,10 @@ class SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  "assets/logo.png",
-                  fit: BoxFit.cover,
-                ),
+                // Image.asset(
+                //   "assets/logo.png",
+                //   fit: BoxFit.cover,
+                // ),
                 SizedBox(
                   height: 70,
                 ),

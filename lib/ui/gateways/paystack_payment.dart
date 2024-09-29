@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
+// import 'package:flutter_paystack/flutter_paystack.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +21,8 @@ import '/ui/shared/paystack_paynow_button.dart';
 import '/ui/shared/success_ticket.dart';
 import '/ui/widgets/credit_card_widget.dart';
 import 'package:provider/provider.dart';
+
+// TODO : HANDLE PAY STACK
 
 // To get started quickly, change this to your heroku deployment of
 // https://github.com/PaystackHQ/sample-charge-card-backend
@@ -45,7 +47,7 @@ class _PaystackPaymentState extends State<PaystackPayment> {
   final _formKey = GlobalKey<FormState>();
   final _verticalSizeBox = const SizedBox(height: 20.0);
   final _horizontalSizeBox = const SizedBox(width: 10.0);
-  final plugin = PaystackPlugin();
+  // final plugin = PaystackPlugin();
   final MaskedTextController _cardNumberController =
       MaskedTextController(mask: '0000 0000 0000 0000');
 
@@ -381,36 +383,36 @@ class _PaystackPaymentState extends State<PaystackPayment> {
     setState(() {
       isBack = false;
     });
-    setState(() => _inProgress = true);
-    _formKey.currentState!.save();
-    Charge charge = Charge()
-      ..amount = (double.parse(amount) ~/ 1)
-      ..email = email
-      ..card = _getCardFromUI();
+    // setState(() => _inProgress = true);
+    // _formKey.currentState!.save();
+    // Charge charge = Charge()
+    //   ..amount = (double.parse(amount) ~/ 1)
+    //   ..email = email
+    //   ..card = _getCardFromUI();
 
-    if (!_isLocal()) {
-      var accessCode = await _fetchAccessCodeFrmServer(_getReference());
-      charge.accessCode = accessCode;
-    } else {
-      charge.reference = _getReference();
-    }
+    // if (!_isLocal()) {
+    //   var accessCode = await _fetchAccessCodeFrmServer(_getReference());
+    //   charge.accessCode = accessCode;
+    // } else {
+    //   charge.reference = _getReference();
+    // }
 
-    CheckoutResponse response = await plugin.checkout(context,
-        method: CheckoutMethod.card, charge: charge, fullscreen: false);
-    ref = response.reference;
-    if (response.message == 'Success') {
-      setState(() {
-        isShowing = true;
-      });
-      goToDialog2();
-      sendPaystackDetailsToServer(amount, planId);
-    } else {
-      setState(() {
-        isBack = true;
-        _inProgress = false;
-      });
-    }
-    _updateStatus(response.reference, '$response');
+    // CheckoutResponse response = await plugin.checkout(context,
+    //     method: CheckoutMethod.card, charge: charge, fullscreen: false);
+    // ref = response.reference;
+    // if (response.message == 'Success') {
+    //   setState(() {
+    //     isShowing = true;
+    //   });
+    //   goToDialog2();
+    //   sendPaystackDetailsToServer(amount, planId);
+    // } else {
+    //   setState(() {
+    //     isBack = true;
+    //     _inProgress = false;
+    //   });
+    // }
+    // _updateStatus(response.reference, '$response');
   }
 
 // ignore: unused_element
@@ -424,15 +426,15 @@ class _PaystackPaymentState extends State<PaystackPayment> {
     return 'ChargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}';
   }
 
-  PaymentCard _getCardFromUI() {
-    // Using just the must-required parameters.
-    return PaymentCard(
-      number: _cardNumber,
-      cvc: _cvv,
-      expiryMonth: _expiryMonth,
-      expiryYear: _expiryYear,
-    );
-  }
+  // PaymentCard _getCardFromUI() {
+  //   // Using just the must-required parameters.
+  //   return PaymentCard(
+  //     number: _cardNumber,
+  //     cvc: _cvv,
+  //     expiryMonth: _expiryMonth,
+  //     expiryYear: _expiryYear,
+  //   );
+  // }
 
 // ignore: unused_element
   Future<String?> _fetchAccessCodeFrmServer(String reference) async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/global.dart';
+import 'package:vibers_net/common/global.dart';
 import '/common/apipath.dart';
 import '/providers/app_config.dart';
 import 'package:provider/provider.dart';

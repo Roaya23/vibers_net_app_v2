@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nexthour/common/route_paths.dart';
-import 'package:nexthour/models/manual_payment_model.dart';
-import 'package:nexthour/ui/shared/appbar.dart';
+import 'package:vibers_net/common/route_paths.dart';
+import 'package:vibers_net/models/manual_payment_model.dart';
+import 'package:vibers_net/ui/shared/appbar.dart';
 import 'manual_payment_screen.dart';
 
 class ManualPaymentList extends StatefulWidget {

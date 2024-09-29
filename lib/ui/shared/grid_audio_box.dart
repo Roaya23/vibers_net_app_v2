@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
+import 'package:vibers_net/common/apipath.dart';
 import '../../models/AudioModel.dart';
 
 class GridAudioBox extends StatelessWidget {

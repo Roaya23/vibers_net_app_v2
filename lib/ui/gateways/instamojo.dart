@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexthour/providers/app_config.dart';
-import 'package:nexthour/providers/payment_key_provider.dart';
-import 'package:nexthour/ui/shared/appbar.dart';
+import 'package:vibers_net/providers/app_config.dart';
+import 'package:vibers_net/providers/payment_key_provider.dart';
+import 'package:vibers_net/ui/shared/appbar.dart';
 import 'package:provider/provider.dart';
 
 import 'instamojo_payment.dart';

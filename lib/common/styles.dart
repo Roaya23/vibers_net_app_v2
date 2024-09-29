@@ -4,7 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 /// basic colors
 const cStatusBarColor = Color.fromRGBO(20, 20, 20, 1.0);
 const cSystemNavigationColor = Color.fromRGBO(20, 20, 20, 1.0);
-const primaryBlue = Color.fromRGBO(72, 163, 198, 1.0);
+const primaryBlue = Color(0xff070010);
 const kTeal50 = Color(0xFFE0F2F1);
 const kTeal100 = Color(0xFF3FC1BE);
 const kDefaultBackgroundAvatar = '3FC1BE';

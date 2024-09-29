@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/models/LiveEventModel.dart';
-import 'package:nexthour/ui/screens/liveEventScreen.dart';
-import 'package:nexthour/ui/shared/grid_liveEvent_box.dart';
+import 'package:vibers_net/models/LiveEventModel.dart';
+import 'package:vibers_net/ui/screens/liveEventScreen.dart';
+import 'package:vibers_net/ui/shared/grid_liveEvent_box.dart';
 import '../../common/route_paths.dart';
 
 class GridLiveEventContainer extends StatelessWidget {

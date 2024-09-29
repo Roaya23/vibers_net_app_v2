@@ -1,9 +1,9 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:nexthour/providers/live_event_provider.dart';
-import 'package:nexthour/ui/shared/grid_audio_container.dart';
-import 'package:nexthour/ui/shared/grid_liveEvent_container.dart';
+import 'package:vibers_net/providers/live_event_provider.dart';
+import 'package:vibers_net/ui/shared/grid_audio_container.dart';
+import 'package:vibers_net/ui/shared/grid_liveEvent_container.dart';
 import '../../providers/audio_provider.dart';
 import '/providers/menu_data_provider.dart';
 import '/ui/shared/appbar.dart';

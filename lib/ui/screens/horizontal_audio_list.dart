@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/models/AudioModel.dart' as audio_;
-import 'package:nexthour/ui/screens/audioScreen.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/models/AudioModel.dart' as audio_;
+import 'package:vibers_net/ui/screens/audioScreen.dart';
 import '../../models/menu_by_category.dart';
 import '/common/route_paths.dart';
 

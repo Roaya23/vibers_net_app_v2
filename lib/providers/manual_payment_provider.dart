@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:nexthour/common/apipath.dart';
-import 'package:nexthour/common/global.dart';
-import 'package:nexthour/models/manual_payment_model.dart';
+import 'package:vibers_net/common/apipath.dart';
+import 'package:vibers_net/common/global.dart';
+import 'package:vibers_net/models/manual_payment_model.dart';
 
 class ManualPaymentProvider extends ChangeNotifier {
   ManualPaymentModel? manualPaymentModel;
