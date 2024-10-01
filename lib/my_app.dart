@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/localization/language_provider.dart';
 import 'package:vibers_net/providers/all_user_provider.dart';
@@ -47,66 +48,70 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppConfig()),
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => UserProfileProvider()),
-        ChangeNotifierProvider(create: (_) => MenuProvider()),
-        ChangeNotifierProvider(create: (_) => SliderProvider()),
-        ChangeNotifierProvider(create: (_) => MainProvider()),
-        ChangeNotifierProvider(create: (_) => MovieTVProvider()),
-        ChangeNotifierProvider(create: (_) => MenuDataProvider()),
-        ChangeNotifierProvider(create: (_) => WishListProvider()),
-        ChangeNotifierProvider(create: (_) => NotificationsProvider()),
-        ChangeNotifierProvider(create: (_) => FAQProvider()),
-        ChangeNotifierProvider(create: (_) => PaymentKeyProvider()),
-        ChangeNotifierProvider(create: (_) => WatchHistoryProvider()),
-        ChangeNotifierProvider(create: (_) => ActorMoviesProvider()),
-        ChangeNotifierProvider(create: (_) => CouponProvider()),
-        ChangeNotifierProvider(create: (_) => ManualPaymentProvider()),
-        ChangeNotifierProvider(create: (_) => LanguageProvider()),
-        ChangeNotifierProvider(create: (_) => AppUIShortingProvider()),
-        ChangeNotifierProvider(create: (_) => AllUsersProvider()),
-        ChangeNotifierProvider(create: (_) => AudioProvider()),
-        ChangeNotifierProvider(create: (_) => LiveEventProvider()),
-        ChangeNotifierProvider(create: (_) => CountViewProvider()),
-        ChangeNotifierProvider(create: (_) => UpiDetailsProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-      ],
-      child: Shortcuts(
-        shortcuts: <LogicalKeySet, Intent>{
-          LogicalKeySet(LogicalKeyboardKey.select): ActivateIntent(),
-        },
-        child: LocalizationProvider(
-          state: LocalizationProvider.of(context).state,
-          child: Consumer<ThemeProvider>(
-              builder: (context, ThemeProvider themeNotifier, child) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: RoutePaths.appTitle,
-              darkTheme: buildDarkTheme(),
-              theme:
-                  themeNotifier.isDark ? buildDarkTheme() : buildLightTheme(),
-              initialRoute: RoutePaths.splashScreen,
-              onGenerateRoute: RouteGenerator.generateRoute,
-              navigatorObservers: [
-                FirebaseAnalyticsObserver(
-                    analytics: FirebaseAnalytics.instance),
-              ],
-              localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                localizationDelegate
-              ],
-              supportedLocales: localizationDelegate.supportedLocales,
-              locale: localizationDelegate.currentLocale,
-              routes: {
-                RoutePaths.splashScreen: (context) =>
-                    SplashScreen(token: widget.token),
-              },
-            );
-          }),
+    return ScreenUtilInit(
+      useInheritedMediaQuery: true,
+      designSize: const Size(375, 812),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AppConfig()),
+          ChangeNotifierProvider(create: (_) => LoginProvider()),
+          ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+          ChangeNotifierProvider(create: (_) => MenuProvider()),
+          ChangeNotifierProvider(create: (_) => SliderProvider()),
+          ChangeNotifierProvider(create: (_) => MainProvider()),
+          ChangeNotifierProvider(create: (_) => MovieTVProvider()),
+          ChangeNotifierProvider(create: (_) => MenuDataProvider()),
+          ChangeNotifierProvider(create: (_) => WishListProvider()),
+          ChangeNotifierProvider(create: (_) => NotificationsProvider()),
+          ChangeNotifierProvider(create: (_) => FAQProvider()),
+          ChangeNotifierProvider(create: (_) => PaymentKeyProvider()),
+          ChangeNotifierProvider(create: (_) => WatchHistoryProvider()),
+          ChangeNotifierProvider(create: (_) => ActorMoviesProvider()),
+          ChangeNotifierProvider(create: (_) => CouponProvider()),
+          ChangeNotifierProvider(create: (_) => ManualPaymentProvider()),
+          ChangeNotifierProvider(create: (_) => LanguageProvider()),
+          ChangeNotifierProvider(create: (_) => AppUIShortingProvider()),
+          ChangeNotifierProvider(create: (_) => AllUsersProvider()),
+          ChangeNotifierProvider(create: (_) => AudioProvider()),
+          ChangeNotifierProvider(create: (_) => LiveEventProvider()),
+          ChangeNotifierProvider(create: (_) => CountViewProvider()),
+          ChangeNotifierProvider(create: (_) => UpiDetailsProvider()),
+          ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ],
+        child: Shortcuts(
+          shortcuts: <LogicalKeySet, Intent>{
+            LogicalKeySet(LogicalKeyboardKey.select): ActivateIntent(),
+          },
+          child: LocalizationProvider(
+            state: LocalizationProvider.of(context).state,
+            child: Consumer<ThemeProvider>(
+                builder: (context, ThemeProvider themeNotifier, child) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: RoutePaths.appTitle,
+                darkTheme: buildDarkTheme(),
+                theme:
+                    themeNotifier.isDark ? buildDarkTheme() : buildLightTheme(),
+                initialRoute: RoutePaths.splashScreen,
+                onGenerateRoute: RouteGenerator.generateRoute,
+                navigatorObservers: [
+                  FirebaseAnalyticsObserver(
+                      analytics: FirebaseAnalytics.instance),
+                ],
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  localizationDelegate
+                ],
+                supportedLocales: localizationDelegate.supportedLocales,
+                locale: localizationDelegate.currentLocale,
+                routes: {
+                  RoutePaths.splashScreen: (context) =>
+                      SplashScreen(token: widget.token),
+                },
+              );
+            }),
+          ),
         ),
       ),
     );

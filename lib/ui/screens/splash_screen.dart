@@ -228,7 +228,7 @@ class SplashScreenState extends State<SplashScreen> {
     // });
   }
 
-  Future checkLoginStatus() async {
+  Future<void> checkLoginStatus() async {
     // Loading Languages
     LanguageProvider languageProvider =
         Provider.of<LanguageProvider>(context, listen: false);
@@ -345,7 +345,14 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Lottie.asset('assets/animations/animated_splash.json',),
+          // Lottie.asset('assets/animations/2.json',
+          //     height: double.infinity, width: double.infinity,
+          //     errorBuilder: (context, error, stackTrace) {
+          //   return Icon(
+          //     Icons.error,
+          //     color: Colors.red,
+          //   );
+          // }, fit: BoxFit.cover, repeat: false),
           // Image.asset(
           //   "assets/splash.png",
           //   fit: BoxFit.fill,

@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+ BuildContext get getAppNavigatorKeyContext => navigatorKey.currentContext!;
 class RoutePaths {
   static const String appTitle = 'Next Hour';
   static const String splashScreen = '/';

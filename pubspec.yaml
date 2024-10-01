@@ -26,7 +26,8 @@ dependencies:
   chewie: ^1.7.4
   video_player: ^2.8.2
   subtitle_wrapper_package: ^2.1.1
-  
+  flutter_screenutil: ^5.9.3
+
   flutterwave_standard: ^1.0.6
   payu_web_checkout: ^1.0.3
   # payhere_mobilesdk_flutter: ^3.0.10 // TODO : UN COMMENT THIS PACKAGE

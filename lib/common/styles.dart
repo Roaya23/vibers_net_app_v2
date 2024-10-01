@@ -4,9 +4,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 const String kFontFamilyName = "GothicA1";
 
 /// basic colors
-const cStatusBarColor = Color.fromRGBO(20, 20, 20, 1.0);
-const cSystemNavigationColor = Color.fromRGBO(20, 20, 20, 1.0);
-const primaryBlue = Color(0xff070010);
+const cStatusBarColor = Color(0xff070010);
+const cSystemNavigationColor = cStatusBarColor;
+const primaryBlue = Color(0xffFBCA51);
 const kTeal50 = Color(0xFFE0F2F1);
 const kTeal100 = Color(0xFF3FC1BE);
 const kDefaultBackgroundAvatar = '3FC1BE';
@@ -25,6 +25,7 @@ const kBackgroundWhite = Color.fromRGBO(255, 255, 255, 1.0);
 
 /// color for theme
 const kMainThemeColor = primaryBlue;
+const kScafoldBgColor = Color(0xff070010);
 const kLightPrimary = Color(0xfffcfcff);
 const kLightAccent = Color(0xFF546E7A);
 const kLightThemeTextHeading = Color(0xff141414);
@@ -39,19 +40,34 @@ const kDarkTextColor = Color(0xff101010);
 const kLightThemeTextColor = Color.fromRGBO(27, 84, 111, 1.0);
 const kBadgeColor = Colors.red;
 const cardColor = Color.fromRGBO(100, 100, 100, 1.0);
+final kBorderColor = Color(0xffFEFEFE).withOpacity(.35);
+const kWhite100 = Color(0xffE6E6E6);
 const kProductTitleStyleLarge =
     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+    const kRedColor = Color(0xFFCE060B);
 
 var kTextField = InputDecoration(
-  hintText: translate('Enter_your_value'),
-  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  // hintText: translate('Enter_your_value'),
+  contentPadding: EdgeInsets.only(
+    top: 13,
+    bottom: 7,
+    right: 12,
+    left: 12,
+  ),
   border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(3.0)),
+    borderSide: BorderSide(color: kBorderColor, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blueGrey, width: 1.0),
-    borderRadius: BorderRadius.all(Radius.circular(3.0)),
+    borderSide: BorderSide(color: kBorderColor, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
+  focusedBorder: OutlineInputBorder(
+    borderSide:
+        BorderSide(color: Color(0xffFEFEFE).withOpacity(.5), width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(6.0)),
+  ),
+
 );
 
 IconThemeData _customIconTheme1(IconThemeData original) {
@@ -90,7 +106,7 @@ ThemeData buildLightTheme() {
     iconTheme: _customIconTheme2(base.iconTheme),
     hintColor: kHintColor,
     primaryColor: kMainThemeColor,
-    scaffoldBackgroundColor: kLightBG2,
+    scaffoldBackgroundColor: kMainThemeColor,
     appBarTheme: AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(
@@ -113,8 +129,8 @@ ThemeData buildLightTheme() {
     ),
     colorScheme: kColorScheme
         .copyWith(
-          // background: Colors.white,
-           surface: kDarkBG)
+            // background: Colors.white,
+            surface: kDarkBG)
         .copyWith(error: kErrorRed),
   );
 }
@@ -144,7 +160,8 @@ TextTheme _buildTextTheme(TextTheme base) {
         bodyColor: kGrey900,
       )
       .copyWith(
-          headlineSmall: base.headlineSmall!.copyWith(fontFamily: kFontFamilyName));
+          headlineSmall:
+              base.headlineSmall!.copyWith(fontFamily: kFontFamilyName));
 }
 
 const ColorScheme kColorScheme = ColorScheme(
@@ -169,7 +186,7 @@ ThemeData buildDarkTheme() {
     primaryColor: kMainThemeColor,
     primaryColorLight: kDarkBgLight,
     primaryColorDark: kDarkBgDark,
-    scaffoldBackgroundColor: kDarkBG,
+    scaffoldBackgroundColor: kScafoldBgColor,
     hintColor: kGreyColor,
     primaryIconTheme: _customIconTheme3(base.iconTheme),
     iconTheme: _customIconTheme4(base.iconTheme),

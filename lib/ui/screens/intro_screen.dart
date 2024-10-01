@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intro_slider/intro_slider.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/shared/app_image.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
 import '/providers/app_config.dart';
@@ -13,7 +17,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  List<Slide> slides = [];
+  final List<Slide> slides = [];
   Function? goToTab;
   bool isLoading = false;
 
@@ -219,13 +223,9 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      child: Scaffold(
-        body: isLoading == true
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : introSlider(),
-      ),
+      child: Scaffold(body: _IntroBody()
+          // isLoading == true ? AppLoadingWidget() : introSlider(),
+          ),
       canPop: false,
       onPopInvoked: (didPop) {
         if (didPop) {
@@ -233,6 +233,93 @@ class _IntroScreenState extends State<IntroScreen> {
         }
         onWillPopS;
       },
+    );
+  }
+}
+
+class _IntroBody extends StatelessWidget {
+  const _IntroBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        AppImage(
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            placeholderColor: Colors.transparent,
+            path:
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9M4mxgT_XHhfFVTiEA4u1IHKBjT6WixHoAw&s"),
+        Container(
+          width: double.infinity,
+          color: Colors.black.withOpacity(0.3),
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Welcome to Vibers net",
+                textAlign: TextAlign.center,
+                style: TextStyles.bold22(color: kWhite100),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                "THE ONLY & ULTIMATE APPLICATION EXPERIENCE OF ITS KIND IN DOCUMENTARY FILMS & PROGRAMS.",
+                textAlign: TextAlign.center,
+                style: TextStyles.regular12(color: kBorderColor),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              _ProgressWidget(
+                count: 4,
+                currentIndex: 1,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProgressWidget extends StatelessWidget {
+  const _ProgressWidget(
+      {Key? key, required this.count, required this.currentIndex})
+      : super(key: key);
+  final int count;
+  final int currentIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        count,
+        (index) {
+          final bool isSelected = index == currentIndex;
+          return Flexible(
+            child: AnimatedContainer(
+              duration: Durations.medium2,
+              margin: EdgeInsets.symmetric(horizontal: 2),
+              height: 8,
+              width: isSelected ? 32 : 8,
+              decoration: BoxDecoration(
+                color: isSelected ? kRedColor : kDarkAccent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

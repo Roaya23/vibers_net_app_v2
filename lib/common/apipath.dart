@@ -129,7 +129,7 @@ class APIData {
   static const String appName = 'Vibers Net';
 
   // Replace with your app secret key
-  static const String secretKey = "C2VrZuB5yr78fKGJcbPMtS4k6U1DAWePGhNu4Uq8";
+  static const String secretKey = "vibers";
 
   // Replace with your android app id name
   static const String androidAppId = 'ENTER_PACKAGE_NAME_HERE';
