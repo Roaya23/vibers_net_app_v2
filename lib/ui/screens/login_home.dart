@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
 import '../../common/global.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
@@ -63,36 +64,18 @@ class _LoginHomeState extends State<LoginHome> {
 
 //  Setting background design of login button
   Widget loginButton() {
+    return AppButton(
+      text: translate(
+        "Login_",
+      ),
+      onPressed: () => Navigator.pushNamed(context, RoutePaths.login),
+    );
     return MaterialButton(
       height: 50.0,
       textColor: Colors.white,
       child: new Text(translate("Login_")),
       onPressed: () => Navigator.pushNamed(context, RoutePaths.login),
     );
-  }
-
-  Widget loginListTile() {
-    return ListTile(
-        title: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.1, 0.3, 0.5, 0.7, 1.0],
-          colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            Color.fromRGBO(72, 163, 198, 1.0),
-            Color.fromRGBO(30, 157, 207, 25),
-            Color.fromRGBO(27, 162, 187, 50),
-            Color.fromRGBO(32, 163, 173, 75),
-            Color.fromRGBO(37, 164, 160, 100),
-          ],
-        ),
-      ),
-      child: loginButton(),
-    ));
   }
 
 // If you get HTML tag in copy right text
@@ -194,7 +177,7 @@ You can change logo by server
         SizedBox(
           height: 50.0,
         ),
-        loginListTile(),
+        loginButton(),
         SizedBox(
           height: 5.0,
         ),

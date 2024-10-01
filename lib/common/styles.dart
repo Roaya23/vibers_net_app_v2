@@ -26,6 +26,7 @@ const kBackgroundWhite = Color.fromRGBO(255, 255, 255, 1.0);
 /// color for theme
 const kMainThemeColor = primaryBlue;
 const kScafoldBgColor = Color(0xff070010);
+const kLightScafoldBgColor = Color(0xffC4C4C4);
 const kLightPrimary = Color(0xfffcfcff);
 const kLightAccent = Color(0xFF546E7A);
 const kLightThemeTextHeading = Color(0xff141414);
@@ -36,7 +37,7 @@ const kDarkBG = Color.fromRGBO(34, 34, 34, 1.0);
 const kHintColor = Color.fromRGBO(106, 122, 130, 1.0);
 const kDarkBgLight = Color(0xff141414);
 const kDarkBgDark = Color(0xff101010);
-const kDarkTextColor = Color(0xff101010);
+const kDarkTextColor = Color(0xff070010);
 const kLightThemeTextColor = Color.fromRGBO(27, 84, 111, 1.0);
 const kBadgeColor = Colors.red;
 const cardColor = Color.fromRGBO(100, 100, 100, 1.0);

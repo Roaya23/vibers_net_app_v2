@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intro_slider/intro_slider.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/models/block.dart';
 import 'package:vibers_net/ui/shared/app_image.dart';
 import 'package:vibers_net/ui/shared/app_loading_widget.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
 import '/providers/app_config.dart';
@@ -17,9 +19,11 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final List<Slide> slides = [];
+  final List<Block> slides = [];
   Function? goToTab;
   bool isLoading = false;
+  int get kSlidersCounts => slides.length;
+  int currentSlideIndex = 0;
 
   @override
   void initState() {
@@ -29,25 +33,7 @@ class _IntroScreenState extends State<IntroScreen> {
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final blocks = context.read<AppConfig>().slides;
-      List.generate(blocks.length, (int i) {
-        return slides.add(
-          new Slide(
-            title: "${blocks[i].heading}",
-            styleTitle: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'RobotoMono'),
-            description: "${blocks[i].detail}",
-            styleDescription: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontStyle: FontStyle.italic,
-                fontFamily: 'Raleway'),
-            pathImage: "${APIData.landingPageImageUri}${blocks[i].image}",
-          ),
-        );
-      });
+      slides.addAll(blocks);
       setState(() {
         isLoading = false;
       });
@@ -71,163 +57,50 @@ class _IntroScreenState extends State<IntroScreen> {
     Navigator.pushNamed(context, RoutePaths.loginHome);
   }
 
-//  Counting index and changing UI page dynamically.
-  void onTabChangeCompleted(index) {
-    // Index of current tab is focused
-  }
+  bool get isLastSlide => currentSlideIndex + 1 == kSlidersCounts;
 
-//  Next button
-  Widget renderNextBtn() {
-    return Icon(
-      Icons.navigate_next,
-      color: Theme.of(context).primaryColor,
-    );
-  }
-
-//  Done button or last page of intro slider
-  Widget renderDoneBtn() {
-    return Icon(
-      Icons.done,
-      color: Theme.of(context).primaryColor,
-    );
-  }
-
-//  Skip button to go directly on last page of intro slider
-  Widget renderSkipBtn() {
-    return Icon(
-      Icons.skip_next,
-      color: Theme.of(context).primaryColor,
-    );
-  }
-
-//  Custom tabs
-  List<Widget> renderListCustomTabs() {
-    List<Widget> tabs = [];
-    for (int i = 0; i < slides.length; i++) {
-      Slide currentSlide = slides[i];
-      tabs.add(Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Container(
-          margin: EdgeInsets.only(bottom: 70.0, top: 0.0),
-          child: Center(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: new BoxDecoration(
-                    color:
-                        Theme.of(context).primaryColorLight.withOpacity(0.48),
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(0.0),
-                        bottomLeft: Radius.circular(0.0)),
-                    boxShadow: <BoxShadow>[
-                      new BoxShadow(
-                        color: Colors.black87.withOpacity(0.6),
-                        blurRadius: 20.0,
-                        offset: new Offset(0.0, 5.0),
-                      ),
-                    ],
-                    image: new DecorationImage(
-                      fit: BoxFit.cover,
-                      colorFilter: new ColorFilter.mode(
-                          Colors.black.withOpacity(0.8), BlendMode.dstATop),
-                      image: new NetworkImage(currentSlide.pathImage!),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          currentSlide.title!,
-                          style: currentSlide.styleTitle,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          currentSlide.description!,
-                          style: currentSlide.styleDescription,
-                          textAlign: TextAlign.center,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        margin:
-                            EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ));
+  void _scrollNext() {
+    if (!isLastSlide) {
+      currentSlideIndex++;
+    } else {
+      onDonePress();
     }
-    return tabs;
+    setState(() {});
   }
 
-// Intro slider
-  Widget introSlider() {
-    return IntroSlider(
-      // List slides
-      slides: this.slides,
-      // Skip button
-      renderSkipBtn: this.renderSkipBtn(),
-      showSkipBtn: true,
-      skipButtonStyle: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-            Theme.of(context).primaryColor.withOpacity(0.3)),
-      ),
+  bool get isFirstSlide => currentSlideIndex == 0;
 
-      // Next button
-      renderNextBtn: this.renderNextBtn(),
-
-      // Done button
-      renderDoneBtn: this.renderDoneBtn(),
-      onDonePress: this.onDonePress,
-      doneButtonStyle: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-            Theme.of(context).primaryColor.withOpacity(0.3)),
-      ),
-
-      nextButtonStyle: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-            Theme.of(context).primaryColor.withOpacity(0.3)),
-      ),
-
-      // Dot indicator
-      colorDot: Theme.of(context).primaryColor,
-      sizeDot: 13.0,
-      typeDotAnimation: DotSliderAnimation.SIZE_TRANSITION,
-      // Tabs
-      listCustomTabs: this.renderListCustomTabs(),
-      backgroundColorAllSlides: Colors.white,
-      refFuncGoToTab: (refFunc) {
-        this.goToTab = refFunc;
-      },
-
-      // Show or hide status bar
-      hideStatusBar: false,
-
-      // On tab change completed
-      onTabChangeCompleted: this.onTabChangeCompleted,
-    );
+  void _scrollPrevious() {
+    if (!isFirstSlide) {
+      currentSlideIndex--;
+    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      child: Scaffold(body: _IntroBody()
-          // isLoading == true ? AppLoadingWidget() : introSlider(),
-          ),
+      child: Scaffold(
+        backgroundColor: kLightScafoldBgColor,
+        body: isLoading
+            ? AppLoadingWidget()
+            : _IntroBody(
+                count: kSlidersCounts,
+                currentIndex: currentSlideIndex,
+                image:
+                    "${APIData.landingPageImageUri}${slides[currentSlideIndex].image}",
+                description: slides[currentSlideIndex].detail ?? '',
+                title: slides[currentSlideIndex].heading ?? '',
+                onScrollNextTap: (index) {
+                  _scrollNext();
+                },
+                onPreviousScroll: (index) {
+                  _scrollPrevious();
+                },
+              ),
+      ),
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
           return;
         }
@@ -238,54 +111,165 @@ class _IntroScreenState extends State<IntroScreen> {
 }
 
 class _IntroBody extends StatelessWidget {
-  const _IntroBody({Key? key}) : super(key: key);
+  const _IntroBody(
+      {Key? key,
+      required this.image,
+      required this.title,
+      required this.description,
+      required this.onScrollNextTap,
+      required this.count,
+      required this.currentIndex,
+      required this.onPreviousScroll})
+      : super(key: key);
+  final String image;
+  final String title;
+  final String description;
+  final void Function(int index) onScrollNextTap;
+  final void Function(int index) onPreviousScroll;
+  final int count;
+  final int currentIndex;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        AppImage(
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            placeholderColor: Colors.transparent,
-            path:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9M4mxgT_XHhfFVTiEA4u1IHKBjT6WixHoAw&s"),
-        Container(
-          width: double.infinity,
-          color: Colors.black.withOpacity(0.3),
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Welcome to Vibers net",
-                textAlign: TextAlign.center,
-                style: TextStyles.bold22(color: kWhite100),
+    final isLast = currentIndex == count - 1;
+    final isFirst = currentIndex == 0;
+    return GestureDetector(
+      // swipe left and right
+      onHorizontalDragEnd: (details) {
+        if (details.primaryVelocity! > 0) {
+          onPreviousScroll(isFirst ? currentIndex : currentIndex - 1);
+        } else if (details.primaryVelocity! < 0) {
+          onScrollNextTap(isLast ? currentIndex : currentIndex + 1);
+        }
+      },
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            child: SizedBox(
+              key: UniqueKey(),
+              width: double.infinity,
+              height: double.infinity,
+              child: ColorFiltered(
+                colorFilter:
+                    const ColorFilter.mode(Colors.white10, BlendMode.lighten),
+                child: AppImage(
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                    placeholderColor: Colors.white38,
+                    path: image),
               ),
-              const SizedBox(
-                height: 12,
-              ),
-              Text(
-                "THE ONLY & ULTIMATE APPLICATION EXPERIENCE OF ITS KIND IN DOCUMENTARY FILMS & PROGRAMS.",
-                textAlign: TextAlign.center,
-                style: TextStyles.regular12(color: kBorderColor),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              _ProgressWidget(
-                count: 4,
-                currentIndex: 1,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: double.infinity,
+            padding: EdgeInsets.all(16),
+            alignment: Alignment.bottomCenter,
+            decoration: BoxDecoration(
+                // boxShadow: [
+                // BoxShadow(
+                //   color: Color(0xff000000).withOpacity(0.5),
+                //   blurRadius: 4,
+                //   offset: Offset(0, 4),
+                // ),
+                // ],
+                gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.black,
+                Colors.black.withOpacity(.83),
+                Colors.black.withOpacity(.2),
+                Colors.black.withOpacity(0),
+                Colors.black.withOpacity(0),
+                Colors.black.withOpacity(0),
+              ],
+            )),
+            child: SafeArea(
+              bottom: true,
+              top: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (title.isNotEmpty)
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.bold22(color: kWhite100).copyWith(
+                        shadows: [
+                          Shadow(
+                            color: Color(0xff000000).withOpacity(.25),
+                            offset: Offset(0, 4),
+                            blurRadius: 5,
+                          ),
+                          Shadow(
+                            color: Color(0xff292929).withOpacity(.40),
+                            offset: Offset(0, 18),
+                            blurRadius: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (description.isNotEmpty)
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  if (description.isNotEmpty)
+                    Text(
+                      description,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.regular12(color: kBorderColor).copyWith(
+                        shadows: [
+                          Shadow(
+                            color: Color(0xff000000).withOpacity(.25),
+                            offset: Offset(0, 4),
+                            blurRadius: 5,
+                          ),
+                          Shadow(
+                            color: Color(0xff292929).withOpacity(.40),
+                            offset: Offset(0, 18),
+                            blurRadius: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  _ProgressWidget(
+                    count: count,
+                    currentIndex: currentIndex,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  AppButton(
+                    text: translate("continue"),
+                    radius: 20,
+                    onPressed: () => onScrollNextTap(currentIndex + 1),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
