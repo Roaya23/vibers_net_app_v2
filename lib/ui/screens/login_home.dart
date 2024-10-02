@@ -3,8 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/models/app_model.dart';
+import 'package:vibers_net/ui/shared/app_image.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import 'package:vibers_net/ui/widgets/app_button.dart';
-import '../../common/global.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
 import '/providers/app_config.dart';
@@ -31,34 +35,11 @@ class _LoginHomeState extends State<LoginHome> {
     });
   }
 
-  Widget welcomeTitle() {
-    return Consumer<AppConfig>(builder: (context, myModel, child) {
-      return myModel.title != null
-          ? Text(
-              translate("Welcome_to") +
-                  ' ' +
-                  "${myModel.appModel!.config!.title}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "AvenirNext",
-                  color: Theme.of(context).primaryColor),
-            )
-          : Text("");
-    });
-  }
-
 //  Register button
   Widget registerButton() {
-    return ListTile(
-      title: MaterialButton(
-        height: 50.0,
-        color: Colors.white,
-        textColor: Colors.black,
-        child: new Text(translate("Register_")),
-        onPressed: () => Navigator.pushNamed(context, RoutePaths.register),
-      ),
+    return AppOutlineButton(
+      text: translate("Register_"),
+      onPressed: () => Navigator.pushNamed(context, RoutePaths.register),
     );
   }
 
@@ -68,12 +49,6 @@ class _LoginHomeState extends State<LoginHome> {
       text: translate(
         "Login_",
       ),
-      onPressed: () => Navigator.pushNamed(context, RoutePaths.login),
-    );
-    return MaterialButton(
-      height: 50.0,
-      textColor: Colors.white,
-      child: new Text(translate("Login_")),
       onPressed: () => Navigator.pushNamed(context, RoutePaths.login),
     );
   }
@@ -89,100 +64,67 @@ class _LoginHomeState extends State<LoginHome> {
     });
   }
 
-// Copyright text
-  Widget copyRightTextContainer(myModel) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 5.0),
-      child: new Align(
-        alignment: FractionalOffset.bottomCenter,
-        heightFactor: 100,
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  //    For setting copyright text on the login page
-                  myModel == null
-                      ? SizedBox.shrink()
-                      :
-                      // If you get HTML tag in copy right text
-                      html(),
-                  SizedBox(
-                    height: 10.0,
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
 // Background image filter
-  Widget imageBackDropFilter() {
+  Widget imageBackDropFilter(String image) {
     return BackdropFilter(
-      filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-      child: new Container(
-        decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+      filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: AppImage(
+          path: image,
+          placeholderColor: Colors.transparent,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
 // ListView contains buttons and logo
   Widget listView(myModel) {
-    return ListView(
-      children: <Widget>[
-        SizedBox(
-          height: 100.0,
-        ),
-        AnimatedOpacity(
-/*
-  If the widget is visible, animate to 0.0 (invisible).
-  If the widget is hidden, animate to 1.0 (fully visible).
-*/
-          opacity: _visible == true ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 500),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AnimatedOpacity(
+              /*
+          If the widget is visible, animate to 0.0 (invisible).
+          If the widget is hidden, animate to 1.0 (fully visible).
+        */
+              opacity: _visible == true ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 500),
 
-/*
-For setting logo image that is accessed from the server using API.
-You can change logo by server
-*/
-          child: logoImage(context, myModel, 0.9, 100.0, 250.0),
+              /*
+        For setting logo image that is accessed from the server using API.
+        You can change logo by server
+        */
+              child: logoImage(context, myModel, 0.9, 100.0, 250.0),
+            ),
+            SizedBox(
+              height: 50.0,
+            ),
+            loginButton(),
+            SizedBox(
+              height: 24.0,
+            ),
+            registerButton(),
+            SizedBox(
+              height: 40.0,
+            ),
+            // TODO[Continue As Guest] : handle log in home continue as guest action
+            GestureDetector(
+                onTap: () {},
+                child: Text(
+                  translate("continueAsGuest"),
+                  style: TextStyles.regular12(color: kBorderColor),
+                )),
+          ],
         ),
-        SizedBox(
-          height: 20.0,
-        ),
-/*
-  For setting title on the Login or registration page that is accessed from the server using API.
-  You can change this title by server
-*/
-        welcomeTitle(),
-        SizedBox(
-          height: 5.0,
-        ),
-        Text(
-          translate("Sign_in_to_continue"),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isLight ? Colors.white : Colors.grey,
-          ),
-        ),
-        SizedBox(
-          height: 50.0,
-        ),
-        loginButton(),
-        SizedBox(
-          height: 5.0,
-        ),
-        registerButton(),
-      ],
+      ),
     );
   }
 
@@ -191,43 +133,31 @@ You can change logo by server
     final logo = Provider.of<AppConfig>(context, listen: false).appModel!;
     return Stack(
       children: <Widget>[
+        imageBackDropFilter('${APIData.loginImageUri}${logo.loginImg!.image}'),
         Container(
           decoration: BoxDecoration(
-//   For setting background color of loading screen.
-
-            color: Theme.of(context).primaryColorLight,
-            image: new DecorationImage(
-              fit: BoxFit.cover,
-              colorFilter: new ColorFilter.mode(
-                Colors.black.withOpacity(0.4),
-                BlendMode.dstATop,
-              ),
-/*
-  For setting logo image that is accessed from the server using API.
-  You can change logo by server
-*/
-              image: NetworkImage(
-                '${APIData.loginImageUri}${logo.loginImg!.image}',
-              ),
-            ),
-          ),
-          child: imageBackDropFilter(),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                const Color(0xff070010).withOpacity(.8),
+                const Color(0xff070010).withOpacity(.6),
+                Color(0xff070010).withOpacity(.2)
+              ])),
         ),
         listView(myModel),
-        copyRightTextContainer(myModel),
       ],
     );
   }
 
 // WillPopScope to handle app exit
-  Widget willPopScope(myModel) {
+  Widget willPopScope(AppModel myModel) {
     return PopScope(
-      child: Container(
-          child: Center(
+      child: Center(
         child: stack(myModel),
-      )),
+      ),
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
           return;
         }
@@ -251,9 +181,7 @@ You can change logo by server
     final myModel = Provider.of<AppConfig>(context).appModel;
     return Scaffold(
       body: myModel == null
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Center(child: AppLoadingWidget())
           : willPopScope(myModel),
     );
   }

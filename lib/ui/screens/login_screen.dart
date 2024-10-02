@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
+import 'package:vibers_net/ui/widgets/app_text_form_field.dart';
 import '../../providers/audio_provider.dart';
 import '../../providers/count_view_provider.dart';
 import '../../providers/live_event_provider.dart';
@@ -415,90 +420,39 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget emailField() {
-    return Padding(
-      padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
-      child: TextFormField(
-        controller: _emailController,
-        validator: (value) {
-          if (value!.length == 0) {
-            return 'Email can not be empty';
+    return AppTextFormField(
+      controller: _emailController,
+      label: translate("emailAddress"),
+      validator: (value) {
+        if (value!.length == 0) {
+          return 'Email can not be empty';
+        } else {
+          if (!value.contains('@')) {
+            return 'Invalid Email';
           } else {
-            if (!value.contains('@')) {
-              return 'Invalid Email';
-            } else {
-              return null;
-            }
+            return null;
           }
-        },
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          labelText: 'Email',
-          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-      ),
+        }
+      },
     );
   }
 
   Widget passwordField() {
-    return Padding(
-      padding:
-          EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0, top: 20.0),
-      child: TextFormField(
-        controller: _passwordController,
-        validator: (value) {
-          if (value!.length < 6) {
-            if (value.length == 0) {
-              return 'Password can not be empty';
-            } else {
-              return 'Password too short';
-            }
+    return AppTextFormField(
+      controller: _passwordController,
+      label: translate("password"),
+      isTextSecured: true,
+      validator: (value) {
+        if (value!.length < 6) {
+          if (value.length == 0) {
+            return 'Password can not be empty';
           } else {
-            return null;
+            return 'Password too short';
           }
-        },
-        keyboardType: TextInputType.text,
-        obscureText: _isHidden == true ? true : false,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          suffixIcon: IconButton(
-            onPressed: _toggleVisibility,
-            icon: _isHidden
-                ? Text(
-                    "Show",
-                    style: TextStyle(
-                      fontSize: 10.0,
-                    ),
-                  )
-                : Text(
-                    "Hide",
-                    style: TextStyle(
-                      fontSize: 10.0,
-                    ),
-                  ),
-          ),
-          labelText: 'Password',
-          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-      ),
+        } else {
+          return null;
+        }
+      },
     );
   }
 
@@ -789,309 +743,239 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           : Scaffold(
               backgroundColor: Theme.of(context).primaryColorDark,
-              appBar: AppBar(
-                leading: BackButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, RoutePaths.loginHome),
-                ),
-                title: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    letterSpacing: 0.9,
-                  ),
-                ),
-                centerTitle: true,
-                backgroundColor: Theme.of(context).primaryColorDark,
+              appBar: AppBarWidget(
+                titleText: translate("Login_"),
+                onPop: () => Navigator.pushNamed(context, RoutePaths.loginHome),
               ),
-              body: Column(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: logoImage(context, myModel, 0.9, 63.0, 200.0),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: msgTitle(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    flex: 4,
-                    child: Container(
-                      padding: EdgeInsets.only(top: 20.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorLight,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
+              body: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                  child: Column(
+                    children: [
+                      logoImage(context, myModel, 1, 130.0, 130.0),
+                      emailField(),
+                      const SizedBox(
+                        height: 18,
                       ),
-                      child: ListView(
+                      passwordField(),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      AppButton(
+                        text: translate("Login_"),
+                        isLoading: _isLoading,
+                        onPressed: _saveForm,
+                        textStyle: TextStyles.bold16(color: kDarkTextColor),
+                      ),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      Row(
                         children: [
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                emailField(),
-                                passwordField(),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      TextButton(
-                                        onPressed: resetPasswordAlertBox,
-                                        child: Text(
-                                          'Forgot Password ?',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                          Expanded(
+                              child: Row(
+                            children: [
+                              SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Checkbox(
+                                    value: true,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    fillColor: WidgetStateProperty.all(
+                                        kMainThemeColor),
+                                    onChanged: (value) {},
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Flexible(
+                                  child: Text(
+                                translate("keepMeLogIn"),
+                                style: TextStyles.regular12(color: kWhite100),
+                              )),
+                            ],
+                          )),
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: resetPasswordAlertBox,
+                            child: Text(
+                              '${translate("Forgot_Password")} ?',
+                              style: TextStyles.regular12(color: kMainLight),
+                            ),
+                          ),
+                        ],
+                      ),
+                      myModel != null
+                          ? myModel.appConfig!.amazonlogin == 1 ||
+                                  "${myModel.appConfig!.amazonlogin}" == "1"
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 15.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: <Color>[
+                                          Color.fromRGBO(255, 232, 170, 1.0),
+                                          Color.fromRGBO(246, 200, 74, 1.0)
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      border: Border.all(
+                                        color:
+                                            Color.fromRGBO(179, 139, 34, 1.0),
+                                        width: 2,
+                                      )),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: LwaButtonCustom(
+                                            onPressed: () =>
+                                                _handleSignIn(context)),
+                                      )
+                                    ],
+                                  ))
+                              : SizedBox.shrink()
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      myModel != null
+                          ? myModel.appConfig!.googleLogin == 1 ||
+                                  "${myModel.appConfig!.googleLogin}" == "1"
+                              ? Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 15.0),
                                   child: Row(
                                     children: [
                                       Expanded(
                                         flex: 1,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0)),
-                                            backgroundColor:
-                                                Theme.of(context).primaryColor,
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 15.0),
+                                        child: ButtonTheme(
+                                          height: 50.0,
+                                          child: ElevatedButton.icon(
+                                            icon: Image.asset(
+                                              "assets/google_logo.png",
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                            label: Text(
+                                              "Google Sign In",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .background,
+                                                  fontSize: 16.0),
+                                            ),
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  WidgetStateProperty.all<
+                                                      Color?>(
+                                                Colors.white,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (!_isLoading)
+                                                signInWithGoogle().then(
+                                                  (result) {
+                                                    if (result != null) {
+                                                      setState(() {
+                                                        isShowing = true;
+                                                      });
+                                                      var email = result.email;
+                                                      var password = "password";
+                                                      var code = result.uid;
+                                                      var name =
+                                                          result.displayName;
+                                                      goToDialog();
+                                                      socialLogin(
+                                                          "google",
+                                                          email,
+                                                          password,
+                                                          code,
+                                                          name,
+                                                          "uid");
+                                                    }
+                                                  },
+                                                );
+                                            },
                                           ),
-                                          child: _isLoading == true
-                                              ? SizedBox(
-                                                  height: 20.0,
-                                                  width: 20.0,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 2.0,
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation(
-                                                            primaryBlue),
-                                                  ),
-                                                )
-                                              : Text(
-                                                  'SIGN IN',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                          onPressed: _isLoading == true
-                                              ? null
-                                              : _saveForm,
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 40.0,
-                                ),
-                                myModel != null
-                                    ? myModel.appConfig!.amazonlogin == 1 ||
-                                            "${myModel.appConfig!.amazonlogin}" ==
-                                                "1"
-                                        ? Container(
-                                            margin: EdgeInsets.symmetric(
-                                              horizontal: 15.0,
-                                            ),
-                                            decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                  colors: <Color>[
-                                                    Color.fromRGBO(
-                                                        255, 232, 170, 1.0),
-                                                    Color.fromRGBO(
-                                                        246, 200, 74, 1.0)
-                                                  ],
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8.0)),
-                                                border: Border.all(
-                                                  color: Color.fromRGBO(
-                                                      179, 139, 34, 1.0),
-                                                  width: 2,
-                                                )),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: LwaButtonCustom(
-                                                      onPressed: () =>
-                                                          _handleSignIn(
-                                                              context)),
-                                                )
-                                              ],
-                                            ))
-                                        : SizedBox.shrink()
-                                    : SizedBox.shrink(),
-                                SizedBox(
-                                  height: 15.0,
-                                ),
-                                myModel != null
-                                    ? myModel.appConfig!.googleLogin == 1 ||
-                                            "${myModel.appConfig!.googleLogin}" ==
-                                                "1"
-                                        ? Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15.0),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: ButtonTheme(
-                                                    height: 50.0,
-                                                    child: ElevatedButton.icon(
-                                                      icon: Image.asset(
-                                                        "assets/google_logo.png",
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
-                                                      label: Text(
-                                                        "Google Sign In",
-                                                        style: TextStyle(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .background,
-                                                            fontSize: 16.0),
-                                                      ),
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all<Color?>(
-                                                          Colors.white,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        if (!_isLoading)
-                                                          signInWithGoogle()
-                                                              .then(
-                                                            (result) {
-                                                              if (result !=
-                                                                  null) {
-                                                                setState(() {
-                                                                  isShowing =
-                                                                      true;
-                                                                });
-                                                                var email =
-                                                                    result
-                                                                        .email;
-                                                                var password =
-                                                                    "password";
-                                                                var code =
-                                                                    result.uid;
-                                                                var name = result
-                                                                    .displayName;
-                                                                goToDialog();
-                                                                socialLogin(
-                                                                    "google",
-                                                                    email,
-                                                                    password,
-                                                                    code,
-                                                                    name,
-                                                                    "uid");
-                                                              }
-                                                            },
-                                                          );
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : SizedBox.shrink()
-                                    : SizedBox.shrink(),
-                                SizedBox(
-                                  height: 15.0,
-                                ),
-                                myModel != null
-                                    ? myModel.config!.fbLogin == 1 ||
-                                            "${myModel.config!.fbLogin}" == "1"
-                                        ? Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 15.0,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: ButtonTheme(
-                                                    height: 50.0,
-                                                    child: ElevatedButton.icon(
-                                                      icon: Icon(
-                                                        FontAwesomeIcons
-                                                            .facebook,
-                                                        color: Colors.white,
-                                                        size: 28,
-                                                      ),
-                                                      label: Text(
-                                                        "Facebook Sign In",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 16.0,
-                                                        ),
-                                                      ),
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all<Color?>(
-                                                          Color.fromRGBO(
-                                                            60,
-                                                            90,
-                                                            153,
-                                                            1.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        if (!_isLoading)
-                                                          initiateFacebookLogin();
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : SizedBox.shrink()
-                                    : SizedBox.shrink()
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          registerHereText(context),
-                        ],
+                                )
+                              : SizedBox.shrink()
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height: 15.0,
                       ),
-                    ),
-                  )
-                ],
+                      myModel != null
+                          ? myModel.config!.fbLogin == 1 ||
+                                  "${myModel.config!.fbLogin}" == "1"
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.0,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: ButtonTheme(
+                                          height: 50.0,
+                                          child: ElevatedButton.icon(
+                                            icon: Icon(
+                                              FontAwesomeIcons.facebook,
+                                              color: Colors.white,
+                                              size: 28,
+                                            ),
+                                            label: Text(
+                                              "Facebook Sign In",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  WidgetStateProperty.all<
+                                                      Color?>(
+                                                Color.fromRGBO(
+                                                  60,
+                                                  90,
+                                                  153,
+                                                  1.0,
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (!_isLoading)
+                                                initiateFacebookLogin();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox.shrink()
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      registerHereText(context),
+                    ],
+                  ),
+                ),
               ),
             ),
     );

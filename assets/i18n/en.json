@@ -264,7 +264,7 @@
   "Enter_your_email": "Enter your email",
   "Email_cannot_be_empty": "Email cannot be empty.",
   "Invalid_Email": "Invalid Email",
-  "If_you_dont_have_an_account": "If you don't have an account?",
+  "If_you_dont_have_an_account": "Don’t Have an account?",
   "Sign_Up": "Sign Up",
   "Already_have_an_account": "Already have an account?",
   "Enter_Email": "Enter Email",
@@ -303,5 +303,10 @@
   "Top_TV_Series": "Top TV Series",
   "Top_Movies": "Top Movies",
   "Recommended_": "Recommended",
-  "continue": "Continue"
+  "continue": "Continue",
+  "continueAsGuest":"Continue As Guest",
+  "emailAddress":"Email",
+  "password":"Password",
+  "keepMeLogIn" : "Keep me logged in"
+
 }

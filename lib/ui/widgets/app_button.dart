@@ -35,14 +35,135 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              radius,
+            ),
+          ).r,
+          gradient: isEnabled == false || isLoading
+              ? null
+              : LinearGradient(
+                  colors: const [
+                      Color(0xff8F6E1B),
+                      Color(0xffFAC43D),
+                    ],
+                  begin: AlignmentDirectional.centerStart,
+                  end: AlignmentDirectional.centerEnd)),
+      child: ElevatedButton(
+        onPressed: isLoading || isEnabled == false ? null : onPressed,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        style: ElevatedButton.styleFrom(
+          elevation: elevation,
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          disabledBackgroundColor: buttonColor.withOpacity(.3),
+          backgroundColor: buttonColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                radius,
+              ),
+            ).r,
+          ),
+        ),
+        child: AnimatedSize(
+          duration: Durations.medium1,
+          alignment: Alignment.center,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
+            children: [
+              if (leading != null) ...[
+                SizedBox(width: 5.w),
+                leading!,
+              ],
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.center,
+                  child: Text(
+                    text,
+                    style: textStyle ?? TextStyles.bold15(color: textColor),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+              if (trailing != null) ...[
+                SizedBox(width: 5.w),
+                (isLoading)
+                    ? _LoadingWidth(
+                        color: textColor,
+                      )
+                    : trailing!
+              ] else ...[
+                SizedBox(width: 5.w),
+                if (isLoading)
+                  _LoadingWidth(
+                    color: textColor,
+                  )
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AppOutlineButton extends StatelessWidget {
+  final Color borderColor;
+  final double radius;
+  final String text;
+  final VoidCallback? onPressed;
+  final Color textColor;
+  final TextStyle? textStyle;
+  final bool isLoading;
+  final bool isEnabled;
+  final double? elevation;
+  final Widget? leading;
+  final bool isExpanded;
+  final Widget? trailing;
+  final double borderWidth;
+
+  const AppOutlineButton({
+    this.isLoading = false,
+    this.isEnabled = true,
+    this.borderColor = Colors.white,
+    this.radius = 10,
+    required this.text,
+    this.textStyle,
+    this.onPressed,
+    this.textColor = kWhite100,
+    this.elevation,
+    this.isExpanded = true,
+    this.leading,
+    this.trailing,
+    this.borderWidth = 1,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final borderStateColor =
+        isLoading || isEnabled == false ? kGrey400 : borderColor;
+    final textStateColor =
+        isLoading || isEnabled == false ? kGrey400 : textColor;
+    return OutlinedButton(
       onPressed: isLoading || isEnabled == false ? null : onPressed,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      style: ElevatedButton.styleFrom(
+      style: OutlinedButton.styleFrom(
         elevation: elevation,
+        side: BorderSide(
+          color: borderStateColor,
+          width: borderWidth,
+        ),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        disabledBackgroundColor: buttonColor.withOpacity(.5),
-        backgroundColor: buttonColor,
+        // disabledBackgroundColor: buttonColor.withOpacity(.5),
+        // backgroundColor: buttonColor,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(
@@ -69,7 +190,8 @@ class AppButton extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   text,
-                  style: textStyle ?? TextStyles.bold15(color: textColor),
+                  style:
+                      textStyle ?? TextStyles.regular16(color: textStateColor),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                 ),

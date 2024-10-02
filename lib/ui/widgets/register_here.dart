@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '../../common/global.dart';
 import '/common/route_paths.dart';
 
@@ -17,20 +18,14 @@ Widget registerHereText(context) {
               text: TextSpan(children: [
                 TextSpan(
                   text: translate("If_you_dont_have_an_account") + " ",
-                  style: new TextStyle(
-                    color: isLight ? Colors.black54 : Colors.white,
-                    fontSize: 16.5,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w600,
+                  style: TextStyles.regular14(
+                    color: isLight ? Colors.black54 : Color(0xfffE6E6E7),
                   ),
                 ),
                 TextSpan(
                   text: translate('Sign_Up'),
-                  style: new TextStyle(
+                  style: TextStyles.regular16(
                     color: Theme.of(context).primaryColor,
-                    fontSize: 17.5,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
                   ),
                 )
               ]),

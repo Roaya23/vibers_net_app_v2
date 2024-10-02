@@ -264,7 +264,7 @@
   "Enter_your_email": "أدخل بريدك الإلكتروني",
   "Email_cannot_be_empty": "لا يمكن أن يكون البريد الإلكتروني فارغًا.",
   "Invalid_Email": "بريد إلكتروني غير صالح ",
-  "If_you_dont_have_an_account": "إذا لم يكن لديك حساب؟",
+  "If_you_dont_have_an_account": "ليس لديك حساب؟",
   "Sign_Up": "التسجيل",
   "Already_have_an_account": "لديك حساب بالفعل؟",
   "Enter_Email": "أدخل البريد الإلكتروني",
@@ -303,5 +303,11 @@
   "Top_TV_Series": "Top TV Series",
   "Top_Movies": "Top Movies",
   "Recommended_": "Recommended",
-  "continue":"التالي"
+  "continue":"التالي",
+  "continueAsGuest":"الدخول كذائر",
+  "emailAddress":"البريد الالكتروني",
+  "password":"كلمة المرور",
+  "keepMeLogIn" : "ابقني مسجل الدخول"
+
+
 }

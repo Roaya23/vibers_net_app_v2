@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/text_styles.dart';
 
 const String kFontFamilyName = "GothicA1";
 
@@ -19,12 +20,14 @@ const kGreyColor = Color(0xFFa3a3a3);
 const kGrey600 = Color(0xFF546E7A);
 const kGrey200 = Color(0xFFEEEEEE);
 const kGrey400 = Color(0xFF90a4ae);
-const kErrorRed = Color(0xFFe74c3c);
+const kErrorRed = Color(0xFFB00020);
 const kSurfaceWhite = Color(0xFFFFFBFA);
 const kBackgroundWhite = Color.fromRGBO(255, 255, 255, 1.0);
 
+
 /// color for theme
 const kMainThemeColor = primaryBlue;
+const kMainLight = Color(0xffFEEDC2);
 const kScafoldBgColor = Color(0xff070010);
 const kLightScafoldBgColor = Color(0xffC4C4C4);
 const kLightPrimary = Color(0xfffcfcff);
@@ -35,9 +38,10 @@ const kLightBG1 = Color(0xffFFFFFF);
 const kLightBG2 = Color(0xffF1F2F3);
 const kDarkBG = Color.fromRGBO(34, 34, 34, 1.0);
 const kHintColor = Color.fromRGBO(106, 122, 130, 1.0);
-const kDarkBgLight = Color(0xff141414);
-const kDarkBgDark = Color(0xff101010);
+const kDarkBgLight = kScafoldBgColor;
+const kDarkBgDark = kScafoldBgColor;
 const kDarkTextColor = Color(0xff070010);
+const kWhiteTextColor = Color(0xffFEFEFE);
 const kLightThemeTextColor = Color.fromRGBO(27, 84, 111, 1.0);
 const kBadgeColor = Colors.red;
 const cardColor = Color.fromRGBO(100, 100, 100, 1.0);
@@ -45,7 +49,7 @@ final kBorderColor = Color(0xffFEFEFE).withOpacity(.35);
 const kWhite100 = Color(0xffE6E6E6);
 const kProductTitleStyleLarge =
     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-    const kRedColor = Color(0xFFCE060B);
+const kRedColor = Color(0xFFCE060B);
 
 var kTextField = InputDecoration(
   // hintText: translate('Enter_your_value'),
@@ -68,7 +72,6 @@ var kTextField = InputDecoration(
         BorderSide(color: Color(0xffFEFEFE).withOpacity(.5), width: 1.0),
     borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
-
 );
 
 IconThemeData _customIconTheme1(IconThemeData original) {
@@ -87,10 +90,54 @@ IconThemeData _customIconTheme4(IconThemeData original) {
   return original.copyWith(color: kGreyColor);
 }
 
+var _inputDecorationTheme = InputDecorationTheme(
+  labelStyle: TextStyles.medium14(),
+  contentPadding: EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: 10,
+  ),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(6)),
+    borderSide: const BorderSide(
+      color: kWhiteTextColor,
+    ),
+  ),
+  disabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(6)),
+    borderSide: const BorderSide(
+      color: Color(0xffE9E9E9),
+    ),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(6)),
+    borderSide: const BorderSide(
+      color: kWhiteTextColor,
+    ),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(6)),
+    borderSide: BorderSide(
+      color: Colors.white,
+    ),
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(8)),
+    borderSide: const BorderSide(
+      color: kErrorRed,
+    ),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(const Radius.circular(8)),
+    borderSide: const BorderSide(
+      color: kErrorRed,
+    ),
+  ),
+);
 ThemeData buildLightTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
     cardColor: Colors.white,
+    inputDecorationTheme: _inputDecorationTheme,
     textSelectionTheme: TextSelectionThemeData(
       selectionColor: kLightThemeTextColor,
       cursorColor: kLightAccent,
@@ -100,7 +147,7 @@ ThemeData buildLightTheme() {
       textTheme: ButtonTextTheme.normal,
     ),
     primaryColorLight: kLightBG2,
-    primaryColorDark: kLightBG1,
+    primaryColorDark: kDarkBgDark,
     primaryIconTheme: _customIconTheme1(base.iconTheme),
     textTheme: _buildTextTheme(base.textTheme),
     primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
@@ -184,6 +231,7 @@ ThemeData buildDarkTheme() {
   return base.copyWith(
     cardColor: cardColor,
     brightness: Brightness.dark,
+    inputDecorationTheme: _inputDecorationTheme,
     primaryColor: kMainThemeColor,
     primaryColorLight: kDarkBgLight,
     primaryColorDark: kDarkBgDark,

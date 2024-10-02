@@ -18,6 +18,7 @@ class AppModel {
     this.appConfig,
     this.blogs,
   });
+  
   LoginImg? loginImg;
   Config? config;
   List<Plan>? plans;
