@@ -102,7 +102,6 @@
   "Enter_new_password": "أدخل كلمة المرور الجديدة",
   "Password_cannot_be_empty": "لا يمكن أن تكون كلمة المرور فارغة.",
   "Confirm_Password": "تأكيد كلمة المرور",
-  "Confirm_password": "تأكيد كلمة المرور",
   "Confirm_Password_cannot_be_empty": "تأكيد كلمة المرور لا يمكن أن يكون فارغًا.",
   "Password___Confirm_Password_does_not_match": "كلمة المرور وتأكيد كلمة المرور غير متطابقين.",
   "Forgot_Password": "نسيت كلمة المرور",
@@ -307,7 +306,19 @@
   "continueAsGuest":"الدخول كذائر",
   "emailAddress":"البريد الالكتروني",
   "password":"كلمة المرور",
-  "keepMeLogIn" : "ابقني مسجل الدخول"
-
+  "keepMeLogIn" : "ابقني مسجل الدخول",
+  "resetPasswordTitle": "تغيير كلمة المرور",
+  "selectAccountVerificationMethod": "اختر طريقة التحقق من الحساب",
+  "enterPhoneNumberOrEmailAddress": "ادخل رقم الهاتف او البريد الالكتروني",
+  "verifyMobileNumber": "التحقق من رقم الهاتف",
+  "OTPPageDescreption": "تم ارسال رقم التحقق على رقم هاتفك. الرجاء ادخال الرقم",
+  "sendTo": "تم الارسال الي",
+  "change": "تغيير",
+  "resendCodeIn": "اعادة ارسال الكود في",
+  "sec": "ثانية",
+  "didNotReceiveOTP": "لم تقم باستلام كود التحقق؟",
+  "resendCode": "اعادة ارسال الكود",
+  "createNewPassword":"انشاء كلمة مرور جديدة",
+  "phone":"ؤثم الهاتف"
 
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
+import 'package:vibers_net/ui/widgets/app_text_form_field.dart';
 import '/common/route_paths.dart';
 import '/common/styles.dart';
 import '/providers/app_config.dart';
@@ -16,12 +19,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController _nameController = new TextEditingController();
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _passController = new TextEditingController();
+  final _nameController = new TextEditingController();
+  final _emailController = new TextEditingController();
+  final _passController = new TextEditingController();
+  final _confirmPassController = new TextEditingController();
+  final _phoneController = new TextEditingController();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = new GlobalKey<FormState>();
-  bool _showPassword = false;
   bool _isLoading = false;
 
 // Sign up button
@@ -163,129 +167,92 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget msgTitle() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text(
-        "Register to watch latest movies TV series, comedy shows and entertainment videos",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+  Widget phoneField() {
+    return AppTextFormField(
+      label: translate("phone"),
+      controller: _phoneController,
+      keyboardType: TextInputType.phone,
+      validator: (value) {
+        if (value!.length == 0) {
+          return 'Phone can not be empty';
+        } else {
+          return null;
+        }
+      },
     );
   }
 
   Widget emailField() {
-    return Padding(
-      padding: EdgeInsets.all(15.0),
-      child: TextFormField(
-        controller: _emailController,
-        validator: (value) {
-          if (value!.length == 0) {
-            return 'Email can not be empty';
+    return AppTextFormField(
+      label: translate("emailAddress"),
+      controller: _emailController,
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        if (value!.length == 0) {
+          return 'Email can not be empty';
+        } else {
+          if (!value.contains('@')) {
+            return 'Invalid Email';
           } else {
-            if (!value.contains('@')) {
-              return 'Invalid Email';
-            } else {
-              return null;
-            }
+            return null;
           }
-        },
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          labelText: 'Email',
-          labelStyle: TextStyle(color: Colors.grey[600]!.withOpacity(0.9)),
-        ),
-      ),
+        }
+      },
     );
   }
 
   Widget nameField() {
-    return Padding(
-      padding: EdgeInsets.all(15.0),
-      child: TextFormField(
-        controller: _nameController,
-        validator: (value) {
-          if (value!.length < 5) {
-            if (value.length == 0) {
-              return 'Enter name';
-            } else {
-              return 'Enter minimum 5 characters';
-            }
+    return AppTextFormField(
+      label: translate("Name_"),
+      controller: _nameController,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        if (value!.length < 5) {
+          if (value.length == 0) {
+            return 'Enter name';
           } else {
-            return null;
+            return 'Enter minimum 5 characters';
           }
-        },
-        keyboardType: TextInputType.name,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          labelText: 'Name',
-          labelStyle: TextStyle(color: Colors.grey[600]!.withOpacity(0.9)),
-        ),
-      ),
+        } else {
+          return null;
+        }
+      },
     );
   }
 
   Widget passwordField() {
-    return Padding(
-      padding: EdgeInsets.all(15.0),
-      child: TextFormField(
-        controller: _passController,
-        obscureText: !this._showPassword,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter your password';
-          } else if (value.length < 6) {
-            return 'Enter minimum 6 digits';
-          } else {
-            return null;
-          }
-        },
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              Icons.remove_red_eye,
-              color: this._showPassword ? primaryBlue : Colors.grey,
-            ),
-            onPressed: () {
-              setState(() => this._showPassword = !this._showPassword);
-            },
-          ),
-          labelText: 'Password',
-          labelStyle: TextStyle(color: Colors.grey[600]!.withOpacity(0.9)),
-        ),
-      ),
+    return AppTextFormField(
+      controller: _passController,
+      label: translate("password"),
+      isTextSecured: true,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter your password';
+        } else if (value.length < 6) {
+          return 'Enter minimum 6 digits';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget confirmPasswordField() {
+    return AppTextFormField(
+      controller: _confirmPassController,
+      label: translate("Confirm_Password"),
+      isTextSecured: true,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter your password';
+        } else if (value.length < 6) {
+          return 'Enter minimum 6 digits';
+        } else if (_passController.text != value) {
+          return "Password doesn't match";
+        } else {
+          return null;
+        }
+      },
     );
   }
 
@@ -297,108 +264,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Theme.of(context).primaryColorDark,
             appBar: customAppBar(context, "Sign Up") as PreferredSizeWidget?,
             key: scaffoldKey,
-            body: Column(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: logoImage(context, myModel, 0.9, 63.0, 200.0),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: msgTitle(),
-                      ),
-                    ],
-                  ),
+            body: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    logoImage(context, myModel, 1, 130.0, 130.0),
+                    // const SizedBox(
+                    //   height: 18,
+                    // ),
+                    nameField(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    emailField(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    phoneField(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    passwordField(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    confirmPasswordField(),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    AppButton(
+                      text: translate("Register_"),
+                      isLoading: _isLoading,
+                      onPressed: () {
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        _signUp();
+                      },
+                    ),
+
+                    SizedBox(
+                      height: 32,
+                    ),
+                    loginHereText(context),
+                    SizedBox(
+                      height: 32,
+                    ),
+                  ],
                 ),
-                Flexible(
-                    flex: 4,
-                    child: Container(
-                      padding: EdgeInsets.only(top: 20.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorLight,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                      ),
-                      child: ListView(
-                        children: [
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                nameField(),
-                                emailField(),
-                                passwordField(),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0),
-                                            ),
-                                            backgroundColor: primaryBlue,
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 15.0,
-                                            ),
-                                          ),
-                                          child: _isLoading == true
-                                              ? SizedBox(
-                                                  height: 20.0,
-                                                  width: 20.0,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 2.0,
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation(
-                                                      Colors.white,
-                                                    ),
-                                                  ),
-                                                )
-                                              : Text(
-                                                  'SIGN UP',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                          onPressed: () {
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                            _signUp();
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 130,
-                          ),
-                          loginHereText(context),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    )),
-              ],
+              ),
             )));
   }
 }

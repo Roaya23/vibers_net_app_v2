@@ -46,7 +46,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  bool _isHidden = true;
   String msg = '';
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
@@ -374,7 +373,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               canPop: false,
-              onPopInvoked: (didPop) {
+              onPopInvokedWithResult: (didPop, _) {
                 if (didPop) {
                   return;
                 }
@@ -395,13 +394,6 @@ class _LoginScreenState extends State<LoginScreen> {
             content: ResetAlertBoxContainer(),
           );
         });
-  }
-
-// Toggle for visibility
-  void _toggleVisibility() {
-    setState(() {
-      _isHidden = !_isHidden;
-    });
   }
 
   Widget msgTitle() {
@@ -481,7 +473,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         registerHereText(context),
-                        logoImage(context, myModel, 0.9, 63.0, 200.0),
+                        logoImage(context, myModel, 1, 130, 130.0),
                         msgTitle(),
                       ],
                     ),
@@ -517,6 +509,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
+                                    // onPressed: () {
+                                    //   Navigator.pushNamed(
+                                    //       context, RoutePaths.forgotPassword);
+                                    // },
                                     onPressed: resetPasswordAlertBox,
                                     child: Text(
                                       'Forgot Password ?',
@@ -804,7 +800,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                           GestureDetector(
                             behavior: HitTestBehavior.opaque,
-                            onTap: resetPasswordAlertBox,
+                            // onTap: resetPasswordAlertBox,
+                            onTap: () {
+                              Navigator.of(context).pushNamed(RoutePaths.forgetPassword);
+                            },
                             child: Text(
                               '${translate("Forgot_Password")} ?',
                               style: TextStyles.regular12(color: kMainLight),

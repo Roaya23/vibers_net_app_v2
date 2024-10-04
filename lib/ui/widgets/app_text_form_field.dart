@@ -6,7 +6,7 @@ import 'package:vibers_net/common/text_styles.dart';
 
 class AppTextFormField extends StatefulWidget {
   final TextEditingController? controller;
-  final TextInputType? inputType;
+  final TextInputType? keyboardType;
   final int? maxLength;
   final TextStyle? inputTextStyle;
   final Clip? clipBehavior;
@@ -45,7 +45,7 @@ class AppTextFormField extends StatefulWidget {
 
   const AppTextFormField({
     this.controller,
-    this.inputType,
+    this.keyboardType,
     this.maxLength,
     this.inputTextStyle,
     this.clipBehavior = Clip.antiAliasWithSaveLayer,
@@ -107,7 +107,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         ],
         TextFormField(
           controller: widget.controller,
-          keyboardType: widget.inputType,
+          keyboardType: widget.keyboardType,
           maxLength: widget.maxLength,
           style: widget.inputTextStyle ??
               TextStyles.medium16(color: kWhiteTextColor),
@@ -148,7 +148,9 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
             suffixIcon: widget.suffixIcon ?? _obsecureSuffix,
             filled: widget.filled,
             fillColor: widget.fillColor,
+            
           ),
+          
         ),
       ],
     );
@@ -158,7 +160,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
     if (widget.isTextSecured) {
       return InkWell(
         child: Icon(
-          isTextSecured
+          !isTextSecured
               ? Icons.visibility_rounded
               : Icons.visibility_off_rounded,
           size: 16,

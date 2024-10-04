@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
 import '../../common/global.dart';
 import '/common/route_paths.dart';
@@ -52,21 +53,17 @@ Widget loginHereText(context) {
               text: new TextSpan(children: [
                 new TextSpan(
                   text: translate("Already_have_an_account") + " ",
-                  style: new TextStyle(
-                    color: isLight ? Colors.black54 : Colors.white,
-                    fontSize: 16.5,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w600,
+                  style: TextStyles.regular16(
+                    color: isLight ? Colors.black54 : kWhiteTextColor,
                   ),
                 ),
                 TextSpan(
                   text: translate('Sign_In'),
-                  style: new TextStyle(
+                  style: TextStyles.regular16(
                     color: Theme.of(context).primaryColor,
-                    fontSize: 17.5,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  ).copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: Theme.of(context).primaryColor),
                 )
               ]),
             ),

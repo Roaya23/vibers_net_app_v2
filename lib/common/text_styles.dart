@@ -294,48 +294,48 @@ abstract class TextStyles {
   static TextStyle bold19({Color? color}) => TextStyle(
         color: color,
         fontSize: 19.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 
   static TextStyle bold18({Color? color}) => TextStyle(
         color: color,
         fontSize: 18.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 
   static TextStyle bold17({Color? color}) => TextStyle(
         color: color,
         fontSize: 17.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 
   static TextStyle bold16({Color? color}) => TextStyle(
         color: color,
         fontSize: 16.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 
   static TextStyle bold15({Color? color}) => TextStyle(
         color: color,
         fontSize: 15.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 
   static TextStyle bold14({Color? color}) => TextStyle(
         color: color,
         fontSize: 14.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
   static TextStyle bold12({Color? color}) => TextStyle(
         color: color,
         fontSize: 12.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.bold,
         fontFamily: kFontFamilyName,
       );
 

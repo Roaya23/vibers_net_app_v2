@@ -7,11 +7,14 @@ import 'package:vibers_net/ui/shared/app_image.dart';
 
 //    Logo image on login page
 Widget logoImage(context, myModel, double scale, double height, double width) {
-  return AppImage(
-    path: "assets/logo.png",
-    scale: scale,
-    height: height,
-    width: width,
+  return Hero(
+    tag: "app_logo_hero_tag",
+    child: AppImage(
+      path: "assets/logo.png",
+      scale: scale,
+      height: height,
+      width: width,
+    ),
   );
   // var logo = Provider.of<AppConfig>(context).appModel == null
   //     ? null

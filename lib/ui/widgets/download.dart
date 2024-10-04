@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:android_path_provider/android_path_provider.dart';
+// import 'package:android_path_provider/android_path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:path_provider/path_provider.dart';
@@ -398,7 +398,8 @@ class _MyHomePageState extends State<MyHomePage> {
     var externalStorageDirPath;
     if (Platform.isAndroid) {
       try {
-        externalStorageDirPath = await AndroidPathProvider.downloadsPath;
+        // TODO: Handle android path provider dewnload path
+        externalStorageDirPath = "await AndroidPathProvider.downloadsPath";
       } catch (e) {
         final directory = await getExternalStorageDirectory();
         externalStorageDirPath = directory?.path;

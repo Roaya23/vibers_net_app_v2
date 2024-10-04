@@ -17,14 +17,14 @@ bool fileExists = false;
 Map<dynamic, dynamic>? fileContent;
 var acct;
 
-class ForgotPassword extends StatefulWidget {
-  ForgotPassword(this.email);
+class ResetPassword extends StatefulWidget {
+  ResetPassword(this.email);
   final email;
   @override
-  ForgotPasswordState createState() => ForgotPasswordState();
+  ResetPasswordState createState() => ResetPasswordState();
 }
 
-class ForgotPasswordState extends State<ForgotPassword> {
+class ResetPasswordState extends State<ResetPassword> {
   String? pass;
   final TextEditingController _newPasswordController =
       new TextEditingController();

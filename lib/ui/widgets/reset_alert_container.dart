@@ -5,7 +5,7 @@ import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
 import 'package:http/http.dart' as http;
-import '/ui/screens/forgot_password_screen.dart';
+import '../screens/reset_password_screen.dart';
 
 class ResetAlertBoxContainer extends StatefulWidget {
   @override
@@ -92,8 +92,8 @@ class _ResetAlertBoxContainerState extends State<ResetAlertBoxContainer> {
     if (sendOtpResponse.statusCode == 200) {
       Navigator.pushNamed(
         context,
-        RoutePaths.forgotPassword,
-        arguments: ForgotPassword(
+        RoutePaths.resetPassword,
+        arguments: ResetPassword(
           (_resetEmailController.text),
         ),
       );

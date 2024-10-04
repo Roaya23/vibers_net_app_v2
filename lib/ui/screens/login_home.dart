@@ -102,7 +102,7 @@ class _LoginHomeState extends State<LoginHome> {
         For setting logo image that is accessed from the server using API.
         You can change logo by server
         */
-              child: logoImage(context, myModel, 0.9, 100.0, 250.0),
+              child: logoImage(context, myModel, 1, 230.0, 230.0),
             ),
             SizedBox(
               height: 50.0,

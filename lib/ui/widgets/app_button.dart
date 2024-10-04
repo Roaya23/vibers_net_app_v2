@@ -51,7 +51,8 @@ class AppButton extends StatelessWidget {
                       Color(0xffFAC43D),
                     ],
                   begin: AlignmentDirectional.centerStart,
-                  end: AlignmentDirectional.centerEnd)),
+                  end: AlignmentDirectional.centerEnd)
+                  ),
       child: ElevatedButton(
         onPressed: isLoading || isEnabled == false ? null : onPressed,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -86,7 +87,7 @@ class AppButton extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     text,
-                    style: textStyle ?? TextStyles.bold15(color: textColor),
+                    style: textStyle ?? TextStyles.bold16(color: textColor),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                   ),

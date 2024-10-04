@@ -24,7 +24,6 @@ const kErrorRed = Color(0xFFB00020);
 const kSurfaceWhite = Color(0xFFFFFBFA);
 const kBackgroundWhite = Color.fromRGBO(255, 255, 255, 1.0);
 
-
 /// color for theme
 const kMainThemeColor = primaryBlue;
 const kMainLight = Color(0xffFEEDC2);
@@ -42,10 +41,12 @@ const kDarkBgLight = kScafoldBgColor;
 const kDarkBgDark = kScafoldBgColor;
 const kDarkTextColor = Color(0xff070010);
 const kWhiteTextColor = Color(0xffFEFEFE);
+final kWhite100TextColor = Color(0xffFEFEFE).withOpacity(.85);
+
 const kLightThemeTextColor = Color.fromRGBO(27, 84, 111, 1.0);
 const kBadgeColor = Colors.red;
 const cardColor = Color.fromRGBO(100, 100, 100, 1.0);
-final kBorderColor = Color(0xffFEFEFE).withOpacity(.35);
+final kBorderColor = kWhiteTextColor.withOpacity(.35);
 const kWhite100 = Color(0xffE6E6E6);
 const kProductTitleStyleLarge =
     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
@@ -64,12 +65,16 @@ var kTextField = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: kBorderColor, width: 1.0),
+    borderSide: BorderSide(color: Colors.white, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(6.0)),
+  ),
+  errorBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: kRedColor, width: 1.0),
     borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
   focusedBorder: OutlineInputBorder(
     borderSide:
-        BorderSide(color: Color(0xffFEFEFE).withOpacity(.5), width: 1.0),
+        BorderSide(color: kWhiteTextColor.withOpacity(.5), width: 1.0),
     borderRadius: BorderRadius.all(Radius.circular(6.0)),
   ),
 );
@@ -98,8 +103,8 @@ var _inputDecorationTheme = InputDecorationTheme(
   ),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(const Radius.circular(6)),
-    borderSide: const BorderSide(
-      color: kWhiteTextColor,
+    borderSide: BorderSide(
+      color: kBorderColor,
     ),
   ),
   disabledBorder: OutlineInputBorder(
@@ -114,6 +119,7 @@ var _inputDecorationTheme = InputDecorationTheme(
       color: kWhiteTextColor,
     ),
   ),
+  
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.all(const Radius.circular(6)),
     borderSide: BorderSide(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibers_net/localization/language_screen.dart';
+import 'package:vibers_net/models/otp/otp_verification_params.dart';
 import 'package:vibers_net/ui/gateways/cashfree_payment.dart';
 import 'package:vibers_net/ui/gateways/manual_payment_list.dart';
 import 'package:vibers_net/ui/gateways/payhere_payment.dart';
@@ -7,14 +8,16 @@ import 'package:vibers_net/ui/gateways/payumoney_payment.dart';
 import 'package:vibers_net/ui/gateways/rave_payment.dart';
 import 'package:vibers_net/ui/gateways/upi_payment.dart';
 import 'package:vibers_net/ui/screens/audioScreen.dart';
+import 'package:vibers_net/ui/screens/forget_password_screen.dart';
 import 'package:vibers_net/ui/screens/liveEventScreen.dart';
+import 'package:vibers_net/ui/screens/otp/otp_verification_screen.dart';
 import 'package:vibers_net/ui/shared/recommended_grid_view.dart';
 import '/ui/gateways/in_app_payment.dart';
 import '/ui/screens/actors_movies_grid.dart';
 import '/ui/screens/apply_coupon_screen.dart';
 import '/ui/screens/change_password_screen.dart';
 import '/ui/screens/create_screen_profile.dart';
-import '/ui/screens/forgot_password_screen.dart';
+import 'screens/reset_password_screen.dart';
 import '/ui/screens/live_video_grid.dart';
 import '/ui/screens/manage_profile_screen.dart';
 import '/ui/screens/notification_detail_screen.dart';
@@ -197,10 +200,19 @@ class RouteGenerator {
       case RoutePaths.inApp:
         InApp? argument = args as InApp?;
         return MaterialPageRoute(builder: (context) => InApp(argument!.index));
-      case RoutePaths.forgotPassword:
-        ForgotPassword? argument = args as ForgotPassword?;
+      case RoutePaths.forgetPassword:
+        return MaterialPageRoute(builder: (context) => ForgetPasswordScreen());
+      case RoutePaths.otp:
+        final OtpVerificationParams argument = args as OtpVerificationParams;
+
         return MaterialPageRoute(
-            builder: (context) => ForgotPassword(argument!.email));
+            builder: (context) => OtpVerificationScreen(
+                  params: argument,
+                ));
+      case RoutePaths.resetPassword:
+        ResetPassword? argument = args as ResetPassword?;
+        return MaterialPageRoute(
+            builder: (context) => ResetPassword(argument!.email));
       case RoutePaths.topVideos:
         TopGridView argument = args as TopGridView;
         return MaterialPageRoute(

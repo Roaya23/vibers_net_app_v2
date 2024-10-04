@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
- BuildContext get getAppNavigatorKeyContext => navigatorKey.currentContext!;
+BuildContext get getAppNavigatorKeyContext => navigatorKey.currentContext!;
+
 class RoutePaths {
   static const String appTitle = 'Next Hour';
   static const String splashScreen = '/';
@@ -50,7 +51,9 @@ class RoutePaths {
   static const String updateProfile = 'updateProfile';
   static const String actorMoviesGrid = 'actorMoviesGrid';
   static const String inApp = 'inApp';
-  static const String forgotPassword = 'forgotPassword';
+  static const String forgetPassword = 'forgetPasswordScreen';
+  static const String resetPassword = 'resetPasswordScreen';
+  static const String otp = 'otpScreen';
   static const String watchHistory = 'watchHistory';
   static const String createScreen = 'createScreen';
   static const String applyCoupon = 'applyCoupon';
