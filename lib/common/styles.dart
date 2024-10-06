@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/common/text_styles.dart';
 
-const String kFontFamilyName = "GothicA1";
+const String kFontFamilyName = "Poppins";
+const String kFontFamilyGothicA1Name = "GothicA1";
+
 
 /// basic colors
 const cStatusBarColor = Color(0xff070010);
@@ -36,7 +38,7 @@ const kDarkAccent = Color(0xffF4F5F5);
 const kLightBG1 = Color(0xffFFFFFF);
 const kLightBG2 = Color(0xffF1F2F3);
 const kDarkBG = Color.fromRGBO(34, 34, 34, 1.0);
-const kHintColor = Color.fromRGBO(106, 122, 130, 1.0);
+const kHintColor = kWhite100;
 const kDarkBgLight = kScafoldBgColor;
 const kDarkBgDark = kScafoldBgColor;
 const kDarkTextColor = Color(0xff070010);
@@ -80,7 +82,7 @@ var kTextField = InputDecoration(
 );
 
 IconThemeData _customIconTheme1(IconThemeData original) {
-  return original.copyWith(color: kLightThemeTextColor);
+  return original.copyWith(color: kLightThemeTextColor,);
 }
 
 IconThemeData _customIconTheme2(IconThemeData original) {
@@ -145,8 +147,8 @@ ThemeData buildLightTheme() {
     cardColor: Colors.white,
     inputDecorationTheme: _inputDecorationTheme,
     textSelectionTheme: TextSelectionThemeData(
-      selectionColor: kLightThemeTextColor,
-      cursorColor: kLightAccent,
+      selectionColor: kMainThemeColor,
+      cursorColor: kMainThemeColor,
     ),
     buttonTheme: const ButtonThemeData(
       colorScheme: kColorScheme,
@@ -246,8 +248,8 @@ ThemeData buildDarkTheme() {
     primaryIconTheme: _customIconTheme3(base.iconTheme),
     iconTheme: _customIconTheme4(base.iconTheme),
     textSelectionTheme: TextSelectionThemeData(
-      selectionColor: Colors.white,
-      cursorColor: kDarkAccent,
+      selectionColor: kMainThemeColor,
+      cursorColor: kMainThemeColor,
     ),
     appBarTheme: AppBarTheme(
       elevation: 0,

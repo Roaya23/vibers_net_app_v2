@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/global.dart';
 import 'package:vibers_net/models/AppUiShortingModel.dart';
 import 'package:vibers_net/providers/app_ui_shorting_provider.dart';
 import 'package:vibers_net/ui/screens/horizontal_audio_list.dart';
@@ -256,12 +257,12 @@ class _VideosPageState extends State<VideosPage>
             HorizontalGenreList(
               loading: widget.loading,
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 16),
             // -----
             if (movieTVLanguageListLen > 0) ...{
               SizedBox(height: 10),
               Container(
-                height: 45,
+                height: Constants.genreListHeight,
                 child: MovieTVLanguageList(
                   loading: widget.loading,
                   movieTVLanguageList: movieTVLanguageList,
@@ -328,7 +329,7 @@ class _VideosPageState extends State<VideosPage>
             topVideosListLen == 0
                 ? SizedBox.shrink()
                 : Container(
-                    height: 320,
+                    height: 160,
                     child: TopVideoList(
                       loading: widget.loading,
                       topMovieTV: topVideosList,
@@ -354,7 +355,7 @@ class _VideosPageState extends State<VideosPage>
             recommendedVideosListLen == 0
                 ? SizedBox.shrink()
                 : Container(
-                    height: 180,
+                    height: 160,
                     child: RecommendedVideoList(
                       loading: widget.loading,
                       videoList: recommendedVideosList,
@@ -446,8 +447,8 @@ class _VideosPageState extends State<VideosPage>
   }
 
   @override
-  // ignore: must_call_super
   Widget build(BuildContext context) {
+    super.build(context); 
     return RefreshIndicator(
       onRefresh: refreshList,
       color: Theme.of(context).primaryColor,

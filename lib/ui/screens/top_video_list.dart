@@ -11,7 +11,8 @@ class TopVideoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return loading == true
-        ? ListView.builder(
+        ? ListView.separated(
+            separatorBuilder: (context, index) => SizedBox(width: 10.0),
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             padding: EdgeInsets.only(left: 15.0),
@@ -19,11 +20,10 @@ class TopVideoList extends StatelessWidget {
             itemCount: 4,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: EdgeInsets.only(right: 20.0),
-                height: 320,
-                width: 180,
+                // height: 320,
+                width: 105,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(8.0),
                   gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter,
@@ -41,14 +41,14 @@ class TopVideoList extends StatelessWidget {
                       ]),
                 ),
                 child: Stack(
+                  clipBehavior: Clip.antiAlias,
                   children: [
                     ClipRRect(
-                      borderRadius: new BorderRadius.circular(5.0),
+                      borderRadius: new BorderRadius.circular(8.0),
                       child: Image.asset(
                         "assets/placeholder_box.jpg",
-                        height: 320,
-                        width: 180,
                         fit: BoxFit.cover,
+                        isAntiAlias: true,
                       ),
                     ),
                   ],
@@ -56,7 +56,8 @@ class TopVideoList extends StatelessWidget {
               );
             },
           )
-        : ListView.builder(
+        : ListView.separated(
+            separatorBuilder: (context, index) => SizedBox(width: 10.0),
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             padding: EdgeInsets.only(left: 15.0),
@@ -96,89 +97,59 @@ class TopVideoList extends StatelessWidget {
                 }
               }
 
-              return Container(
-                margin: EdgeInsets.only(right: 20.0),
-                height: 320,
-                width: 180,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  gradient: LinearGradient(
-                      begin: FractionalOffset.topCenter,
-                      end: FractionalOffset.bottomCenter,
-                      colors: [
-                        Theme.of(context).primaryColorDark.withOpacity(0.1),
-                        Theme.of(context).primaryColorDark.withOpacity(0.7),
-                        Theme.of(context).primaryColorDark.withOpacity(0.95),
-                        Theme.of(context).primaryColorDark
-                      ],
-                      stops: [
-                        0.3,
-                        0.65,
-                        0.85,
-                        1.0
-                      ]),
-                ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      child: topMovieTV[index].thumbnail == null
-                          ? Image.asset(
-                              "assets/placeholder_box.jpg",
-                              height: 320,
-                              width: 180,
-                              fit: BoxFit.cover,
-                            )
-                          : FadeInImage.assetNetwork(
-                              image: topMovieTV[index].type == DatumType.T
-                                  ? "${APIData.tvImageUriTv}${topMovieTV[index].thumbnail}"
-                                  : "${APIData.movieImageUri}${topMovieTV[index].thumbnail}",
-                              placeholder: "assets/placeholder_box.jpg",
-                              height: 320,
-                              width: 180,
-                              imageScale: 1.0,
-                              fit: BoxFit.cover,
-                              imageErrorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  "assets/placeholder_box.jpg",
-                                  height: 320,
-                                  width: 180,
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            ),
+              return InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.videoDetail,
+                    arguments: VideoDetailScreen(
+                      topMovieTV[index],
                     ),
-                    new Material(
-                      type: MaterialType.transparency,
-                      child: new ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            visualDensity: VisualDensity(
-                                vertical: VisualDensity.maximumDensity),
-                            elevation: 0.0,
-                            animationDuration: Duration(seconds: 50),
-                            foregroundColor: Colors.white),
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 320,
-                          width: 180,
-                          padding: EdgeInsets.all(0.0),
+                  );
+                },
+                child: Container(
+                  width: 105,
+                  height: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    gradient: LinearGradient(
+                        begin: FractionalOffset.topCenter,
+                        end: FractionalOffset.bottomCenter,
+                        colors: [
+                          Theme.of(context).primaryColorDark.withOpacity(0.1),
+                          Theme.of(context).primaryColorDark.withOpacity(0.7),
+                          Theme.of(context).primaryColorDark.withOpacity(0.95),
+                          Theme.of(context).primaryColorDark
+                        ],
+                        stops: [
+                          0.3,
+                          0.65,
+                          0.85,
+                          1.0
+                        ]),
+                  ),
+                  child: topMovieTV[index].thumbnail == null
+                      ? Image.asset(
+                          "assets/placeholder_box.jpg",
+                          fit: BoxFit.cover,
+                          isAntiAlias: true,
+                        )
+                      : FadeInImage.assetNetwork(
+                          image: topMovieTV[index].type == DatumType.T
+                              ? "${APIData.tvImageUriTv}${topMovieTV[index].thumbnail}"
+                              : "${APIData.movieImageUri}${topMovieTV[index].thumbnail}",
+                          placeholder: "assets/placeholder_box.jpg",
+                          fit: BoxFit.cover,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              "assets/placeholder_box.jpg",
+                              fit: BoxFit.cover,
+                              isAntiAlias: true,
+                            );
+                          },
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            RoutePaths.videoDetail,
-                            arguments: VideoDetailScreen(
-                              topMovieTV[index],
-                            ),
-                          );
-                        },
-                        onLongPress: () {
-                          return null;
-                        },
-                      ),
-                    )
-                  ],
                 ),
               );
             },

@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '../../services/countryProvider.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
@@ -423,13 +425,13 @@ class _HorizontalGenreListState extends State<HorizontalGenreList> {
         ? Container(
             height: Constants.genreListHeight,
             child: ListView.builder(
-              padding: EdgeInsets.only(left: 15.0, right: 5.0),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin:
-                      EdgeInsets.only(right: Constants.genreItemRightMargin),
+                  margin: EdgeInsetsDirectional.only(
+                      end: Constants.genreItemRightMargin),
                   width: Constants.genreItemWidth,
                   height: Constants.genreItemHeight,
                   child: Material(
@@ -451,15 +453,17 @@ class _HorizontalGenreListState extends State<HorizontalGenreList> {
         : Container(
             height: Constants.genreListHeight,
             child: ListView.builder(
-              padding: EdgeInsets.only(left: 15.0, right: 5.0),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
               itemCount: genres.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin:
-                      EdgeInsets.only(right: Constants.genreItemRightMargin),
-                  width: Constants.genreItemWidth,
-                  height: Constants.genreItemHeight,
+                  margin: EdgeInsetsDirectional.only(
+                      end: Constants.genreItemRightMargin),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  // width: Constants.genreItemWidth,
+                  // height: Constants.genreItemHeight,
                   child: Material(
                     shadowColor: Colors.black,
                     child: InkWell(
@@ -472,19 +476,17 @@ class _HorizontalGenreListState extends State<HorizontalGenreList> {
                               genres[index].name, genreDataList),
                         );
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${genres[index].name}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16.0),
+                      child: Text(
+                        "${genres[index].name}",
+                        style: TextStyles.semiBold14(
+                          color: kDarkTextColor,
                         ),
                       ),
                     ),
                     color: Colors.transparent,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
+                    borderRadius: BorderRadius.circular(8.0),
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,

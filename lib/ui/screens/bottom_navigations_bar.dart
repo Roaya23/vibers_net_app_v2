@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/providers/all_user_provider.dart';
 import 'package:vibers_net/providers/app_config.dart';
 import 'package:vibers_net/providers/user_profile_provider.dart';
@@ -19,8 +21,8 @@ import 'wishlist_screen.dart';
 import 'home_screen.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
-  MyBottomNavigationBar({this.pageInd});
-  final pageInd;
+  MyBottomNavigationBar({this.pageId});
+  final pageId;
 
   @override
   _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
@@ -97,7 +99,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             userDetails.userProfileModel!.removeAds == 0) &&
         (appconfig.appConfig.removeAds == 0 ||
             appconfig.appConfig.removeAds == '0')) {}
-    _selectedIndex = widget.pageInd != null ? widget.pageInd : 0;
+    _selectedIndex = widget.pageId != null ? widget.pageId : 0;
 
     initializeFBAd();
   }
@@ -148,11 +150,20 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Theme.of(context).primaryColorLight,
-                selectedIconTheme: Theme.of(context).primaryIconTheme,
-                unselectedIconTheme: Theme.of(context).iconTheme,
+                selectedIconTheme: Theme.of(context).primaryIconTheme.copyWith(
+                      color: kMainThemeColor,
+                      size: 18,
+                    ),
+                unselectedIconTheme: Theme.of(context).iconTheme.copyWith(
+                      color: kWhite100,
+                      size: 18,
+                    ),
                 selectedItemColor:
                     Theme.of(context).textSelectionTheme.selectionColor,
-                unselectedItemColor: Theme.of(context).hintColor,
+                unselectedItemColor: kWhite100,
+                selectedFontSize: 10.sp,
+                unselectedFontSize: 10.sp,
+                iconSize: 18.sp,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       label: translate("Home_"), icon: Icon(Icons.home)),

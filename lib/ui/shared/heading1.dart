@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/ui/shared/recommended_grid_view.dart';
 import 'package:vibers_net/ui/shared/top_grid_view.dart';
 import '../../models/datum.dart';
@@ -27,7 +28,7 @@ class _Heading1State extends State<Heading1> {
   Widget build(BuildContext context) {
     return widget.loading == true
         ? Padding(
-            padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: Shimmer.fromColors(
               baseColor: Colors.grey.shade400,
               highlightColor2: Colors.grey.shade500,
@@ -47,12 +48,12 @@ class _Heading1State extends State<Heading1> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.heading,
-                  style: TextStyle(
-                    fontFamily: kFontFamilyName,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
+                Expanded(
+                  child: Text(
+                    widget.heading,
+                    style: TextStyles.semiBold14(
+                      color: kWhite100,
+                    ),
                   ),
                 ),
                 Material(
@@ -60,12 +61,11 @@ class _Heading1State extends State<Heading1> {
                   child: InkWell(
                     child: Text(
                       translate("View_All"),
-                      style: TextStyle(
-                        fontFamily: kFontFamilyName,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      style: TextStyles.regular12(
+                        color: kWhite100,
+                      ).copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: kWhite100),
                     ),
                     onTap: () {
                       if (widget.type == "Top") {

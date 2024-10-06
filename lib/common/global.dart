@@ -94,11 +94,11 @@ Color activeDotColor = const Color.fromRGBO(125, 183, 91, 1.0);
 
 class Constants {
   static const double sliderHeight = 0.50;
-  static const double genreListHeight = 60.0;
-  static const double genreItemHeight = 60.0;
+  static const double genreListHeight = 40.0;
+  static const double genreItemHeight = 40.0;
   static const double genreItemWidth = 150.0;
-  static const double genreItemRightMargin = 10.0;
-  static const double genreItemLeftMargin = 15.0;
+  static const double genreItemRightMargin = 8.0;
+  static const double genreItemLeftMargin = 16.0;
   static const List<Color> gradientRed = [Color(0xFF7EA6F6), Color(0xFF85C3EF)];
   static const List<Color> gradientBlue = [
     Color(0xFFC6428D),

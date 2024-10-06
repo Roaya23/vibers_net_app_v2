@@ -10,6 +10,9 @@ class GridVideoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String imagePath = videoWatch.type == DatumType.M
+        ? "${APIData.movieImageUri}${videoWatch.thumbnail}"
+        : "${APIData.tvImageUriTv}${videoWatch.thumbnail}";
     return Material(
       borderRadius: new BorderRadius.circular(5.0),
       child: ClipRRect(
@@ -22,9 +25,7 @@ class GridVideoBox extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             : FadeInImage.assetNetwork(
-                image: videoWatch.type == DatumType.M
-                    ? "${APIData.movieImageUri}${videoWatch.thumbnail}"
-                    : "${APIData.tvImageUriTv}${videoWatch.thumbnail}",
+                image: imagePath,
                 placeholder: "assets/placeholder_box.jpg",
                 height: 200,
                 width: 60.0,

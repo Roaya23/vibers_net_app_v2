@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '../../services/countryProvider.dart';
 import '/common/apipath.dart';
 import '/common/route_paths.dart';
@@ -202,26 +203,31 @@ class _ActorsHorizontalListState extends State<ActorsHorizontalList> {
 
   @override
   Widget build(BuildContext context) {
+    const double height = 100;
+    const double itemWidth = 100;
     var actorsList =
         Provider.of<MainProvider>(context, listen: false).actorList;
     return Container(
-      height: 152,
-      child: ListView.builder(
+      height: height,
+      child: ListView.separated(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) => const SizedBox(width: 10,),
         physics: ClampingScrollPhysics(),
-        padding: EdgeInsets.only(left: 15.0),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         itemCount: widget.loading == true ? 5 : actorsList.length,
         itemBuilder: (BuildContext context, int index) {
-          return InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            borderRadius: BorderRadius.circular(40.0),
-            child: widget.loading == true
-                ? Container(
-                    alignment: Alignment.topCenter,
-                    margin: EdgeInsets.only(right: 15.0),
-                    decoration: BoxDecoration(
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(6.0),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              borderRadius: BorderRadius.circular(6.0),
+              child: widget.loading == true
+                  ? Container(
+                      alignment: Alignment.topCenter,
+                      decoration: BoxDecoration(
                         gradient: LinearGradient(
                             begin: FractionalOffset.topCenter,
                             end: FractionalOffset.bottomCenter,
@@ -235,28 +241,24 @@ class _ActorsHorizontalListState extends State<ActorsHorizontalList> {
                               0.3,
                               0.8
                             ]),
-                        borderRadius: BorderRadius.circular(0.0),
-                        border: Border.all(
-                            width: 0.0,
-                            color: Colors.white,
-                            style: BorderStyle.none)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0.0),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      clipBehavior: Clip.antiAlias,
                       child: Image.asset(
                         "assets/placeholder_box.jpg",
                         fit: BoxFit.cover,
-                        height: 150.0,
-                        width: 100.0,
+                        height: double.infinity,
+                        width: itemWidth,
+                        isAntiAlias: true,
                       ),
-                    ),
-                  )
-                : Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                        alignment: Alignment.topCenter,
-                        margin: EdgeInsets.only(right: 15.0),
-                        decoration: BoxDecoration(
+                    )
+                  : Stack(
+                      alignment: Alignment.bottomCenter,
+                      clipBehavior: Clip.antiAlias,
+                      children: [
+                        Container(
+                          alignment: Alignment.topCenter,
+                          decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: FractionalOffset.topCenter,
                                 end: FractionalOffset.bottomCenter,
@@ -270,19 +272,16 @@ class _ActorsHorizontalListState extends State<ActorsHorizontalList> {
                                   0.3,
                                   0.8
                                 ]),
-                            borderRadius: BorderRadius.circular(0.0),
-                            border: Border.all(
-                                width: 0.0,
-                                color: Colors.white,
-                                style: BorderStyle.none)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(0.0),
+                            // borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          clipBehavior: Clip.antiAlias,
                           child: actorsList[index].image == null
                               ? Image.asset(
                                   "assets/placeholder_box.jpg",
                                   fit: BoxFit.cover,
-                                  height: 150.0,
-                                  width: 100.0,
+                                  height: double.infinity,
+                                  width: itemWidth,
+                                  isAntiAlias: true,
                                 )
                               : FadeInImage.assetNetwork(
                                   placeholder: "assets/placeholder_box.jpg",
@@ -293,70 +292,69 @@ class _ActorsHorizontalListState extends State<ActorsHorizontalList> {
                                     return Image.asset(
                                       "assets/placeholder_box.jpg",
                                       fit: BoxFit.cover,
-                                      height: 150.0,
-                                      width: 100.0,
+                                      height: double.infinity,
+                                      width: itemWidth,
+                                      isAntiAlias: true,
                                     );
                                   },
                                   fit: BoxFit.cover,
-                                  height: 150.0,
-                                  width: 100.0,
+                                  height: double.infinity,
+                                  width: itemWidth,
                                 ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.bottomCenter,
-                        height: 152.0,
-                        width: 101.3,
-                        margin: EdgeInsets.only(
-                          right: 15.0,
-                        ),
-                        padding: EdgeInsets.only(
-                          bottom: 20.0,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              colors: [
-                                Theme.of(context)
-                                    .primaryColorDark
-                                    .withOpacity(0.1),
-                                Theme.of(context)
-                                    .primaryColorDark
-                                    .withOpacity(0.7),
-                                Theme.of(context)
-                                    .primaryColorDark
-                                    .withOpacity(0.95),
-                                Theme.of(context).primaryColorDark
-                              ],
-                              stops: [
-                                0.3,
-                                0.65,
-                                0.85,
-                                1.0
-                              ]),
-                        ),
-                        child: Text(
-                          '${actorsList[index].name}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13.0,
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          height: double.infinity,
+                          width: itemWidth,
+                          clipBehavior: Clip.antiAlias,
+                          padding:
+                              EdgeInsets.only(bottom: 20.0, left: 6, right: 6),
+                          decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.circular(6.0),
+                            gradient: LinearGradient(
+                                begin: FractionalOffset.topCenter,
+                                end: FractionalOffset.bottomCenter,
+                                colors: [
+                                  Theme.of(context)
+                                      .primaryColorDark
+                                      .withOpacity(0.1),
+                                  Theme.of(context)
+                                      .primaryColorDark
+                                      .withOpacity(0.7),
+                                  Theme.of(context)
+                                      .primaryColorDark
+                                      .withOpacity(0.95),
+                                  Theme.of(context).primaryColorDark
+                                ],
+                                stops: [
+                                  0.3,
+                                  0.65,
+                                  0.85,
+                                  1.0
+                                ]),
+                          ),
+                          child: Text(
+                            '${actorsList[index].name}',
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyles.medium12(),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-            onTap: () {
-              if (widget.loading == true) {
-                return null;
-              } else {
-                Navigator.pushNamed(
-                  context,
-                  RoutePaths.actorMoviesGrid,
-                  arguments: ActorMoviesGrid(actorsList[index]),
-                );
-              }
-            },
+                      ],
+                    ),
+              onTap: () {
+                if (widget.loading == true) {
+                  return null;
+                } else {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.actorMoviesGrid,
+                    arguments: ActorMoviesGrid(actorsList[index]),
+                  );
+                }
+              },
+            ),
           );
         },
       ),

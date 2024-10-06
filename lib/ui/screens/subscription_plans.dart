@@ -461,7 +461,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                         double.tryParse(plan.amount);
                                   } else if (plan.amount.runtimeType == int) {
                                     planAmountValue =
-                                        double.tryParse(plan.amount);
+                                        double.tryParse(plan.amount.toString());
                                   } else {
                                     planAmountValue = plan.amount;
                                   }

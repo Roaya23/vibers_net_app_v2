@@ -110,7 +110,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  MyBottomNavigationBar(pageInd: 0),
+                                  MyBottomNavigationBar(pageId: 0),
                             ),
                           ).then((value) => setState(() {}));
                         }

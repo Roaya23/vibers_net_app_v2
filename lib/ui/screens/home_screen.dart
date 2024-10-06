@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/shared/app_image.dart';
 import '/common/global.dart';
 import '/providers/app_config.dart';
 import '/providers/main_data_provider.dart';
@@ -117,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           canPop: false,
-          onPopInvoked: (didPop) {
+          onPopInvokedWithResult: (didPop, _) {
             if (didPop) {
               return;
             }
@@ -155,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   canPop: false,
-                  onPopInvoked: (didPop) {
+                  onPopInvokedWithResult: (didPop, _) {
                     if (didPop) {
                       return;
                     }
@@ -186,21 +188,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   //  Sliver app bar
   Widget _sliverAppBar(innerBoxIsScrolled, myModel, menus) {
-    bool type = false;
-    var dWidth = MediaQuery.of(context).size.width;
-    var isPortrait =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-    if (dWidth > 900 || isPortrait) {
-      print("is : $isPortrait");
-      type = true;
-    } else {
-      type = false;
-    }
-    var logo =
-        Provider.of<AppConfig>(context, listen: false).appModel!.config!.logo;
+    // bool type = false;
+    // var dWidth = MediaQuery.of(context).size.width;
+    // var isPortrait =
+    //     MediaQuery.of(context).orientation == Orientation.landscape;
+    // if (dWidth > 900 || isPortrait) {
+    //   print("is : $isPortrait");
+    //   type = true;
+    // } else {
+    //   type = false;
+    // }
+    // var logo =
+    //     Provider.of<AppConfig>(context, listen: false).appModel!.config!.logo;
+    final logo = "assets/logo.png";
     return SliverAppBar(
       elevation: 0.0,
       stretch: true,
+      toolbarHeight: kTextTabBarHeight * 2,
       expandedHeight:
           MediaQuery.of(context).size.height * Constants.sliderHeight,
       flexibleSpace: FlexibleSpaceBar(
@@ -212,72 +216,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           background: Container(
             child: ImageSlider(),
           )),
-      title: Row(
+      leadingWidth: 0,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: type == true ? 1 : 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: type == true
-                    ? EdgeInsets.only(left: 15.0, right: 15.0)
-                    : EdgeInsets.only(left: 5.0, right: 5.0),
-                child: Image.network(
-                  '${APIData.logoImageUri}$logo',
-                  scale: type == true ? 1.8 : 1.6,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      "assets/logo.png",
-                    );
-                  },
-                ),
-              ),
-            ),
+          AppImage(
+            path: logo,
+            scale: 2,
           ),
-          Expanded(
-            flex: type == true ? 4 : 5,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  child: TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Color.fromRGBO(125, 183, 91, 1.0),
-                labelStyle: TextStyle(fontWeight: FontWeight.w500),
-                // ignore: deprecated_member_use
-                tabAlignment: TabAlignment.start,
-                dividerColor: Colors.transparent,
-                labelColor: Theme.of(context).textSelectionTheme.selectionColor,
-                unselectedLabelColor: Theme.of(context).hintColor,
-                unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
-                indicator: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.transparent,
-                      width: 0,
-                    ),
-                  ),
-                ),
-                isScrollable: true,
-                tabs: List.generate(
-                  menus.length,
-                  (int index) {
-                    return Tab(
-                      child: new Container(
-                        child: new Text(
-                          '${menus[index].name}',
-                          style: TextStyle(
-                            fontFamily: kFontFamilyName,
-                            fontSize: 15.0,
-                            letterSpacing: 0.9,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )),
-            ),
-          )
+
+          // Expanded(
+          //   flex: type == true ? 1 : 2,
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Container(
+          //       margin: type == true
+          //           ? EdgeInsets.only(left: 15.0, right: 15.0)
+          //           : EdgeInsets.only(left: 5.0, right: 5.0),
+          //       child: Image.network(
+          //         '${APIData.logoImageUri}$logo',
+          //         scale: type == true ? 1.8 : 1.6,
+          //         errorBuilder: (context, error, stackTrace) {
+          //           return Image.asset(
+          //             "assets/logo.png",
+          //           );
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Expanded(
+          //   flex: type == true ? 4 : 5,
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Container(
+          //         child: TabBar(
+          //       indicatorSize: TabBarIndicatorSize.tab,
+          //       indicatorColor: Color.fromRGBO(125, 183, 91, 1.0),
+          //       labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          //       // ignore: deprecated_member_use
+          //       tabAlignment: TabAlignment.start,
+          //       dividerColor: Colors.transparent,
+          //       labelColor: Theme.of(context).textSelectionTheme.selectionColor,
+          //       unselectedLabelColor: Theme.of(context).hintColor,
+          //       unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+          //       indicator: BoxDecoration(
+          //         border: Border(
+          //           bottom: BorderSide(
+          //             color: Colors.transparent,
+          //             width: 0,
+          //           ),
+          //         ),
+          //       ),
+          //       isScrollable: true,
+          //       tabs: List.generate(
+          //         menus.length,
+          //         (int index) {
+          //           return Tab(
+          //             child: new Container(
+          //               child: new Text(
+          //                 '${menus[index].name}',
+          //                 style: TextStyle(
+          //                   fontFamily: kFontFamilyName,
+          //                   fontSize: 15.0,
+          //                   letterSpacing: 0.9,
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         },
+          //       ),
+          //     )
+          //     ),
+          //   ),
+          // )
         ],
       ),
       backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),
@@ -285,6 +298,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       floating: true,
       forceElevated: innerBoxIsScrolled,
       automaticallyImplyLeading: false,
+      bottom: TabBar.secondary(
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelPadding: EdgeInsets.all(0),
+        padding: EdgeInsets.all(0),
+        labelStyle: TextStyles.medium12(
+            color: Theme.of(context).textSelectionTheme.selectionColor),
+        tabAlignment: TabAlignment.center,
+        dividerColor: Colors.transparent,
+        labelColor: Theme.of(context).textSelectionTheme.selectionColor,
+        unselectedLabelColor: Theme.of(context).hintColor,
+        unselectedLabelStyle:
+            TextStyles.regular12(color: Theme.of(context).hintColor),
+        indicator: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.transparent,
+              width: 0,
+            ),
+          ),
+        ),
+        isScrollable: true,
+        tabs: List.generate(
+          menus.length,
+          (int index) {
+            return Tab(
+              child: Container(
+                child: Text(
+                  '${menus[index].name}',
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -327,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
         canPop: false,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, _) {
           if (didPop) {
             return;
           }
@@ -346,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           backgroundColor: Theme.of(context).primaryColorDark,
         ),
         canPop: false,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, _) {
           if (didPop) {
             return;
           }
@@ -371,16 +418,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _sliverAppBarShimmer(innerBoxIsScrolled) {
-    bool type = false;
-    var dWidth = MediaQuery.of(context).size.width;
-    var isPortrait =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-    if (dWidth > 900 || isPortrait) {
-      print("is : $isPortrait");
-      type = true;
-    } else {
-      type = false;
-    }
+    // bool type = false;
+    // var dWidth = MediaQuery.of(context).size.width;
+    // var isPortrait =
+    //     MediaQuery.of(context).orientation == Orientation.landscape;
+    // if (dWidth > 900 || isPortrait) {
+    //   print("is : $isPortrait");
+    //   type = true;
+    // } else {
+    //   type = false;
+    // }
     return SliverAppBar(
       elevation: 0.0,
       stretch: true,
@@ -436,28 +483,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
       ),
+      centerTitle: true,
       title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: type == true ? 1 : 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: type == true
-                    ? EdgeInsets.only(left: 15.0, right: 15.0)
-                    : EdgeInsets.only(left: 5.0, right: 5.0),
-                child: Image.asset(
-                  "assets/logo.png",
-                  scale: type == true ? 2.2 : 2.0,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      "assets/logo.png",
-                    );
-                  },
-                ),
-              ),
-            ),
+          AppImage(
+            path: "assets/logo.png",
+            scale: 2,
           ),
+          // Expanded(
+          //   flex: type == true ? 1 : 2,
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Container(
+          //       margin: type == true
+          //           ? EdgeInsets.only(left: 15.0, right: 15.0)
+          //           : EdgeInsets.only(left: 5.0, right: 5.0),
+          //       child: Image.asset(
+          //         "assets/logo.png",
+          //         scale: type == true ? 2.2 : 2.0,
+          //         errorBuilder: (context, error, stackTrace) {
+          //           return Image.asset(
+          //             "assets/logo.png",
+          //           );
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),

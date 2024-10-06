@@ -17,115 +17,106 @@ class _MoviesListState extends State<MoviesList> {
   @override
   Widget build(BuildContext context) {
     print("type:1 ${widget.type}");
-    return widget.loading == true
-        ? Container(
-            height: 170,
-            margin: EdgeInsets.only(top: 15.0),
-            child: ListView.builder(
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 16),
+      height: 160,
+      child: widget.loading == true
+          ? ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(width: 10.0),
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              padding: EdgeInsets.only(left: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin: EdgeInsets.only(right: 15.0),
-                  child: Material(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      child: Image.asset(
-                        "assets/placeholder_box.jpg",
-                        height: 170,
-                        width: 120.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  clipBehavior: Clip.antiAlias,
+                  width: 105,
+                  child: Image.asset(
+                    "assets/placeholder_box.jpg",
+                    height: double.infinity,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    isAntiAlias: true,
                   ),
                 );
               },
-            ),
-          )
-        : widget.data.length == 0
-            ? SizedBox.shrink()
-            : Container(
-                height: 170,
-                margin: EdgeInsets.only(top: 15.0),
-                child: ListView.builder(
+            )
+          : widget.data.length == 0
+              ? SizedBox.shrink()
+              : ListView.separated(
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 10.0),
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
-                  padding: EdgeInsets.only(left: 15.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.loading == true ? 4 : widget.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return widget.loading == true
-                        ? Container(
-                            margin: EdgeInsets.only(right: 15.0),
-                            child: Material(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(5.0),
-                              child: ClipRRect(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                child: Image.asset(
+                    if (widget.loading == true) {
+                      return Container(
+                        width: 105,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Image.asset(
+                          "assets/placeholder_box.jpg",
+                          height: double.infinity,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          isAntiAlias: true,
+                        ),
+                      );
+                    } else {
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Container(
+                          width: 105,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: widget.data[index].thumbnail == null
+                              ? Image.asset(
                                   "assets/placeholder_box.jpg",
-                                  height: 170,
-                                  width: 120.0,
+                                  height: double.infinity,
+                                  width: double.infinity,
                                   fit: BoxFit.cover,
+                                  isAntiAlias: true,
+                                )
+                              : FadeInImage.assetNetwork(
+                                  image: APIData.movieImageUri +
+                                      "${widget.data[index].thumbnail}",
+                                  placeholder: "assets/placeholder_box.jpg",
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                      "assets/placeholder_box.jpg",
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      isAntiAlias: true,
+                                    );
+                                  },
                                 ),
-                              ),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            RoutePaths.videoDetail,
+                            arguments: VideoDetailScreen(
+                              widget.data[index],
                             ),
-                          )
-                        : InkWell(
-                            borderRadius: new BorderRadius.circular(5.0),
-                            child: Container(
-                              margin: EdgeInsets.only(right: 15.0),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: new BorderRadius.circular(5.0),
-                                child: ClipRRect(
-                                  borderRadius: new BorderRadius.circular(5.0),
-                                  child: widget.data[index].thumbnail == null
-                                      ? Image.asset(
-                                          "assets/placeholder_box.jpg",
-                                          height: 170,
-                                          width: 120.0,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : FadeInImage.assetNetwork(
-                                          image: APIData.movieImageUri +
-                                              "${widget.data[index].thumbnail}",
-                                          placeholder:
-                                              "assets/placeholder_box.jpg",
-                                          height: 170,
-                                          width: 120.0,
-                                          imageScale: 1.0,
-                                          fit: BoxFit.cover,
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                              "assets/placeholder_box.jpg",
-                                              height: 170,
-                                              width: 120.0,
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
-                                        ),
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                RoutePaths.videoDetail,
-                                arguments: VideoDetailScreen(
-                                  widget.data[index],
-                                ),
-                              );
-                            },
                           );
+                        },
+                      );
+                    }
                   },
                 ),
-              );
+    );
   }
 }
