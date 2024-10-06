@@ -87,7 +87,7 @@ class _HomeScreenShimmerState extends State<HomeScreenShimmer>
             FadeTransition(
               opacity: _fadeInFadeOut,
               child: Container(
-                height: 350,
+                height: 160,
                 child: TopVideoList(
                   loading: widget.loading,
                 ),

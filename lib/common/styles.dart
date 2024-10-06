@@ -169,10 +169,8 @@ ThemeData buildLightTheme() {
         color: kLightAccent,
       ),
       toolbarTextStyle: TextTheme(
-        titleLarge: TextStyle(
-          color: kDarkBG,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w800,
+        titleLarge: TextStyles.semiBold16(
+          color: kWhite100,
         ),
       ).bodyMedium,
       titleTextStyle: TextTheme(

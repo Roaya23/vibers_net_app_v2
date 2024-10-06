@@ -26,15 +26,16 @@ class _TopGridViewState extends State<TopGridView> {
         return Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.0)),
           child: Material(
-            borderRadius: new BorderRadius.circular(5.0),
+            borderRadius: new BorderRadius.circular(8.0),
             child: InkWell(
-              borderRadius: new BorderRadius.circular(5.0),
+              borderRadius: new BorderRadius.circular(8.0),
               child: ClipRRect(
-                borderRadius: new BorderRadius.circular(5.0),
+                borderRadius: new BorderRadius.circular(8.0),
                 child: topVideosList[index].thumbnail == null
                     ? Image.asset(
                         "assets/placeholder_box.jpg",
                         fit: BoxFit.cover,
+                        isAntiAlias: true,
                       )
                     : FadeInImage.assetNetwork(
                         image: topVideosList[index].type == DatumType.T
@@ -66,15 +67,14 @@ class _TopGridViewState extends State<TopGridView> {
               ? translate("Top_TV_Series")
               : translate("Top_Movies")) as PreferredSizeWidget?,
       body: GridView.count(
-        padding:
-            EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.all(16),
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        physics: ClampingScrollPhysics(),
-        crossAxisCount: 2,
+        physics: const ClampingScrollPhysics(),
+        crossAxisCount: 3,
         childAspectRatio: 9 / 16,
-        crossAxisSpacing: 15.0,
-        mainAxisSpacing: 15.0,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 12.0,
         children: videoList,
       ),
     );

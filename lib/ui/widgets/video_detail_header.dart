@@ -7,8 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/models/user_profile_model.dart';
 import 'package:vibers_net/providers/app_config.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
 // import '../../common/google-ads.dart';
 import '../../models/CountViewModel.dart';
 import '../../models/Subtitles.dart';
@@ -25,7 +27,6 @@ import '/player/playerMovieTrailer.dart';
 import '/player/player_episodes.dart';
 import '/providers/user_profile_provider.dart';
 import '/ui/widgets/video_header_diagonal.dart';
-import '/ui/widgets/video_item_box.dart';
 import 'package:provider/provider.dart';
 
 class VideoDetailHeader extends StatefulWidget {
@@ -802,25 +803,11 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Stack(
+    return Column(
       children: <Widget>[
-        new Padding(
-          padding: const EdgeInsets.only(bottom: 130.0),
-          child: _buildDiagonalImageBackground(context),
-        ),
-        headerDecorationContainer(),
-        new Positioned(
-          top: 26.0,
-          left: 4.0,
-          child: new BackButton(color: Colors.white),
-        ),
-        new Positioned(
-          top: 180.0,
-          bottom: 0.0,
-          left: 16.0,
-          right: 16.0,
-          child: headerRow(theme),
-        ),
+        _buildDiagonalImageBackground(context),
+        const SizedBox(height: 24,),
+        headerRow(theme),
       ],
     );
   }
@@ -828,12 +815,6 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
   Widget headerRow(theme) {
     var dW = MediaQuery.of(context).size.width;
     var theme = Theme.of(context);
-    var textTheme = theme.textTheme;
-    var ratingCaptionStyle = textTheme.bodySmall!.copyWith(
-        letterSpacing: -0.2,
-        color: Colors.white70,
-        fontSize: 10.0,
-        fontWeight: FontWeight.w700);
     dynamic tmbdRat = widget.videoDetail!.rating;
     if (tmbdRat.runtimeType == int) {
       double reciprocal(double d) => 1 / d;
@@ -877,157 +858,141 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
       }
     });
 
-    var viewsCount = Row(
-      children: <Widget>[
-        Icon(
-          Icons.visibility,
-          size: 17,
-          color: Colors.white,
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: 3.0,
-          ),
-          child: Text(
-            "${valueToKMB(value: views)} ${(views == 1) ? 'view' : 'views'}",
-            style: TextStyle(
-              fontSize: 12.0,
-            ),
-          ),
-        ),
-      ],
+    var viewsCount = Container(
+      clipBehavior: Clip.antiAlias,
+      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          border: Border.all(color: kRedColor, width: 1)),
+      child: Text(
+        "${valueToKMB(value: views)} ${(views == 1) ? 'view' : 'views'}",
+        style: TextStyles.regular12(color: kWhite100),
+      ),
     );
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          flex: 1,
-          child: new Hero(
-            tag: "${widget.videoDetail!.title} ${widget.videoDetail!.id}",
-            child: VideoItemBox(
-              context,
-              widget.videoDetail,
-            ),
-          ),
-        ),
-        Expanded(
-          flex: dW > 900 ? 1 : 2,
-          child: new Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                dW > 900 || widget.videoDetail!.rating == null
-                    ? Text(
-                        widget.videoDetail!.title!,
-                        style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    : Expanded(
-                        flex: 2,
-                        child: Text(
-                          widget.videoDetail!.title!,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                widget.videoDetail!.rating == null
-                    ? SizedBox.shrink()
-                    : SizedBox(
-                        height: 10.0,
-                      ),
-                Expanded(
-                  flex: dW > 900 ? 1 : 4,
-                  child: widget.videoDetail!.rating == null
-                      ? SizedBox.shrink()
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: 3.5, right: 3.5, top: 3.0, bottom: 3.0),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: new Text(
-                                      "${tmbdRat.toStringAsFixed(2)}",
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.0,
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 0.0),
-                                      child: new Text(
-                                        translate('Rating_').toUpperCase(),
-                                        style: ratingCaptionStyle,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: RatingBar.builder(
-                                    initialRating:
-                                        widget.videoDetail!.rating == null
-                                            ? 0.0
-                                            : tmbdRat,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 25,
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
-                                  ),
-                                ),
-                                if (widget.videoDetail?.type == DatumType.M)
-                                  viewsCount,
-                              ],
-                            ),
-                          ],
-                        ),
+    final Datum? videoDetail = widget.videoDetail;
+    final String publishYear = (videoDetail?.publishYear.toString() ?? "");
+    return new Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.videoDetail!.title!,
+                  style: Theme.of(context).textTheme.titleLarge,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                dW > 900
-                    ? Expanded(
-                        flex: 2,
-                        child: header(theme),
-                      )
-                    : header(theme),
-              ],
-            ),
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.favorite,
+                    size: 16,
+                    color: kWhite100TextColor,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.share,
+                    size: 16,
+                    color: kWhite100TextColor,
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
-      ],
+          const SizedBox(
+            height: 16,
+          ),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.star,
+                    size: 16,
+                    color: kWhite100,
+                  ),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    "${tmbdRat.toStringAsFixed(2)}",
+                    style: TextStyles.regular12(color: kWhite100),
+                  ),
+                ],
+              ),
+              if (publishYear.isNotEmpty)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.keyboard_arrow_right_outlined,
+                      size: 16,
+                      color: kWhite100,
+                    ),
+                    // const SizedBox(width: 2),
+                    Text(
+                      publishYear,
+                      style: TextStyles.regular14(color: kWhite100),
+                    ),
+                  ],
+                ),
+              viewsCount,
+              Container(
+                clipBehavior: Clip.antiAlias,
+                padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    border: Border.all(color: kRedColor, width: 1)),
+                child: Text(
+                  "15+",
+                  style: TextStyles.regular12(color: kWhite100),
+                ),
+              ),
+              Container(
+                clipBehavior: Clip.antiAlias,
+                padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    border: Border.all(color: kRedColor, width: 1)),
+                child: Text(
+                  "Subtitles",
+                  style: TextStyles.regular12(color: kWhite100),
+                ),
+              ),
+            ],
+          ),
+          dW > 900
+              ? Expanded(
+                  flex: 2,
+                  child: header(theme),
+                )
+              : header(theme),
+        ],
+      ),
     );
   }
 
@@ -1129,140 +1094,110 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
             )
           : Column(
               children: <Widget>[
-                "${widget.videoDetail?.isUpcoming}" == "1"
-                    ? Container(
-                        height: 40,
-                        padding: EdgeInsets.all(6.0),
-                        child: AnimatedTextKit(
+                AppButton(
+                  text: translate("Play_"),
+                  textStyle: TextStyles.bold12(color: kDarkTextColor),
+                  radius: 20,
+                  isEnabled: "${widget.videoDetail?.isUpcoming}" != "1",
+                  onPressed: () {
+                    // Remove this line
+                    // userDetails.active = "1";
+                    // -----
+                    // if (userDetails.active == "1" ||
+                    //     userDetails.active == 1) {
+                    //   if ((userDetails.removeAds == "0" ||
+                    //           userDetails.removeAds == 0) &&
+                    //       (appconfig.appConfig.removeAds == 0 ||
+                    //           appconfig.appConfig.removeAds == '0')) {
+                    //     createInterstitialAd()
+                    //         .then((value) => showInterstitialAd());
+                    //   }
+                    _onTapPlay();
+                    // } else {
+                    //   _showMsg();
+                    // }
+                  },
+                  buttonColor: kMainThemeColor,
+                  childrenBuilder: (context, isEnabled, isLoading, text) {
+                    if (isEnabled == false) {
+                      return [
+                        AnimatedTextKit(
                           repeatForever: true,
                           animatedTexts: [
-                            FadeAnimatedText(
-                              translate("Coming_Soon"),
-                              textAlign: TextAlign.center,
-                              textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : OutlinedButton(
-                        onPressed: () {
-                          // Remove this line
-                          // userDetails.active = "1";
-                          // -----
-                          // if (userDetails.active == "1" ||
-                          //     userDetails.active == 1) {
-                          //   if ((userDetails.removeAds == "0" ||
-                          //           userDetails.removeAds == 0) &&
-                          //       (appconfig.appConfig.removeAds == 0 ||
-                          //           appconfig.appConfig.removeAds == '0')) {
-                          //     createInterstitialAd()
-                          //         .then((value) => showInterstitialAd());
-                          //   }
-                          _onTapPlay();
-                          // } else {
-                          //   _showMsg();
-                          // }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 0,
-                              child: Icon(
-                                Icons.play_arrow,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                            new Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 0.0),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: new Text(
-                                translate("Play_"),
+                            FadeAnimatedText(translate("Coming_Soon"),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: kFontFamilyName,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.9,
-                                  color:
-                                      isLight ? Colors.black54 : Colors.white,
-                                ),
-                              ),
-                            ),
+                                textStyle:
+                                    TextStyles.bold12(color: kDarkTextColor)),
                           ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color?>(
-                            theme.primaryColor.withOpacity(0.1),
-                          ),
-                          overlayColor: WidgetStateProperty.all<Color?>(
-                            theme.primaryColor,
-                          ),
-                          padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
-                            const EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
-                          ),
-                          shape: WidgetStateProperty.all<OutlinedBorder?>(
-                            RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 2.0,
-                              ),
+                        )
+                      ];
+                    }
+                    return [
+                      Icon(
+                        Icons.play_circle_fill_rounded,
+                        size: 20,
+                        color: kDarkTextColor,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      text,
+                    ];
+                  },
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppOutlineButton(
+                        text: translate("Trailer_"),
+                        radius: 20,
+                        onPressed: _onTapTrailer,
+                        borderColor: kWhiteTextColor.withOpacity(.35),
+                        textStyle: TextStyles.regular12(color: kWhite100),
+                        childrenBuilder: (context, isEnabled, isLoading, text) {
+                          return [
+                            Icon(
+                              Icons.play_circle_fill_rounded,
+                              color: kWhiteTextColor,
+                              size: 16,
                             ),
-                          ),
-                        ),
-                      ),
-                OutlinedButton(
-                  onPressed: _onTapTrailer,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 0,
-                        child: new Icon(
-                          Icons.play_arrow,
-                        ),
-                      ),
-                      new Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 0.0),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: new Text(
-                          translate("Trailer_"),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: kFontFamilyName,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.9,
-                            color: isLight ? Colors.black54 : Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  style: ButtonStyle(
-                    overlayColor: WidgetStateProperty.all<Color?>(
-                      theme.primaryColorLight,
-                    ),
-                    padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
-                      const EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
-                    ),
-                    shape: WidgetStateProperty.all<OutlinedBorder?>(
-                      RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.white70, width: 2.0),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            text
+                          ];
+                        },
                       ),
                     ),
-                  ),
-                )
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: AppOutlineButton(
+                        text: translate("Download_"),
+                        radius: 20,
+                        borderColor: kWhiteTextColor.withOpacity(.35),
+                        textStyle: TextStyles.regular12(color: kWhite100),
+                        childrenBuilder: (context, isEnabled, isLoading, text) {
+                          return [
+                            Icon(
+                              Icons.download,
+                              color: kWhiteTextColor,
+                              size: 16,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            text
+                          ];
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
     );
@@ -1284,8 +1219,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                   : "${APIData.tvImageUriPosterTv}${widget.videoDetail!.poster}",
               placeholder: "assets/placeholder_cover.jpg",
               width: screenWidth,
-              height: 225.0,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
               imageErrorBuilder: (context, error, stackTrace) {
                 return Image.asset(
                   "assets/placeholder_cover.jpg",

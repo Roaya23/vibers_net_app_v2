@@ -15,19 +15,21 @@ class RecommendedVideoList extends StatelessWidget {
     //         .recommendedMovieTVSeries;
     var recommendedMovieTV = videoList;
     return loading == true
-        ? ListView.builder(
+        ? ListView.separated(
+            separatorBuilder: (context, index) => SizedBox(width: 10.0),
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            padding: EdgeInsets.only(left: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: recommendedMovieTV.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 margin: EdgeInsets.only(right: 20.0),
-                height: 180,
-                width: 120,
+                height: double.infinity,
+                width: 105,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(8.0),
                   gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter,
@@ -53,6 +55,7 @@ class RecommendedVideoList extends StatelessWidget {
                         height: 180,
                         width: 120,
                         fit: BoxFit.cover,
+                        isAntiAlias: true,
                       ),
                     ),
                   ],
@@ -60,10 +63,11 @@ class RecommendedVideoList extends StatelessWidget {
               );
             },
           )
-        : ListView.builder(
+        : ListView.separated(
             shrinkWrap: true,
+            separatorBuilder: (context, index) => SizedBox(width: 10.0),
             physics: ClampingScrollPhysics(),
-            padding: EdgeInsets.only(left: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: recommendedMovieTV.length,
             itemBuilder: (BuildContext context, int index) {
@@ -101,11 +105,11 @@ class RecommendedVideoList extends StatelessWidget {
               }
 
               return Container(
-                margin: EdgeInsets.only(right: 15.0),
-                height: 180,
-                width: 120,
+                height: double.infinity,
+                width: 105,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(8.0),
                   gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter,
@@ -124,35 +128,32 @@ class RecommendedVideoList extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      child: recommendedMovieTV[index].thumbnail == null
-                          ? Image.asset(
-                              "assets/placeholder_box.jpg",
-                              height: 180,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            )
-                          : FadeInImage.assetNetwork(
-                              image: recommendedMovieTV[index].type ==
-                                      DatumType.T
-                                  ? "${APIData.tvImageUriTv}${recommendedMovieTV[index].thumbnail}"
-                                  : "${APIData.movieImageUri}${recommendedMovieTV[index].thumbnail}",
-                              placeholder: "assets/placeholder_box.jpg",
-                              height: 180,
-                              width: 120,
-                              imageScale: 1.0,
-                              fit: BoxFit.cover,
-                              imageErrorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  "assets/placeholder_box.jpg",
-                                  height: 180,
-                                  width: 120,
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            ),
-                    ),
+                    recommendedMovieTV[index].thumbnail == null
+                        ? Image.asset(
+                            "assets/placeholder_box.jpg",
+                            height: double.infinity,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            isAntiAlias: true,
+                          )
+                        : FadeInImage.assetNetwork(
+                            image: recommendedMovieTV[index].type == DatumType.T
+                                ? "${APIData.tvImageUriTv}${recommendedMovieTV[index].thumbnail}"
+                                : "${APIData.movieImageUri}${recommendedMovieTV[index].thumbnail}",
+                            placeholder: "assets/placeholder_box.jpg",
+                            height: double.infinity,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                "assets/placeholder_box.jpg",
+                                height: double.infinity,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                isAntiAlias: true,
+                              );
+                            },
+                          ),
                     new Material(
                       type: MaterialType.transparency,
                       child: new ElevatedButton(

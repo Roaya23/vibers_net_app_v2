@@ -15,12 +15,12 @@ class TopVideoList extends StatelessWidget {
             separatorBuilder: (context, index) => SizedBox(width: 10.0),
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            padding: EdgeInsets.only(left: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: 4,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                // height: 320,
+                height: double.infinity,
                 width: 105,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -60,7 +60,7 @@ class TopVideoList extends StatelessWidget {
             separatorBuilder: (context, index) => SizedBox(width: 10.0),
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            padding: EdgeInsets.only(left: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: topMovieTV.length,
             itemBuilder: (BuildContext context, int index) {

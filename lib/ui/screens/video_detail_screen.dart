@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';import 'package:vibers_net/common/styles.dart';
-
+import 'dart:io';
+import 'package:vibers_net/common/styles.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -13,7 +13,6 @@ import 'package:intl/intl.dart';
 import 'package:vibers_net/models/Subtitles.dart';
 import 'package:vibers_net/ui/shared/copy_password.dart';
 import '../../common/facebook_ads.dart';
-// import '../../common/google-ads.dart';
 import '../../models/AllUsers.dart';
 import '../../providers/all_user_provider.dart';
 import '/common/apipath.dart';
@@ -1043,9 +1042,16 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
   Widget scaffold(moreLikeThis) {
     return Scaffold(
       key: _scaffoldKey,
-      body: widget.videoDetail!.type == DatumType.T
-          ? _seasonsScrollView()
-          : _movieScrollView(moreLikeThis),
+      body: Column(
+        children: [
+          _presestentAppBar,
+          Expanded(
+            child: widget.videoDetail!.type == DatumType.T
+                ? _seasonsScrollView()
+                : _movieScrollView(moreLikeThis),
+          ),
+        ],
+      ),
       bottomNavigationBar: _show
           ? _anchoredBanner != null
               ? Container(
@@ -1056,6 +1062,36 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
               : SizedBox.shrink()
           : SizedBox.shrink(),
       backgroundColor: Theme.of(context).primaryColorDark,
+    );
+  }
+
+  Widget get _presestentAppBar {
+    return SafeArea(
+      top: true,
+      bottom: false,
+      child: Container(
+        // padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(color: kScafoldBgColor),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BackButton(
+              color: kWhite100TextColor,
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: 12),
+              child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.cast,
+                    color: kWhite100TextColor,
+                    size: 22,
+                  )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

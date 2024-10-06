@@ -31,6 +31,7 @@ class _MoviesListState extends State<MoviesList> {
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(),
                   width: 105,
                   child: Image.asset(
                     "assets/placeholder_box.jpg",
