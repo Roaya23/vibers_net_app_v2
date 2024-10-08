@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/models/datum.dart';
@@ -128,62 +129,33 @@ class _WishListViewState extends State<WishListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          child: _visible == false
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                )
-              : Column(
-                  children: [
-                    checkWishlist == false
-                        ? Icon(
-                            Icons.add,
-                            size: 30.0,
-                          )
-                        : Icon(
-                            Icons.check,
-                            color: activeDotColor,
-                            size: 30.0,
-                          ),
-                    new Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                    ),
-                    checkWishlist == true
-                        ? Text(
-                            translate("Wishlist_"),
-                            style: TextStyle(
-                              fontFamily: kFontFamilyName,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.0,
-                              color: activeDotColor,
-                            ),
-                          )
-                        : Text(
-                            translate("Wishlist_"),
-                            style: TextStyle(
-                              fontFamily: kFontFamilyName,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.0,
-                            ),
-                          ),
-                  ],
-                ),
-          onTap: () {
-            if (checkWishlist == true) {
-              removeWishList(widget.videoDetail!.type, widget.videoDetail!.id);
-            } else {
-              addWishList(widget.videoDetail!.type, widget.videoDetail!.id);
-            }
-          },
+    if (_visible) {
+      return InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: () {
+          if (checkWishlist == true) {
+            removeWishList(widget.videoDetail!.type, widget.videoDetail!.id);
+          } else {
+            addWishList(widget.videoDetail!.type, widget.videoDetail!.id);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Icon(
+            checkWishlist ? Icons.favorite : Icons.favorite_border,
+            size: 16,
+            color: kWhite100TextColor,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: const AppLoadingWidget(
+          size: 12,
+          color: kWhite100,
+        ),
+      );
+    }
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +9,11 @@ import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/models/user_profile_model.dart';
 import 'package:vibers_net/providers/app_config.dart';
+import 'package:vibers_net/services/download/download_page.dart';
+import 'package:vibers_net/ui/shared/copy_password.dart';
+import 'package:vibers_net/ui/shared/rate_us.dart';
+import 'package:vibers_net/ui/shared/share_page.dart';
+import 'package:vibers_net/ui/shared/wishlist.dart';
 import 'package:vibers_net/ui/widgets/app_button.dart';
 // import '../../common/google-ads.dart';
 import '../../models/CountViewModel.dart';
@@ -806,7 +810,9 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
     return Column(
       children: <Widget>[
         _buildDiagonalImageBackground(context),
-        const SizedBox(height: 24,),
+        const SizedBox(
+          height: 24,
+        ),
         headerRow(theme),
       ],
     );
@@ -890,33 +896,25 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
               const SizedBox(
                 width: 6,
               ),
-              InkWell(
-                borderRadius: BorderRadius.circular(24),
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(
-                    Icons.favorite,
-                    size: 16,
-                    color: kWhite100TextColor,
-                  ),
-                ),
-              ),
+              WishListView(widget.videoDetail),
               const SizedBox(
-                width: 2,
+                width: 4,
               ),
-              InkWell(
-                borderRadius: BorderRadius.circular(24),
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(
-                    Icons.share,
-                    size: 16,
-                    color: kWhite100TextColor,
-                  ),
-                ),
-              )
+              RateUs(widget.videoDetail!.type, widget.videoDetail!.id),
+              const SizedBox(
+                width: 4,
+              ),
+              if (protectedContentPwd.length > 0)
+                if (protectedContentPwd.containsKey(
+                        '${widget.videoDetail?.id}_${widget.videoDetail?.id}') &&
+                    (widget.userProfileModel?.active == 1 ||
+                        widget.userProfileModel?.active == '1'))
+              Padding(
+                padding: const EdgeInsetsDirectional.only(end: 4),
+                child: CopyPassword(widget.videoDetail!),
+              ),
+
+              SharePage(APIData.shareMovieUri, widget.videoDetail!.id),
             ],
           ),
           const SizedBox(
@@ -1014,6 +1012,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
   }
 
   Widget header(theme) {
+    final platform = Theme.of(context).platform;
     var dW = MediaQuery.of(context).size.width;
     final userDetails = Provider.of<UserProfileProvider>(context, listen: false)
         .userProfileModel!;
@@ -1175,27 +1174,9 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                     const SizedBox(
                       width: 8,
                     ),
-                    Expanded(
-                      child: AppOutlineButton(
-                        text: translate("Download_"),
-                        radius: 20,
-                        borderColor: kWhiteTextColor.withOpacity(.35),
-                        textStyle: TextStyles.regular12(color: kWhite100),
-                        childrenBuilder: (context, isEnabled, isLoading, text) {
-                          return [
-                            Icon(
-                              Icons.download,
-                              color: kWhiteTextColor,
-                              size: 16,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            text
-                          ];
-                        },
-                      ),
-                    ),
+                    widget.videoDetail!.type == DatumType.M
+                        ? DownloadPage(widget.videoDetail!, platform)
+                        : SizedBox.shrink(),
                   ],
                 ),
               ],

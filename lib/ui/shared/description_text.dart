@@ -1,109 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:readmore/readmore.dart';
 
-class DescriptionText extends StatefulWidget {
+class DescriptionText extends StatelessWidget {
   DescriptionText(this.text);
 
   final String? text;
 
   @override
-  _DescriptionTextState createState() => new _DescriptionTextState();
-}
-
-class _DescriptionTextState extends State<DescriptionText> {
-  bool descTextShowFlag = false;
-
-  Widget descriptionHeader(theme) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                descTextShowFlag = !descTextShowFlag;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                descTextShowFlag
-                    ? Text(
-                        '',
-                        style: TextStyle(
-                          fontFamily: kFontFamilyName,
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.9,
-                          color: Colors.blue,
-                        ),
-                      )
-                    : Text(
-                        '',
-                        style: TextStyle(
-                            fontFamily: kFontFamilyName,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.9,
-                            color: Colors.blue),
-                      ),
-                descTextShowFlag
-                    ? Icon(
-                        Icons.keyboard_arrow_up,
-                        size: 18.0,
-                        color: Colors.blue,
-                      )
-                    : Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 18.0,
-                        color: Colors.blue,
-                      ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    if (text?.isEmpty == true) {
+      return const SizedBox();
+    }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        new Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    descTextShowFlag = !descTextShowFlag;
-                  });
-                },
-                child: Text(
-                  widget.text!,
-                  style: TextStyle(
-                    fontFamily: kFontFamilyName,
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.9,
-                  ),
-                  maxLines: descTextShowFlag ? 100 : 2,
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-            ],
-          ),
-        ),
-        // No expand-collapse in this tutorial, we just slap the "more"
-        descriptionHeader(theme),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: ReadMoreText(
+        text ?? '',
+        trimMode: TrimMode.Line,
+        style: TextStyles.regular12(color: kWhite100.withOpacity(.6)),
+        trimLines: 2,
+        lessStyle: TextStyles.semiBold10(color: kMainLight),
+        colorClickableText: Colors.pink,
+        trimCollapsedText: "\t\t" + translate("viewMore"),
+        trimExpandedText: "\t\t" + translate("viewLess"),
+        moreStyle: TextStyles.semiBold10(color: kMainLight),
+      ),
     );
   }
 }

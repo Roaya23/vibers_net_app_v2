@@ -93,7 +93,7 @@ bool isLight = false;
 Color activeDotColor = const Color.fromRGBO(125, 183, 91, 1.0);
 
 class Constants {
-  static const double sliderHeight = 0.50;
+  static const double sliderHeight = 0.6;
   static const double genreListHeight = 40.0;
   static const double genreItemHeight = 40.0;
   static const double genreItemWidth = 150.0;

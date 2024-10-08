@@ -319,5 +319,7 @@
   "didNotReceiveOTP": "Didn’t receive an OTP?",
   "resendCode": "Resend Code",
   "createNewPassword":"Create New Password",
-  "phone":"Phone"
+  "phone":"Phone",
+  "viewMore": "View more",
+  "viewLess": "View less"
 }

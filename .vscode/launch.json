@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Movies (debug mode)",
+            "name": "VN (debug mode)",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "Movies (profile mode)",
+            "name": "VN (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "Movies (release mode)",
+            "name": "VN (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

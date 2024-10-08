@@ -10,6 +10,8 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
@@ -1345,197 +1347,174 @@ class _DownloadPageState extends State<DownloadPage>
   }
 
   Widget column() {
+    
     var userProfileProvider =
         Provider.of<UserProfileProvider>(context, listen: false)
             .userProfileModel;
     if (download == 0) {
-      return GestureDetector(
-        onTap: () {
-          Fluttertoast.showToast(msg: translate("Downloading_is_OFF"));
-        },
-        child: Column(
-          children: <Widget>[
-            Icon(
-              Icons.file_download,
-              size: 30,
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              translate("Download_"),
-              style: TextStyle(
-                fontFamily: kFontFamilyName,
-                fontSize: 12.0,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.0,
-              ),
-            ),
-          ],
-        ),
-      );
+      return const SizedBox();
     } else {
-      return userProfileProvider!.active == "1"
-          ? Builder(
-              builder: (context) => isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : _permissionReady
-                      ? Container(
-                          child: Column(
-                            children: dItems!.map((item) {
-                              checkConn(item.task);
-                              return item.task == null
-                                  ? Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0, vertical: 8.0),
-                                      child: Text(
-                                        item.name!,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue,
-                                            fontSize: 18.0),
-                                      ),
-                                    )
-                                  : Container(
-                                      child: InkWell(
-                                        onTap: item.task!.status ==
-                                                DownloadTaskStatus.complete
-                                            ? () {
-                                                _openDownloadedFile(item.task)
-                                                    .then((success) {
-                                                  if (!success!) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(translate(
-                                                            'Cannot_open_this_file')),
-                                                      ),
-                                                    );
-                                                  }
-                                                });
-                                              }
-                                            : null,
-                                        child: Stack(
-                                          children: <Widget>[
-                                            new Container(
-                                              width: double.infinity,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 10.0),
-                                              height: 62.0,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                // mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: _buildActionForTask(
-                                                        item.task!),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: downloadText(
-                                                        item.task!),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            item.task!.status ==
-                                                        DownloadTaskStatus
-                                                            .running ||
-                                                    item.task!.status ==
-                                                        DownloadTaskStatus
-                                                            .paused
-                                                ? new Positioned(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    bottom: 0.0,
-                                                    child:
-                                                        LinearProgressIndicator(
-                                                      value:
-                                                          item.task!.progress! /
-                                                              100,
+      if (userProfileProvider!.active == "1") {
+        return Expanded(
+          child: Builder(
+            builder: (context) => isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : _permissionReady
+                    ? Container(
+                        child: Column(
+                          children: dItems!.map((item) {
+                            checkConn(item.task);
+                            return item.task == null
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 8.0),
+                                    child: Text(
+                                      item.name!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                          fontSize: 18.0),
+                                    ),
+                                  )
+                                : Container(
+                                    child: InkWell(
+                                      onTap: item.task!.status ==
+                                              DownloadTaskStatus.complete
+                                          ? () {
+                                              _openDownloadedFile(item.task)
+                                                  .then((success) {
+                                                if (!success!) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(translate(
+                                                          'Cannot_open_this_file')),
                                                     ),
-                                                  )
-                                                : Container()
-                                          ]
-                                              .where((child) => child == child)
-                                              .toList(),
-                                        ),
+                                                  );
+                                                }
+                                              });
+                                            }
+                                          : null,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          new Container(
+                                            width: double.infinity,
+                                            margin: EdgeInsets.only(bottom: 10.0),
+                                            height: 62.0,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              // mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: _buildActionForTask(
+                                                      item.task!),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: downloadText(item.task!),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          item.task!.status ==
+                                                      DownloadTaskStatus
+                                                          .running ||
+                                                  item.task!.status ==
+                                                      DownloadTaskStatus.paused
+                                              ? new Positioned(
+                                                  left: 15.0,
+                                                  right: 15.0,
+                                                  bottom: 0.0,
+                                                  child: LinearProgressIndicator(
+                                                    value: item.task!.progress! /
+                                                        100,
+                                                  ),
+                                                )
+                                              : Container()
+                                        ]
+                                            .where((child) => child == child)
+                                            .toList(),
                                       ),
-                                    );
-                            }).toList(),
-                          ),
-                        )
-                      : Container(
-                          child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24.0),
-                                  child: Text(
-                                    translate(
-                                            'Please_grant_accessing_storage_permission_to_continue') +
-                                        ' -_-',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18.0),
-                                  ),
+                                    ),
+                                  );
+                          }).toList(),
+                        ),
+                      )
+                    : Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Text(
+                                  translate(
+                                          'Please_grant_accessing_storage_permission_to_continue') +
+                                      ' -_-',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.blueGrey, fontSize: 18.0),
                                 ),
-                                SizedBox(
-                                  height: 32.0,
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    _checkPermission().then((hasGranted) {
-                                      setState(() {
-                                        _permissionReady = hasGranted;
-                                      });
+                              ),
+                              SizedBox(
+                                height: 32.0,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  _checkPermission().then((hasGranted) {
+                                    setState(() {
+                                      _permissionReady = hasGranted;
                                     });
-                                  },
-                                  child: Text(
-                                    translate('Retry_'),
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0),
-                                  ),
-                                )
-                              ],
-                            ),
+                                  });
+                                },
+                                child: Text(
+                                  translate('Retry_'),
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-            )
-          : GestureDetector(
-              onTap: () {
-                _showMsg(userProfileProvider);
-              },
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    Icons.file_download,
-                    size: 30.0,
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    translate("Download_"),
-                    style: TextStyle(
-                      fontFamily: kFontFamilyName,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.0,
-                    ),
-                  ),
-                ],
-              ),
-            );
+                      ),
+          ),
+        );
+      } else {
+        return Expanded(
+          child: AppOutlineButton(
+            onPressed: () {
+              _showMsg(userProfileProvider);
+            },
+            text: translate("Download_"),
+            radius: 20,
+            borderColor: kWhiteTextColor.withOpacity(.35),
+            textStyle: TextStyles.regular12(color: kWhite100),
+            childrenBuilder: (context, isEnabled, isLoading, text) {
+              return [
+                Icon(
+                  Icons.download,
+                  color: kWhiteTextColor,
+                  size: 16,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                text
+              ];
+            },
+          ),
+        );
+      }
     }
   }
 
@@ -1581,11 +1560,6 @@ class _DownloadPageState extends State<DownloadPage>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        child: column(),
-        color: Colors.transparent,
-      ),
-    );
+    return column();
   }
 }

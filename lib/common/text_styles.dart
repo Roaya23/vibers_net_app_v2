@@ -78,7 +78,12 @@ abstract class TextStyles {
         fontWeight: FontWeight.w400,
         fontFamily: kFontFamilyName,
       );
-
+ static TextStyle regular10({Color? color}) => TextStyle(
+        color: color,
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w400,
+        fontFamily: kFontFamilyName,
+      );
   //endregion
 
   //region:: Medium
@@ -259,7 +264,12 @@ abstract class TextStyles {
         fontWeight: FontWeight.w700,
         fontFamily: kFontFamilyName,
       );
-
+ static TextStyle semiBold10({Color? color}) => TextStyle(
+        color: color,
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w700,
+        fontFamily: kFontFamilyName,
+      );
   //endregion
 
   //region:: Bold

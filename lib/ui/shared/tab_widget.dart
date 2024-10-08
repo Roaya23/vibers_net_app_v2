@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vibers_net/common/styles.dart';
 
 class TabWidget extends StatelessWidget {
   TabWidget(this.title);
@@ -7,16 +6,10 @@ class TabWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: new Container(
+      child: Container(
         alignment: Alignment.center,
-        child: new Text(
+        child: Text(
           title,
-          style: TextStyle(
-              fontFamily: kFontFamilyName,
-              fontSize: 13.0,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.7,
-              color: Theme.of(context).primaryColor),
         ),
       ),
     );

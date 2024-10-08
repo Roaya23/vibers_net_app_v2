@@ -10,6 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/models/Subtitles.dart';
 import 'package:vibers_net/ui/shared/copy_password.dart';
 import '../../common/facebook_ads.dart';
@@ -157,10 +158,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       child: Text(
         heading,
-        style: TextStyle(
-          fontFamily: kFontFamilyName,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w700,
+        style: TextStyles.semiBold12(
+          color: kWhite100,
         ),
       ),
     );
@@ -170,41 +169,48 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
   Widget _sliverAppBar(innerBoxIsScrolled) => SliverAppBar(
         titleSpacing: 0.00,
         elevation: 0.0,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomBorder(),
-            TabBar(
-                onTap: (currentIndex) {
-                  setState(() {
-                    cSeasonIndex = currentIndex;
-                  });
-                },
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor, width: 2.5),
-                  insets: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 46.0),
+        toolbarHeight: kToolbarHeight,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TabBar(
+              onTap: (currentIndex) {
+                setState(() {
+                  cSeasonIndex = currentIndex;
+                });
+              },
+              labelPadding: EdgeInsetsDirectional.only(end: 16),
+              tabAlignment: TabAlignment.start,
+              padding: EdgeInsets.zero,
+              indicatorColor: kWhite100,
+              dividerHeight: 1,
+              dividerColor: kBorderColor,
+              isScrollable: true,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorWeight: 2.0,
+              indicatorPadding: EdgeInsets.zero,
+              unselectedLabelColor: kWhite100,
+              labelStyle: TextStyles.semiBold12(
+                color: kWhite100,
+              ),
+              unselectedLabelStyle: TextStyles.semiBold12(color: kWhite100),
+              tabs: [
+                TabWidget(
+                  translate('MORE_LIKE_THIS'),
                 ),
-                indicatorColor: Colors.orangeAccent,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 3.0,
-                indicatorPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                unselectedLabelColor: Color.fromRGBO(95, 95, 95, 1.0),
-                tabs: [
-                  TabWidget(translate('MORE_LIKE_THIS')),
-                  TabWidget(translate('MORE_DETAILS')),
-                ]),
-          ],
+                TabWidget(translate('MORE_DETAILS')),
+              ]),
         ),
         pinned: true,
         floating: true,
         forceElevated: innerBoxIsScrolled,
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).primaryColorDark,
+        surfaceTintColor: kScafoldBgColor,
       );
 
   Widget movieSliverList() {
-    final platform = Theme.of(context).platform;
+    final String videoDetails = widget.videoDetail?.detail ?? '';
+    final bool hasArtists = (widget.videoDetail?.actors ?? []).isNotEmpty;
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, int j) {
         return Container(
@@ -214,43 +220,33 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             children: [
               VideoDetailHeader(
                   widget.videoDetail, userDetails.userProfileModel),
-              SizedBox(
-                height: 20.0,
-              ),
-              widget.videoDetail!.detail == null ||
-                      widget.videoDetail!.detail == ""
+              videoDetails.isEmpty
                   ? SizedBox.shrink()
                   : DescriptionText(widget.videoDetail!.detail),
               SizedBox(
-                height: 5.0,
+                height: 4.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  WishListView(widget.videoDetail),
-                  RateUs(widget.videoDetail!.type, widget.videoDetail!.id),
-                  SharePage(APIData.shareMovieUri, widget.videoDetail!.id),
-                  widget.videoDetail!.type == DatumType.M
-                      ? DownloadPage(widget.videoDetail!, platform)
-                      : SizedBox.shrink(),
-                  if (protectedContentPwd.length > 0)
-                    if (protectedContentPwd.containsKey(
-                            '${widget.videoDetail?.id}_${widget.videoDetail?.id}') &&
-                        (userDetails.userProfileModel?.active == 1 ||
-                            userDetails.userProfileModel?.active == '1'))
-                      CopyPassword(widget.videoDetail!),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              widget.videoDetail!.actors!.length == 0
-                  ? SizedBox.shrink()
-                  : heading(translate("Artist_")),
-              SizedBox(
-                height: 5.0,
-              ),
-              ArtistList(widget.videoDetail),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     if (protectedContentPwd.length > 0)
+              //       if (protectedContentPwd.containsKey(
+              //               '${widget.videoDetail?.id}_${widget.videoDetail?.id}') &&
+              //           (userDetails.userProfileModel?.active == 1 ||
+              //               userDetails.userProfileModel?.active == '1'))
+              //         CopyPassword(widget.videoDetail!),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 15.0,
+              // ),
+
+              if (hasArtists) heading(translate("Artist_")),
+              if (hasArtists)
+                SizedBox(
+                  height: 8.0,
+                ),
+              if (hasArtists) ArtistList(widget.videoDetail),
             ],
           ),
         );
@@ -279,11 +275,16 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         shrinkWrap: true,
         crossAxisCount: 2,
         childAspectRatio: 1.5,
+        padding: EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
-        children: List<Padding>.generate(
+        children: List<Widget>.generate(
           moreLikeThis == null ? 0 : moreLikeThis.length,
           (int index) {
-            return Padding(
+            return Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
               padding: EdgeInsets.only(right: 2.5, left: 2.5, bottom: 5.0),
               child: moreLikeThis[index] == null
                   ? Container()
@@ -809,10 +810,9 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
           children: <Widget>[
             Text(
               translate("About_"),
-              style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500),
+              style: TextStyles.semiBold14(
+                color: Theme.of(context).hintColor,
+              ),
             ),
             Container(
               height: 8.0,
@@ -868,9 +868,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             flex: 2,
             child: Text(
               translate('Audio_Language_'),
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontSize: 13.0,
+              style: TextStyles.regular12(
+                color: kWhite100,
               ),
             ),
           ),
@@ -880,9 +879,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
               onTap: () {},
               child: Text(
                 "$s",
-                style: TextStyle(
+                style: TextStyles.regular12(
                   color: Theme.of(context).primaryColor,
-                  fontSize: 13.0,
                 ),
               ),
             ),
@@ -904,8 +902,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             child: Text(
               translate('Genres_'),
               style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontSize: 13.0,
+                color: kWhite100,
               ),
             ),
           ),
@@ -938,9 +935,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             flex: 2,
             child: Text(
               translate('Name_'),
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontSize: 13.0,
+              style: TextStyles.regular12(
+                color: kWhite100,
               ),
             ),
           ),
@@ -950,9 +946,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
               onTap: () {},
               child: Text(
                 "${videoDetail.title}",
-                style: TextStyle(
+                style: TextStyles.regular12(
                   color: Theme.of(context).primaryColor,
-                  fontSize: 13.0,
                 ),
               ),
             ),
@@ -970,10 +965,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         onTap: () {},
         child: Text(
           "${videoDetail.seasons[cSeasonIndex].detail}",
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 13.0,
-          ),
+          style: TextStyles.regular12(color: kWhite100,),
         ),
       ),
     );
@@ -987,6 +979,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
               'assets/placeholder_box.jpg',
               height: 150.0,
               fit: BoxFit.cover,
+              isAntiAlias: true,
             )
           : FadeInImage.assetNetwork(
               image: "${APIData.movieImageUri}${moreLikeThis[index].thumbnail}",
@@ -998,6 +991,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                   'assets/placeholder_box.jpg',
                   height: 150.0,
                   fit: BoxFit.cover,
+                  isAntiAlias: true,
                 );
               },
             ),

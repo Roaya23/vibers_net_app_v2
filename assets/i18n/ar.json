@@ -319,6 +319,8 @@
   "didNotReceiveOTP": "لم تقم باستلام كود التحقق؟",
   "resendCode": "اعادة ارسال الكود",
   "createNewPassword":"انشاء كلمة مرور جديدة",
-  "phone":"ؤثم الهاتف"
+  "phone":"ؤثم الهاتف",
+  "viewMore":"عرض المزيد",
+  "viewLess":"عرض أقل"
 
 }

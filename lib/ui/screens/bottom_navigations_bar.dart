@@ -149,7 +149,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   : null,
               bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: const Color(0xff130E13),
                 selectedIconTheme: Theme.of(context).primaryIconTheme.copyWith(
                       color: kMainThemeColor,
                       size: 18,

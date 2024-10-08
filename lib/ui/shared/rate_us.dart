@@ -41,80 +41,87 @@ class _RateUsState extends State<RateUs> {
   }
 
   Widget rateUsTabColumn() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Icon(
-          Icons.star_border,
-          size: 30.0,
-        ),
-        new Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-        ),
-        rateText(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Icon(
+        Icons.star_border,
+        size: 16.0,
+        color: kWhite100,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        child: InkWell(
-          onTap: () {
-            checkRating();
-          },
-          child: rateUsTabColumn(),
-        ),
-        color: Colors.transparent,
-      ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {
+        checkRating();
+      },
+      child: rateUsTabColumn(),
     );
   }
 
   Widget ratingVideosSheet() {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 5.0, right: 5.0),
-          child: Row(
+    return SafeArea(
+      bottom: true,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Divider(
+            color: kWhite100TextColor,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(
+                    Icons.close,
+                    size: 20,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              GestureDetector(
-                child: Icon(Icons.close),
-                onTap: () {
+              RatingBar.builder(
+                initialRating: _rating ?? 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star_rate_rounded,
+                  color: kMainThemeColor,
+                ),
+                onRatingUpdate: (rating) {
+                  setState(() {
+                    _rating = rating;
+                  });
+                  postRating();
                   Navigator.pop(context);
                 },
-              )
+              ),
             ],
           ),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RatingBar.builder(
-              initialRating: _rating,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating) {
-                setState(() {
-                  _rating = rating;
-                });
-                postRating();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ],
+          const SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
     );
   }
 
@@ -167,20 +174,15 @@ class _RateUsState extends State<RateUs> {
     showModalBottomSheet(
       context: context,
       builder: (builder) {
-        return new Container(
-          decoration: new BoxDecoration(
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
+        return Container(
+          decoration: BoxDecoration(
+            color: kScafoldBgColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0),
             ),
           ),
-          height: 80.0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(90, 90, 90, 1.0),
-            ),
-            child: ratingVideosSheet(),
-          ),
+          child: ratingVideosSheet(),
         );
       },
     );
