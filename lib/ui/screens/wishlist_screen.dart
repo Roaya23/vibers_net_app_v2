@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
@@ -258,7 +260,6 @@ class _WishListScreenState extends State<WishListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery.of(context).size.width * 0.04;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
@@ -274,44 +275,50 @@ class _WishListScreenState extends State<WishListScreen> {
                   title: Text(
                     translate("Wishlist_"),
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 0.9,
+                    style: TextStyles.semiBold20(
+                      color: kWhite100,
                     ),
                   ),
                   backgroundColor: Theme.of(context).primaryColorDark,
-                  floating: true,
+                  floating: false,
+                  surfaceTintColor: Theme.of(context).primaryColorDark,
                   pinned: true,
                   automaticallyImplyLeading: false,
+                  elevation: 0,
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(68),
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          left: w, right: w, top: 10.0, bottom: 10.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                      ),
+                    preferredSize: Size.fromHeight(kToolbarHeight * .6),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: TabBar(
+                        // indicator: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(5),
+                        //   color: Theme.of(context).primaryColor,
+                        // ),
+                        labelPadding: EdgeInsetsDirectional.only(end: 16),
+                        tabAlignment: TabAlignment.start,
+                        padding: EdgeInsets.zero,
+                        indicatorColor: kMainLight,
+                        dividerHeight: 1,
+                        dividerColor: kBorderColor,
+                        isScrollable: true,
+                        indicatorSize: TabBarIndicatorSize.label,
                         indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Theme.of(context).primaryColor,
+                          border: Border(bottom: BorderSide(color: kMainLight)),
                         ),
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        isScrollable: false,
-                        dividerColor: Colors.transparent,
-                        labelStyle: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontWeight: FontWeight.w900),
+                        indicatorPadding: EdgeInsets.zero,
+                        unselectedLabelColor: kWhite100,
+                        labelStyle: TextStyles.semiBold14(
+                          color: kMainLight,
+                        ),
+                        unselectedLabelStyle:
+                            TextStyles.regular14(color: kWhite100),
                         tabs: [
-                          new Tab(
+                          Tab(
                             child: Container(
                               child: Text(translate("Movies_")),
                             ),
                           ),
-                          new Tab(
+                          Tab(
                             child: Container(
                               child: Text(translate("TV_Series")),
                             ),
@@ -360,180 +367,169 @@ class _MoviesWishListState extends State<MoviesWishList> {
 
   // PlaceHolder image displayed on the watchlist item.
   Widget placeHolderImage(movies) {
-    return Expanded(
-      flex: 5,
-      child: Container(
-        child: new ClipRRect(
-          borderRadius: new BorderRadius.circular(8.0),
-          child: new FadeInImage.assetNetwork(
-            image: "${APIData.movieImageUri}${movies.thumbnail}",
-            placeholder: "assets/placeholder_box.jpg",
-            height: 115.0,
-            fit: BoxFit.cover,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      clipBehavior: Clip.antiAlias,
+      child: FadeInImage.assetNetwork(
+        image: "${APIData.movieImageUri}${movies.thumbnail}",
+        placeholder: "assets/placeholder_box.jpg",
+        imageErrorBuilder: (context, error, stackTrace) => Container(
+          decoration: BoxDecoration(
+            color: kWhite100TextColor,
+            borderRadius: BorderRadius.circular(10.0),
           ),
         ),
+        placeholderErrorBuilder: (context, error, stackTrace) => Container(
+          decoration: BoxDecoration(
+            color: kWhite100TextColor,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        width: 156,
+        height: 113.0,
+        fit: BoxFit.cover,
       ),
     );
   }
 
   Widget watchlistItemDetails(movies, genres) {
-    return Expanded(
-      flex: 6,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(
-            height: 6.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      movies.title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      '$genres',
-                      style: TextStyle(
-                        color: Color.fromRGBO(72, 163, 198, 1.0),
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                    ),
-                  ],
+    dynamic tmbdRat = movies!.rating;
+    if (tmbdRat.runtimeType == int) {
+      double reciprocal(double d) => 1 / d;
+
+      reciprocal(tmbdRat.toDouble());
+
+      tmbdRat = movies.rating == null ? 0.0 : tmbdRat / 2;
+    } else if (tmbdRat.runtimeType == String) {
+      tmbdRat = movies.rating == null ? 0.0 : double.parse(tmbdRat) / 2;
+    } else {
+      tmbdRat = movies!.rating == null ? 0.0 : tmbdRat / 2;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                movies.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyles.semiBold16(
+                  color: kWhite100,
                 ),
               ),
-              Flexible(
-                flex: 1,
-                child: IconButton(
-                    icon: Icon(
-                      CupertinoIcons.delete_simple,
-                      size: 25.0,
-                    ),
-                    onPressed: () {
-                      removeWishList(movies.type, movies.id);
-                    }),
-              )
-            ],
-          ),
-          SizedBox(height: 4.0),
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Flexible(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          translate('RELEASE_DATE_'),
-                          style: TextStyle(
-                            fontSize: 10.0,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(height: 4.0),
-                        Text(
-                          movies.released != null
-                              ? DateFormat('d-MM-y').format(movies.released)
-                              : "N/A",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    )),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        translate('RUNTIME_'),
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        movies.duration != null
-                            ? movies.duration != "0" && movies.duration != 0
-                                ? movies.duration
-                                : "N/A"
-                            : "N/A",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
             ),
-          )
-        ],
-      ),
+            const SizedBox(
+              width: 8,
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                removeWishList(movies.type, movies.id);
+              },
+              child: Icon(
+                CupertinoIcons.heart_fill,
+                color: kWhite100,
+                size: 18.0,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.0),
+        Row(
+          children: [
+            Icon(
+              Icons.star_rate_rounded,
+              size: 20,
+              color: kRedColor,
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+                child: Text(
+              (tmbdRat ?? 0).toString(),
+              style: TextStyles.regular14(
+                color: kWhite100,
+              ),
+            ))
+          ],
+        ),
+        SizedBox(height: 8.0),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.calendar_today,
+              size: 18,
+              color: kRedColor,
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+                child: Text(
+              movies.released != null
+                  ? DateFormat('y').format(movies.released)
+                  : "N/A",
+              style: TextStyles.regular14(
+                color: kWhite100,
+              ),
+            ))
+          ],
+        ),
+        SizedBox(height: 8.0),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.access_time_outlined,
+              size: 18,
+              color: kRedColor,
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+                child: Text(
+              movies.duration.toString() + "\th",
+              style: TextStyles.regular14(
+                color: kWhite100,
+              ),
+            ))
+          ],
+        ),
+      ],
     );
   }
 
   //  Watchlist item all details like image, name,
   Widget watchlistItemContainer(movies, genres) {
-    return Container(
-      color: Colors.transparent,
-      margin: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, RoutePaths.videoDetail,
-              arguments: VideoDetailScreen(movies));
-        },
-        child: Container(
-          decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
-            shape: BoxShape.rectangle,
-            borderRadius: new BorderRadius.circular(8.0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              placeHolderImage(movies),
-              SizedBox(
-                width: 10.0,
-                height: 0.0,
-              ),
-              watchlistItemDetails(movies, genres),
-            ],
-          ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(10.0),
+      onTap: () {
+        Navigator.pushNamed(context, RoutePaths.videoDetail,
+            arguments: VideoDetailScreen(movies));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(color: kBorderColor)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            placeHolderImage(movies),
+            SizedBox(
+              width: 12.0,
+              height: 12.0,
+            ),
+            Expanded(child: watchlistItemDetails(movies, genres)),
+          ],
         ),
       ),
     );
@@ -553,7 +549,7 @@ class _MoviesWishListState extends State<MoviesWishList> {
                 child: ListView.builder(
                   itemCount: moviesWishList.length,
                   padding:
-                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
+                      EdgeInsets.all(16),
                   itemBuilder: (BuildContext context, int index) {
                     moviesWishList[index]
                         .genres!

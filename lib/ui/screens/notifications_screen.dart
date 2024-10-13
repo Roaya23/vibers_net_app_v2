@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '/common/route_paths.dart';
 import '/common/styles.dart';
 import '/providers/notifications_provider.dart';
@@ -37,41 +38,36 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Container(
       child: Icon(
         Icons.notifications,
-        size: 170.0,
-        color: Color.fromRGBO(70, 70, 70, 1.0),
+        size: 120.0,
+        color: kWhite100TextColor,
       ),
     );
   }
 
 //  Message when any notification is not available
   Widget message() {
-    return Padding(
-      padding: EdgeInsets.only(left: 50.0, right: 50.0),
-      child: Text(
-        translate("You_dont_have_any_notification"),
-        style: TextStyle(
-          height: 1.5,
-          fontSize: 18.0,
-        ),
-      ),
+    return Text(
+      translate("You_dont_have_any_notification"),
+      style: TextStyles.regular16(color: kWhite100),
     );
   }
 
 //  When don't have any notification.
   Widget blankNotification() {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 4,
-          ),
-          notificationIconContainer(),
-          SizedBox(
-            height: 25.0,
-          ),
-          message(),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            notificationIconContainer(),
+            SizedBox(
+              height: 25.0,
+            ),
+            message(),
+          ],
+        ),
       ),
     );
   }
@@ -90,6 +86,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           : notifications.length == 0
               ? blankNotification()
               : ListView.builder(
+                  padding: const EdgeInsets.all(16),
                   itemCount: notifications.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Column(

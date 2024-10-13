@@ -1,7 +1,7 @@
 {
   "Search_": "Search",
   "Home_": "Home",
-  "Wishlist_": "Wishlist",
+  "Wishlist_": "Favorite",
   "Download_": "Download",
   "Menu_": "Menu",
   "Press_again_to_exit": "Press again to exit.",
@@ -67,7 +67,7 @@
   "Apply_": "Apply",
   "Download_movies_&_TV_shows_to_your_Device_so_you_can_easily_watch_them_later": "Download movies & TV shows to your Device so you can easily watch them later.",
   "Find_Something_to_watch": "Find Something to watch",
-  "Add_movies_&_TV_shows_to_your_list_so_you_can_easily_find_them_later": "Add movies & TV shows to your list so you can easily find them later.",
+  "Add_movies_&_TV_shows_to_your_list_so_you_can_easily_find_them_later": "You haven’t added anything to saved",
   "Blogs_": "Blogs",
   "by_Admin": "by Admin",
   "New_Password": "New Password",
@@ -148,10 +148,10 @@
   "Rate_Us": "Rate Us",
   "Share_App": "Share App",
   "Switch_Theme": "Switch Theme",
-  "Sign_Out": "Sign Out",
+  "Sign_Out": "Log Out",
   "Membership_": "Membership",
   "Payment_History": "Payment History",
-  "Sign_Out_": "Sign Out?",
+  "Sign_Out_": "Log Out?",
   "Are_you_sure_that_you_want_to_logout_": "Are you sure that you want to logout?",
   "Confirm_": "Confirm",
   "Something_went_wrong_": "Something went wrong!",
@@ -321,5 +321,6 @@
   "createNewPassword":"Create New Password",
   "phone":"Phone",
   "viewMore": "View more",
-  "viewLess": "View less"
+  "viewLess": "View less",
+  "yesLogOut":"Yes, Logout"
 }

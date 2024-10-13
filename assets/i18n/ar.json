@@ -1,7 +1,7 @@
 {
   "Search_": "بحث",
   "Home_": "الصفحة الرئيسية",
-  "Wishlist_": "قائمة الرغبات",
+  "Wishlist_": "المفضلة",
   "Download_": "تنزيل",
   "Menu_": "قائمة",
   "Press_again_to_exit": "اضغط مرة أخرى للخروج.",
@@ -67,7 +67,7 @@
   "Apply_": "تطبيق",
   "Download_movies_&_TV_shows_to_your_Device_so_you_can_easily_watch_them_later": "قم بتنزيل الأفلام والبرامج التلفزيونية على جهازك حتى تتمكن من مشاهدتها بسهولة لاحقًا.",
   "Find_Something_to_watch": "ابحث عن شيء لمشاهدته",
-  "Add_movies_&_TV_shows_to_your_list_so_you_can_easily_find_them_later": "أضف أفلامًا وبرامج تلفزيونية إلى قائمتك حتى تتمكن من العثور عليها بسهولة لاحقًا.",
+  "Add_movies_&_TV_shows_to_your_list_so_you_can_easily_find_them_later": "لم تقم بالاضافة للمفضلة بعد",
   "Blogs_": "مدونات",
   "by_Admin": "بواسطة المسؤول",
   "New_Password": "كلمة مرور جديدة",
@@ -321,6 +321,8 @@
   "createNewPassword":"انشاء كلمة مرور جديدة",
   "phone":"ؤثم الهاتف",
   "viewMore":"عرض المزيد",
-  "viewLess":"عرض أقل"
+  "viewLess":"عرض أقل",
+  "yesLogOut": "نعم، تسجيل الخروج"
+
 
 }

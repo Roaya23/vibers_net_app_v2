@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:vibers_net/ui/screens/log_out_bottom_sheet.dart';
 import 'package:vibers_net/ui/screens/subscription_plans.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
@@ -846,112 +847,13 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   _signOutDialog() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Color.fromRGBO(34, 34, 34, 1.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25.0),
-              ),
-            ),
-            contentPadding: EdgeInsets.only(top: 10.0),
-            content: Container(
-              width: 300.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Text(
-                        translate("Sign_Out_"),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                    height: 4.0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-                    child: Text(
-                      translate("Are_you_sure_that_you_want_to_logout_"),
-                      style:
-                          TextStyle(color: Color.fromRGBO(155, 155, 155, 1.0)),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      color: Colors.white70,
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text(
-                        translate("Cancel_"),
-                        style:
-                            TextStyle(color: Color.fromRGBO(34, 34, 34, 1.0)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      screenLogout();
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(25.0),
-                            bottomRight: Radius.circular(25.0)),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          stops: [0.1, 0.3, 0.5, 0.7, 1.0],
-                          colors: [
-                            Color.fromRGBO(72, 163, 198, 1.0),
-                            Color.fromRGBO(30, 157, 207, 25),
-                            Color.fromRGBO(27, 162, 187, 50),
-                            Color.fromRGBO(32, 163, 173, 75),
-                            Color.fromRGBO(37, 164, 160, 100),
-                          ],
-                        ),
-                      ),
-                      child: Text(
-                        translate("Confirm_"),
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+    return LogOutBottomSheet.show(context,
+        onLogOutPressed: () => screenLogout());
   }
 
   bool isShowing = true;
 
-  screenLogout() async {
+  void screenLogout() async {
     var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
         .userProfileModel!;
     setState(() {
@@ -1040,7 +942,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           canPop: false,
-          onPopInvoked: (didPop) {
+          onPopInvokedWithResult: (didPop, _) {
             if (didPop) {
               return;
             }

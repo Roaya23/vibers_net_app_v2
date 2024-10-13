@@ -471,6 +471,7 @@ class _VideosPageState extends State<VideosPage>
                     )
                   : Container(
                       child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(bottom: 16),
                         physics: ClampingScrollPhysics(),
                         child: Column(
                           key: _keyRed,

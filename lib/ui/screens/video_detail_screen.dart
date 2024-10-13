@@ -189,10 +189,10 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
               indicatorWeight: 2.0,
               indicatorPadding: EdgeInsets.zero,
               unselectedLabelColor: kWhite100,
-              labelStyle: TextStyles.semiBold12(
-                color: kWhite100,
+              labelStyle: TextStyles.semiBold14(
+                color: kMainLight,
               ),
-              unselectedLabelStyle: TextStyles.semiBold12(color: kWhite100),
+              unselectedLabelStyle: TextStyles.regular14(color: kWhite100),
               tabs: [
                 TabWidget(
                   translate('MORE_LIKE_THIS'),

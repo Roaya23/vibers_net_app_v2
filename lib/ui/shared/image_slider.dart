@@ -62,15 +62,15 @@ class _ImageSliderState extends State<ImageSlider> {
                         if (sliderImage == null) {
                           return SizedBox.shrink();
                         } else {
-                          List<Datum> x = [];
+                          // List<Datum> x = [];
 
-                          if (currentSlider.movieId != null) {
-                            x = List.from(movieList.where((item) =>
-                                "${item.id}" == "${currentSlider.movieId}"));
-                          } else {
-                            x = List.from(tvList.where((item) =>
-                                "${item.id}" == "${currentSlider.tvSeriesId}"));
-                          }
+                          // if (currentSlider.movieId != null) {
+                          //   x = List.from(movieList.where((item) =>
+                          //       "${item.id}" == "${currentSlider.movieId}"));
+                          // } else {
+                          //   x = List.from(tvList.where((item) =>
+                          //       "${item.id}" == "${currentSlider.tvSeriesId}"));
+                          // }
 
                           return InkWell(
                             child: Container(
