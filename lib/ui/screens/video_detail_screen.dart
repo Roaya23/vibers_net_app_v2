@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/models/Subtitles.dart';
+import 'package:vibers_net/ui/widgets/video_details_serious_ebisodes_widget.dart';
 import '../../common/facebook_ads.dart';
 import '../../models/AllUsers.dart';
 import '../../providers/all_user_provider.dart';
@@ -963,7 +964,9 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         onTap: () {},
         child: Text(
           "${videoDetail.seasons[cSeasonIndex].detail}",
-          style: TextStyles.regular12(color: kWhite100,),
+          style: TextStyles.regular12(
+            color: kWhite100,
+          ),
         ),
       ),
     );
@@ -1104,12 +1107,12 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
   Widget _seasonsScrollView() {
     var videoDetailCheck = widget.videoDetail;
     var allSeasonsCheck = videoDetailCheck!.seasons![0];
-    print("artsit1: ${allSeasonsCheck.actorList}");
     return NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           sliverList(),
+          SliverToBoxAdapter(child: VideDetailsEbisodesWidget()),
           sliverAppbarSeasons(innerBoxIsScrolled),
         ];
       },
@@ -1118,20 +1121,20 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 15.0,
-            ),
-            allSeasonsCheck.actorList == null ||
-                    allSeasonsCheck.actorList!.length == 0
-                ? SizedBox.shrink()
-                : heading(translate("Artist_")),
-            SizedBox(
-              height: 10.0,
-            ),
-            allSeasonsCheck.actorList == null ||
-                    allSeasonsCheck.actorList!.length == 0
-                ? SizedBox.shrink()
-                : SeasonsArtistList(widget.videoDetail),
+            // SizedBox(
+            //   height: 15.0,
+            // ),
+            // allSeasonsCheck.actorList == null ||
+            //         allSeasonsCheck.actorList!.length == 0
+            //     ? SizedBox.shrink()
+            //     : heading(translate("Artist_")),
+            // SizedBox(
+            //   height: 10.0,
+            // ),
+            // allSeasonsCheck.actorList == null ||
+            //         allSeasonsCheck.actorList!.length == 0
+            //     ? SizedBox.shrink()
+            //     : SeasonsArtistList(widget.videoDetail),
             SizedBox(
               height: 25.0,
             ),
@@ -2040,27 +2043,12 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             children: [
               VideoDetailHeader(
                   widget.videoDetail, userDetails.userProfileModel),
-              SizedBox(
-                height: 20.0,
-              ),
-              widget.videoDetail!.detail == null ||
-                      widget.videoDetail!.detail == ""
-                  ? SizedBox.shrink()
-                  : DescriptionText(widget.videoDetail!.detail),
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  WishListView(widget.videoDetail),
-                  RateUs(widget.videoDetail!.type, widget.videoDetail!.id),
-                  SharePage(APIData.shareMovieUri, widget.videoDetail!.id),
-                  widget.videoDetail!.type == DatumType.M
-                      ? DownloadPage(widget.videoDetail!, platform)
-                      : SizedBox.shrink(),
-                ],
-              ),
+              if (!(widget.videoDetail!.detail == null ||
+                  widget.videoDetail!.detail == ""))
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+                  child: new DescriptionText(widget.videoDetail!.detail),
+                ),
             ],
           ),
         );
@@ -2082,9 +2070,6 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 26.0, 16.0, 0.0),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.0),
-                  )
                 ],
               ),
             );

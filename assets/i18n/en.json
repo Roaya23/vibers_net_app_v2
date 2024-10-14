@@ -211,7 +211,8 @@
   "Choose_profile_picture_from_gallery": "Choose profile picture from gallery.",
   "MORE_LIKE_THIS": "MORE LIKE THIS",
   "MORE_DETAILS": "MORE DETAILS",
-  "EPISODES_": "EPISODES",
+  "EPISODES_": "Episodes",
+  "EPISODE": "Episode",
   "Comments_": "Comments",
   "Add_": "Add",
   "Add_Comments": "Add Comments",
@@ -318,9 +319,9 @@
   "sec": "sec",
   "didNotReceiveOTP": "Didn’t receive an OTP?",
   "resendCode": "Resend Code",
-  "createNewPassword":"Create New Password",
-  "phone":"Phone",
+  "createNewPassword": "Create New Password",
+  "phone": "Phone",
   "viewMore": "View more",
   "viewLess": "View less",
-  "yesLogOut":"Yes, Logout"
+  "yesLogOut": "Yes, Logout"
 }

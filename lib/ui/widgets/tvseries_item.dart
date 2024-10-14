@@ -9,22 +9,24 @@ class TVSeriesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInImage.assetNetwork(
-      image: APIData.tvImageUriTv + "${tvSeriesItem.thumbnail}",
-      placeholder: "assets/placeholder_box.jpg",
-      // height: 170,
-      // width: 120.0,
-      imageScale: 1.0,
-      // fit: BoxFit.cover,
-      imageErrorBuilder: (context, error, stackTrace) {
-        return Image.asset(
-          "assets/placeholder_box.jpg",
-          height: 170,
-          width: 120.0,
-          fit: BoxFit.cover,
-          isAntiAlias: true,
-        );
-      },
+    return Container(
+      width: 105,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: FadeInImage.assetNetwork(
+        image: APIData.tvImageUriTv + "${tvSeriesItem.thumbnail}",
+        placeholder: "assets/placeholder_box.jpg",
+        fit: BoxFit.cover,
+        imageErrorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            "assets/placeholder_box.jpg",
+            fit: BoxFit.cover,
+            isAntiAlias: true,
+          );
+        },
+      ),
     );
   }
 }

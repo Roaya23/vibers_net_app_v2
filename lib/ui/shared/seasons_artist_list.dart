@@ -19,8 +19,6 @@ class _SeasonsArtistListState extends State<SeasonsArtistList> {
   List<Actor?>? actorsList = [];
   @override
   Widget build(BuildContext context) {
-    print("artists:${widget.videoDetail!.seasons![cSeasonIndex].actorList}");
-    print("artists:${widget.videoDetail!.seasons![cSeasonIndex]}");
     widget.videoDetail!.seasons![cSeasonIndex].actorList!
         .removeWhere((value) => value == null);
     actorsList = widget.videoDetail!.seasons![cSeasonIndex].actorList;
@@ -32,7 +30,7 @@ class _SeasonsArtistListState extends State<SeasonsArtistList> {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               physics: ClampingScrollPhysics(),
-              padding: EdgeInsets.only(left: 15.0),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: actorsList!.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
@@ -73,6 +71,7 @@ class _SeasonsArtistListState extends State<SeasonsArtistList> {
                                   "assets/placeholder_box.jpg",
                                   fit: BoxFit.cover,
                                   height: 150.0,
+                                  isAntiAlias: true,
                                 )
                               : FadeInImage.assetNetwork(
                                   placeholder: "assets/placeholder_box.jpg",
@@ -80,6 +79,14 @@ class _SeasonsArtistListState extends State<SeasonsArtistList> {
                                       "${APIData.actorsImages}${actorsList![index]!.image}",
                                   fit: BoxFit.cover,
                                   height: 150.0,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) =>
+                                          Image.asset(
+                                    "assets/placeholder_box.jpg",
+                                    fit: BoxFit.cover,
+                                    height: 150.0,
+                                    isAntiAlias: true,
+                                  ),
                                 ),
                         ),
                       ),

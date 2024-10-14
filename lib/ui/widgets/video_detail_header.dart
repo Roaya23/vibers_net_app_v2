@@ -838,7 +838,6 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
     CountViewModel countViewModel =
         Provider.of<CountViewProvider>(context, listen: false).countViewModel;
     int views = 0;
-    print("Movie ID :-> ${widget.videoDetail?.id}");
     countViewModel.movies?.forEach((element) {
       if (element.id == widget.videoDetail?.id &&
           element.title == widget.videoDetail?.title) {
@@ -864,20 +863,9 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
       }
     });
 
-    var viewsCount = Container(
-      clipBehavior: Clip.antiAlias,
-      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          border: Border.all(color: kRedColor, width: 1)),
-      child: Text(
-        "${valueToKMB(value: views)} ${(views == 1) ? 'view' : 'views'}",
-        style: TextStyles.regular12(color: kWhite100),
-      ),
-    );
-
     final Datum? videoDetail = widget.videoDetail;
-    final String publishYear = (videoDetail?.publishYear.toString() ?? "");
+    final String publishYear = (videoDetail?.publishYear?.toString() ?? "");
+    final String viewsCount = valueToKMB(value: views);
     return new Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: new Column(
@@ -909,11 +897,10 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                         '${widget.videoDetail?.id}_${widget.videoDetail?.id}') &&
                     (widget.userProfileModel?.active == 1 ||
                         widget.userProfileModel?.active == '1'))
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 4),
-                child: CopyPassword(widget.videoDetail!),
-              ),
-
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 4),
+                    child: CopyPassword(widget.videoDetail!),
+                  ),
               SharePage(APIData.shareMovieUri, widget.videoDetail!.id),
             ],
           ),
@@ -958,7 +945,19 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                     ),
                   ],
                 ),
-              viewsCount,
+              if (viewsCount.isNotEmpty && viewsCount != "0")
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(color: kRedColor, width: 1)),
+                  child: Text(
+                    "${valueToKMB(value: views)} ${(views == 1) ? 'view' : 'views'}",
+                    style: TextStyles.regular12(color: kWhite100),
+                  ),
+                ),
+              // TODO: + Age  Not Make Static
               Container(
                 clipBehavior: Clip.antiAlias,
                 padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
@@ -970,6 +969,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                   style: TextStyles.regular12(color: kWhite100),
                 ),
               ),
+              // TODO: Add Subtitles Not Make Static
               Container(
                 clipBehavior: Clip.antiAlias,
                 padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
@@ -1200,6 +1200,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
                   : "${APIData.tvImageUriPosterTv}${widget.videoDetail!.poster}",
               placeholder: "assets/placeholder_cover.jpg",
               width: screenWidth,
+              // height: 225.0,
               fit: BoxFit.fitWidth,
               imageErrorBuilder: (context, error, stackTrace) {
                 return Image.asset(
