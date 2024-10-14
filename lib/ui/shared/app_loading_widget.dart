@@ -3,8 +3,8 @@ import 'package:vibers_net/common/route_paths.dart';
 import 'package:vibers_net/common/styles.dart';
 
 class AppLoadingWidget extends StatelessWidget {
-  const AppLoadingWidget({this.size, this.strokeWidth = 6.0, this.color});
-  final double? size;
+  const AppLoadingWidget({this.size = 50, this.strokeWidth = 6.0, this.color});
+  final double size;
   final double strokeWidth;
   final Color? color;
 
@@ -52,8 +52,8 @@ class AppLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-      height: size ?? 50,
-      width: size ?? 50,
+      height: size,
+      width: size,
       child: FittedBox(
         child: CircularProgressIndicator(
           color: color ?? primaryBlue,

@@ -415,14 +415,14 @@ class _VideosPageState extends State<VideosPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            actorsListLen == 0
-                ? SizedBox.shrink()
-                : Heading1(translate("Artist_"), "Actor", widget.loading),
-            actorsListLen == 0 ? SizedBox.shrink() : SizedBox(height: 15.0),
-            actorsListLen == 0
-                ? SizedBox.shrink()
-                : ActorsHorizontalList(loading: widget.loading),
-            actorsListLen == 0 ? SizedBox.shrink() : SizedBox(height: 15.0),
+            // actorsListLen == 0
+            //     ? SizedBox.shrink()
+            //     : Heading1(translate("Artist_"), "Actor", widget.loading),
+            // actorsListLen == 0 ? SizedBox.shrink() : SizedBox(height: 15.0),
+            // actorsListLen == 0
+            //     ? SizedBox.shrink()
+            //     : ActorsHorizontalList(loading: widget.loading),
+            // actorsListLen == 0 ? SizedBox.shrink() : SizedBox(height: 15.0),
           ],
         );
       } else if (element.name == "audio") {

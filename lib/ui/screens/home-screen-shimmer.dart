@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import '/models/episode.dart';
-import '/ui/shared/actors_horizontal_list.dart';
 import '/ui/shared/heading1.dart';
 import '/ui/screens/horizental_genre_list.dart';
 import '/ui/screens/horizontal_movies_list.dart';
@@ -68,17 +67,17 @@ class _HomeScreenShimmerState extends State<HomeScreenShimmer>
             SizedBox(
               height: 15.0,
             ),
-            Heading1(translate("Artist_"), "Actor", widget.loading),
-            SizedBox(
-              height: 15.0,
-            ),
-            FadeTransition(
-              opacity: _fadeInFadeOut,
-              child: ActorsHorizontalList(loading: widget.loading),
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
+            // Heading1(translate("Artist_"), "Actor", widget.loading),
+            // SizedBox(
+            //   height: 15.0,
+            // ),
+            // FadeTransition(
+            //   opacity: _fadeInFadeOut,
+            //   child: ActorsHorizontalList(loading: widget.loading),
+            // ),
+            // SizedBox(
+            //   height: 15.0,
+            // ),
             Heading1(
                 translate("Top_Movies___TV_Series"), "Top", widget.loading),
             SizedBox(

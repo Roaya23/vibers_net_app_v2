@@ -38,7 +38,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     HomeScreen(),
     SearchScreen(),
     WishListScreen(),
-    DownloadedVideos(),
+    // DownloadedVideos(),
     MenuScreen(),
   ];
 
@@ -172,9 +172,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   BottomNavigationBarItem(
                       label: translate("Wishlist_"),
                       icon: Icon(Icons.favorite_border)),
-                  BottomNavigationBarItem(
-                      label: translate("Download_"),
-                      icon: Icon(Icons.file_download)),
+                  // BottomNavigationBarItem(
+                  //     label: translate("Download_"),
+                  //     icon: Icon(Icons.file_download)),
                   BottomNavigationBarItem(
                       label: translate("Menu_"), icon: Icon(Icons.menu)),
                 ],

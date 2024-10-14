@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import '../../localization/language_provider.dart';
 import '../../providers/audio_provider.dart';
 import '../../providers/count_view_provider.dart';
@@ -343,38 +344,32 @@ class SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.bottomCenter,
         children: [
-          // Lottie.asset('assets/animations/2.json',
-          //     height: double.infinity, width: double.infinity,
-          //     errorBuilder: (context, error, stackTrace) {
-          //   return Icon(
-          //     Icons.error,
-          //     color: Colors.red,
-          //   );
-          // }, fit: BoxFit.cover, repeat: false),
+          // Lottie.asset(
+          //   'assets/animations/animated_splash.json',
+          //   height: double.infinity,
+          //   width: double.infinity,
+          //   errorBuilder: (context, error, stackTrace) {
+          //     return Icon(
+          //       Icons.error,
+          //       color: Colors.red,
+          //     );
+          //   },
+          //   fit: BoxFit.cover,
+          //   repeat: false,
+          // ),
           // Image.asset(
           //   "assets/splash.png",
           //   fit: BoxFit.fill,
           //   height: double.infinity,
           //   width: double.infinity,
           // ),
-          Align(
-            alignment: FractionalOffset.bottomCenter,
-            heightFactor: 10,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Image.asset(
-                //   "assets/logo.png",
-                //   fit: BoxFit.cover,
-                // ),
-                SizedBox(
-                  height: 70,
-                ),
-                CircularProgressIndicator(),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: AppLoadingWidget(
+              strokeWidth: 5,
+              size: 40,
             ),
           ),
         ],
