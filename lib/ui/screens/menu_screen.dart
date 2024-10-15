@@ -6,8 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/ui/screens/log_out_bottom_sheet.dart';
 import 'package:vibers_net/ui/screens/subscription_plans.dart';
+import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
@@ -773,35 +776,45 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Widget drawer(width, height2) {
     var appConfig = Provider.of<AppConfig>(context, listen: false).appModel!;
-    return Drawer(
-      elevation: 20.0,
+    return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           drawerHeader(width),
-          Expanded(
-            child: Container(
-              color: Theme.of(context).primaryColorLight,
-              child: ListView(
-                children: [
-                  notification(),
-                  watchHistory(),
-                  appSettings(),
-                  account(),
-                  subscribe(),
-                  appConfig.config!.donation == 1 ||
-                          "${appConfig.config!.donation}" == "1"
-                      ? donate()
-                      : SizedBox.shrink(),
-                  appConfig.blogs!.length != 0 ? blog() : SizedBox.shrink(),
-                  help(),
-                  rateUs(),
-                  shareApp(),
-                  signOut(),
-                ],
-              ),
-            ),
-          )
+          _TileWidget(
+            icon: Icons.edit_outlined,
+            title: "Edit Profile",
+            onTap: () {},
+          ),
+          _TileWidget(
+            icon: Icons.settings_outlined,
+            title: "Accounts",
+            onTap: () {},
+          ),
+          _TileWidget(
+            icon: Icons.privacy_tip_outlined,
+            title: "Privacy Policy",
+            onTap: () {},
+          ),
+          _TileWidget(
+            icon: Icons.logout_outlined,
+            title: "Logout",
+            onTap: _signOutDialog,
+            hasTrailingIcon: false,
+          ),
+          notification(),
+          watchHistory(),
+          appSettings(),
+          account(),
+          subscribe(),
+          appConfig.config!.donation == 1 ||
+                  "${appConfig.config!.donation}" == "1"
+              ? donate()
+              : SizedBox.shrink(),
+          appConfig.blogs!.length != 0 ? blog() : SizedBox.shrink(),
+          help(),
+          rateUs(),
+          shareApp(),
         ],
       ),
     );
@@ -812,9 +825,12 @@ class _MenuScreenState extends State<MenuScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double height2 = (height * 76.75) / 100;
-    return SizedBox(
-      width: width,
-      child: drawer(width, height2),
+    return Scaffold(
+      appBar: AppBarWidget(
+        titleText: "dsds",
+        leading: const SizedBox(),
+      ),
+      body: drawer(width, height2),
     );
   }
 
@@ -952,5 +968,55 @@ class _MenuScreenState extends State<MenuScreen> {
     } else {
       Navigator.pop(context);
     }
+  }
+}
+
+class _TileWidget extends StatelessWidget {
+  const _TileWidget(
+      {Key? key,
+      this.onTap,
+      required this.icon,
+      required this.title,
+      this.hasTrailingIcon = true})
+      : super(key: key);
+  final VoidCallback? onTap;
+  final IconData icon;
+  final String title;
+  final bool hasTrailingIcon;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: kErrorRed,
+              size: 18,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Expanded(
+                child: Text(
+              title,
+              style: TextStyles.regular12(color: kWhite100),
+            )),
+            if (hasTrailingIcon)
+              const SizedBox(
+                width: 8,
+              ),
+            if (hasTrailingIcon)
+              Icon(
+                Icons.keyboard_arrow_right_rounded,
+                size: 16,
+                color: Colors.white,
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

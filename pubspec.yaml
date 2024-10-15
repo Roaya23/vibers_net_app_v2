@@ -146,6 +146,7 @@ flutter:
     - assets/fonts/
     - assets/animations/
     - assets/illstraions/
+    - assets/profile_avatars/
 
   fonts:
     - family: Poppins

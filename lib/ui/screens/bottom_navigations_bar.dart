@@ -176,7 +176,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   //     label: translate("Download_"),
                   //     icon: Icon(Icons.file_download)),
                   BottomNavigationBarItem(
-                      label: translate("Menu_"), icon: Icon(Icons.menu)),
+                      label: translate("Menu_"),
+                      icon: Icon(Icons.account_circle_outlined)),
                 ],
                 currentIndex: _selectedIndex!,
                 selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
