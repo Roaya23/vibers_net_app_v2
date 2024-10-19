@@ -99,8 +99,8 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
   Widget makeListTile1() {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      tileColor: Theme.of(context).primaryColor.withOpacity(0.1),
-      leading: leadingWifiListTile(),
+      tileColor: Theme.of(context).primaryColor.withOpacity(0.05),
+      // leading: leadingWifiListTile(),
       title: wifiTitleText(),
       subtitle: wifiSubtitle(),
       trailing: wifiSwitch(),
@@ -113,22 +113,23 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
         horizontal: 20.0,
         vertical: 5.0,
       ),
-      tileColor: Theme.of(context).primaryColor.withOpacity(0.1),
-      leading: Container(
-        padding: EdgeInsets.only(right: 20.0),
-        decoration: BoxDecoration(
-          border: Border(
-            right: new BorderSide(
-              width: 1.0,
-              color: Colors.white24,
-            ),
-          ),
-        ),
-        child: Icon(
-          FontAwesomeIcons.children,
-          size: 25.0,
-        ),
-      ),
+      tileColor: Theme.of(context).primaryColor.withOpacity(0.05),
+      // leading: Container(
+      //   padding: EdgeInsets.only(right: 20.0),
+      //   decoration: BoxDecoration(
+      //     border: Border(
+      //       right: new BorderSide(
+      //         width: 1.0,
+      //         color: Colors.white24,
+      //       ),
+      //     ),
+      //   ),
+      //   child: Icon(
+      //     FontAwesomeIcons.children,
+      //     size: 25.0,
+      //   ),
+      // ),
+
       title: Text(
         translate('Kids_Mode'),
         style: TextStyle(
@@ -245,22 +246,22 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                 horizontal: 20.0,
                 vertical: 5.0,
               ),
-              tileColor: Theme.of(context).primaryColor.withOpacity(0.1),
-              leading: Container(
-                padding: EdgeInsets.only(right: 20.0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: new BorderSide(
-                      width: 1.0,
-                      color: Colors.white24,
-                    ),
-                  ),
-                ),
-                child: Icon(
-                  FontAwesomeIcons.language,
-                  size: 25.0,
-                ),
-              ),
+              tileColor: Theme.of(context).primaryColor.withOpacity(0.05),
+              // leading: Container(
+              //   padding: EdgeInsets.only(right: 20.0),
+              //   decoration: BoxDecoration(
+              //     border: Border(
+              //       right: new BorderSide(
+              //         width: 1.0,
+              //         color: Colors.white24,
+              //       ),
+              //     ),
+              //   ),
+              //   child: Icon(
+              //     FontAwesomeIcons.language,
+              //     size: 25.0,
+              //   ),
+              // ),
               title: Text(
                 translate('Language_'),
                 style: TextStyle(
@@ -281,7 +282,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
             SizedBox(height: 5.0),
             kidsMode(),
             SizedBox(height: 5.0),
-            darkTheme(),
+            // darkTheme(),
           ],
         ),
       ),

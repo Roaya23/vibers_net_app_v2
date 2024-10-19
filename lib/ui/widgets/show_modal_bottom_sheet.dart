@@ -62,7 +62,7 @@ Future<T?> showAppModalBottomSheet<T>(
                       color: const Color(0xff938F99)),
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 28,
                 ),
               Flexible(
                 child: SingleChildScrollView(

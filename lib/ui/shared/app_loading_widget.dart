@@ -3,7 +3,7 @@ import 'package:vibers_net/common/route_paths.dart';
 import 'package:vibers_net/common/styles.dart';
 
 class AppLoadingWidget extends StatelessWidget {
-  const AppLoadingWidget({this.size = 50, this.strokeWidth = 6.0, this.color});
+  const AppLoadingWidget({this.size = 30, this.strokeWidth = 4.5, this.color});
   final double size;
   final double strokeWidth;
   final Color? color;

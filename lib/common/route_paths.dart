@@ -72,4 +72,7 @@ class RoutePaths {
   static const String Event = 'event';
   static const String UpiPayment = 'upiPayment';
   static const String recommendedVideos = 'recommendedVideos';
+  static const String accountsPage = 'accountsPage';
+  static const String editAccountPage = "EditAccountPage";
+  static const String createAccountProfilePage = "CreateAccountProfilePage";
 }

@@ -7,6 +7,9 @@ import 'package:vibers_net/ui/gateways/payhere_payment.dart';
 import 'package:vibers_net/ui/gateways/payumoney_payment.dart';
 import 'package:vibers_net/ui/gateways/rave_payment.dart';
 import 'package:vibers_net/ui/gateways/upi_payment.dart';
+import 'package:vibers_net/ui/screens/accounts/accounts_page.dart';
+import 'package:vibers_net/ui/screens/accounts/create_profile_page.dart';
+import 'package:vibers_net/ui/screens/accounts/edit_acount_page.dart';
 import 'package:vibers_net/ui/screens/audioScreen.dart';
 import 'package:vibers_net/ui/screens/forget_password_screen.dart';
 import 'package:vibers_net/ui/screens/liveEventScreen.dart';
@@ -326,6 +329,14 @@ class RouteGenerator {
         RecommendedGridView argument = args as RecommendedGridView;
         return MaterialPageRoute(
             builder: (context) => RecommendedGridView(argument.videoList));
+      case RoutePaths.accountsPage:
+        // RecommendedGridView argument = args as RecommendedGridView;
+        return MaterialPageRoute(builder: (context) => const AccountsPage());
+      case RoutePaths.editAccountPage:
+        return MaterialPageRoute(builder: (context) => const EditAccountPage());
+      case RoutePaths.createAccountProfilePage:
+        return MaterialPageRoute(
+            builder: (context) => const CreateAccountProfilePage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

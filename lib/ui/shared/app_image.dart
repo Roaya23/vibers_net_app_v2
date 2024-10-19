@@ -55,6 +55,7 @@ class AppImage extends StatelessWidget {
     final Color? bgColor,
     final List<BoxShadow>? boxShadow,
     bool showFailIcon = false,
+    bool cacheImage = true,
   }) {
     return Container(
       key: key,
@@ -67,13 +68,14 @@ class AppImage extends StatelessWidget {
       foregroundDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius ?? 8),
       ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
+      clipBehavior: Clip.antiAlias,
       child: AppImage(
         path: path,
         fit: fit,
         height: height,
         width: width,
         showFailIcon: showFailIcon,
+        cacheImage: cacheImage,
       ),
     );
   }
@@ -131,6 +133,7 @@ class AppImage extends StatelessWidget {
         scale: scale,
         width: width,
         fit: fit,
+        isAntiAlias: true,
         errorBuilder: (context, error, stackTrace) {
           return _errorBuilderWidget();
         },
@@ -141,6 +144,7 @@ class AppImage extends StatelessWidget {
         height: height,
         width: width,
         scale: scale,
+        isAntiAlias: true,
         errorBuilder: (context, error, stackTrace) {
           return _errorBuilderWidget();
         },

@@ -18,7 +18,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController searchController = new TextEditingController();
+  final searchController = new TextEditingController();
   late String filter;
   var focusNode = new FocusNode();
   bool descTextShowFlag = false;
@@ -283,22 +283,29 @@ class _SearchScreenState extends State<SearchScreen> {
         focusNode: focusNode,
         controller: searchController,
         style: TextStyles.regular12(color: kWhite100),
+        onChanged: (value) {
+          setState(() {});
+        },
         decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
               color: kWhite100.withOpacity(.5),
               size: 20,
             ),
-            suffixIcon: GestureDetector(
-                onTap: () {
-                  searchController.clear();
-                },
-                behavior: HitTestBehavior.opaque,
-                child: Icon(
-                  Icons.cancel,
-                  size: 16,
-                  color: kWhite100,
-                )),
+            suffixIcon: AnimatedOpacity(
+              duration: Durations.medium3,
+              opacity: searchController.text.isNotEmpty ? 1.0 : 0.0,
+              child: GestureDetector(
+                  onTap: () {
+                    searchController.clear();
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Icon(
+                    Icons.cancel,
+                    size: 16,
+                    color: kWhite100,
+                  )),
+            ),
             contentPadding: EdgeInsets.symmetric(
               vertical: 6,
             ),

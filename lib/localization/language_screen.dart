@@ -1,4 +1,7 @@
-import '/ui/shared/appbar.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
+import 'package:vibers_net/ui/widgets/app_button.dart';
 import '../localization/language_model.dart';
 import '../localization/language_provider.dart';
 import '../ui/screens/bottom_navigations_bar.dart';
@@ -18,10 +21,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
   bool isLoading = true;
 
   final _formKey = GlobalKey<FormState>();
- final TextEditingController language = TextEditingController();
+  // final TextEditingController language = TextEditingController();
 
   LanguageProvider languageProvider = LanguageProvider();
-  List<String> languageList = [];
+  final List<String> languageList = [];
+
+  String? selectedLaunage;
+  String? previousSelectedLaunage;
+
+  Locale get getCurrentLocal => LocalizedApp.of(context).delegate.currentLocale;
 
   @override
   void initState() {
@@ -30,6 +38,11 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       for (Language language in (languageProvider.languageModel?.language)!) {
+        if (getCurrentLocal.languageCode.toLowerCase() ==
+            language.local!.toLowerCase()) {
+          previousSelectedLaunage = language.name;
+          selectedLaunage = language.name!;
+        }
         languageList.add(language.name!);
       }
 
@@ -42,225 +55,277 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, translate("Language_Setting"))
-          as PreferredSizeWidget?,
+      appBar: AppBarWidget(
+        titleText: translate("Language_"),
+      ),
       body: LoadingOverlay(
         isLoading: isLoading,
         progressIndicator: CircularProgressIndicator(),
         child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(20.0),
-            padding: EdgeInsets.all(30.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.0),
-                    child: TextFormField(
-                      onTap: () {
-                        suggestionPopup(
-                            textEditingController: language,
-                            list: languageList);
-                      },
-                      validator: (value) {
-                        if ((value?.isEmpty)!) {
-                          return translate("Please_choose_Language");
-                        }
-                        return null;
-                      },
-                      controller: language,
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        hintText: translate("Choose_Language"),
-                        labelText: translate("Language_"),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                          ),
-                        ),
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ...languageList.map(
+                  (language) {
+                    return RadioListTile<String?>.adaptive(
+                      controlAffinity: ListTileControlAffinity.trailing,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 4),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      activeColor: kMainLight,
+                      dense: true,
+                      title: Text(
+                        language,
+                        style: TextStyles.regular16(color: kWhite100),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      child: Text(
-                        translate("Save_"),
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () async {
-                        if ((_formKey.currentState?.validate())!) {
-                          _formKey.currentState?.save();
-
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await languageProvider.changeLanguageCode(
-                              language: language.text, context: context);
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MyBottomNavigationBar(pageId: 0),
-                            ),
-                          ).then((value) => setState(() {}));
-                        }
+                      value: language,
+                      groupValue: selectedLaunage,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedLaunage = value;
+                        });
                       },
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  },
+                ).toList(),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 5.0),
+                //   child: TextFormField(
+                //     onTap: () {
+                //       suggestionPopup(
+                //           textEditingController: language, list: languageList);
+                //     },
+                //     validator: (value) {
+                //       if ((value?.isEmpty)!) {
+                //         return translate("Please_choose_Language");
+                //       }
+                //       return null;
+                //     },
+                //     controller: language,
+                //     keyboardType: TextInputType.name,
+                //     decoration: InputDecoration(
+                //       hintText: translate("Choose_Language"),
+                //       labelText: translate("Language_"),
+                //       focusedBorder: OutlineInputBorder(
+                //         borderSide: BorderSide(
+                //           width: 2,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 30.0,
+                // ),
+                // Center(
+                //   child: ElevatedButton(
+                //     child: Text(
+                //       translate("Save_"),
+                //       style: TextStyle(
+                //         fontSize: 15.0,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //     onPressed: () async {
+                //       if ((_formKey.currentState?.validate())!) {
+                //         _formKey.currentState?.save();
+
+                //         setState(() {
+                //           isLoading = true;
+                //         });
+                //         await languageProvider.changeLanguageCode(
+                //             language: language.text, context: context);
+
+                //         Navigator.pushReplacement(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) =>
+                //                 MyBottomNavigationBar(pageId: 0),
+                //           ),
+                //         ).then((value) => setState(() {}));
+                //       }
+                //     },
+                //   ),
+                // ),
+              ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        color: kScafoldBgColor,
+        child: SafeArea(
+          top: false,
+          bottom: true,
+          child: AppButton(
+            isEnabled: selectedLaunage != previousSelectedLaunage,
+            text: translate("change"),
+            onPressed: () async {
+              //  if ((_formKey.currentState?.validate())!) {
+              //     _formKey.currentState?.save();
+
+              setState(() {
+                isLoading = true;
+              });
+              await languageProvider.changeLanguageCode(
+                  language: selectedLaunage, context: context);
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyBottomNavigationBar(pageId: 0),
+                ),
+              ).then((value) => setState(() {}));
+              // }
+              // },
+            },
           ),
         ),
       ),
     );
   }
 
-  void suggestionPopup(
-      {TextEditingController? textEditingController, List<String>? list}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 250.0,
-                  child: SuggestionWidget(
-                      textEditingController: textEditingController, list: list),
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  // void suggestionPopup(
+  //     {TextEditingController? textEditingController, List<String>? list}) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           content: Stack(
+  //             clipBehavior: Clip.none,
+  //             children: [
+  //               Positioned(
+  //                 right: -40.0,
+  //                 top: -40.0,
+  //                 child: InkResponse(
+  //                   onTap: () {
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                   child: CircleAvatar(
+  //                     child: Icon(Icons.close),
+  //                     backgroundColor: Colors.red,
+  //                   ),
+  //                 ),
+  //               ),
+  //               Container(
+  //                 height: 250.0,
+  //                 child: SuggestionWidget(
+  //                     textEditingController: textEditingController, list: list),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
+
+
 }
 
-// ignore: must_be_immutable
-class SuggestionWidget extends StatefulWidget {
-  SuggestionWidget({this.textEditingController, this.list});
+// // ignore: must_be_immutable
+// class SuggestionWidget extends StatefulWidget {
+//   SuggestionWidget({this.textEditingController, this.list});
 
-  TextEditingController? textEditingController;
-  List<String>? list;
+//   TextEditingController? textEditingController;
+//   List<String>? list;
 
-  @override
-  _SuggestionWidgetState createState() => _SuggestionWidgetState();
-}
+//   @override
+//   _SuggestionWidgetState createState() => _SuggestionWidgetState();
+// }
 
-class _SuggestionWidgetState extends State<SuggestionWidget> {
-  TextEditingController controller = TextEditingController();
-  String filter = '';
+// class _SuggestionWidgetState extends State<SuggestionWidget> {
+//   TextEditingController controller = TextEditingController();
+//   String filter = '';
 
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {
-        filter = controller.text;
-      });
-    });
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller.addListener(() {
+//       setState(() {
+//         filter = controller.text;
+//       });
+//     });
+//   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     controller.dispose();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              autofocus: true,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    controller.clear();
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                ),
-                hintText: "Search...",
-              ),
-              controller: controller,
-            )),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: _buildListView(),
-          ),
-        )
-      ],
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       mainAxisSize: MainAxisSize.min,
+//       children: <Widget>[
+//         Padding(
+//             padding: EdgeInsets.all(10),
+//             child: TextField(
+//               autofocus: true,
+//               style: TextStyle(
+//                 fontSize: 18.0,
+//                 color: Colors.black,
+//               ),
+//               decoration: InputDecoration(
+//                 prefixIcon: Icon(Icons.search),
+//                 suffixIcon: IconButton(
+//                   icon: Icon(Icons.close),
+//                   onPressed: () {
+//                     controller.clear();
+//                     FocusScope.of(context).requestFocus(FocusNode());
+//                   },
+//                 ),
+//                 hintText: "Search...",
+//               ),
+//               controller: controller,
+//             )),
+//         Expanded(
+//           child: Padding(
+//             padding: EdgeInsets.only(top: 8.0),
+//             child: _buildListView(),
+//           ),
+//         )
+//       ],
+//     );
+//   }
 
-  Widget _buildListView() {
-    return Container(
-      height: 300,
-      width: 200,
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: widget.list?.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (filter == "") {
-              return _buildRow(widget.list![index]);
-            } else {
-              if (widget.list![index]
-                  .toLowerCase()
-                  .contains(filter.toLowerCase())) {
-                return _buildRow(widget.list![index]);
-              } else {
-                return Container();
-              }
-            }
-          }),
-    );
-  }
+//   Widget _buildListView() {
+//     return Container(
+//       height: 300,
+//       width: 200,
+//       child: ListView.builder(
+//           shrinkWrap: true,
+//           itemCount: widget.list?.length,
+//           itemBuilder: (BuildContext context, int index) {
+//             if (filter == "") {
+//               return _buildRow(widget.list![index]);
+//             } else {
+//               if (widget.list![index]
+//                   .toLowerCase()
+//                   .contains(filter.toLowerCase())) {
+//                 return _buildRow(widget.list![index]);
+//               } else {
+//                 return Container();
+//               }
+//             }
+//           }),
+//     );
+//   }
 
-  Widget _buildRow(String text) {
-    return GestureDetector(
-      child: ListTile(
-        title: Text(text),
-      ),
-      onTap: () {
-        controller.text = text;
-        widget.textEditingController?.text = text;
-        Navigator.of(context).pop();
-      },
-    );
-  }
-}
+//   Widget _buildRow(String text) {
+//     return GestureDetector(
+//       child: ListTile(
+//         title: Text(text),
+//       ),
+//       onTap: () {
+//         controller.text = text;
+//         widget.textEditingController?.text = text;
+//         Navigator.of(context).pop();
+//       },
+//     );
+//   }
+// }

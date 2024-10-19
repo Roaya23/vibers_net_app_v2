@@ -38,7 +38,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Container(
       child: Icon(
         Icons.notifications,
-        size: 120.0,
+        size: 32,
         color: kWhite100TextColor,
       ),
     );
@@ -48,7 +48,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget message() {
     return Text(
       translate("You_dont_have_any_notification"),
-      style: TextStyles.regular16(color: kWhite100),
+      style: TextStyles.regular12(color: kWhite100TextColor),
     );
   }
 
@@ -63,7 +63,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           children: <Widget>[
             notificationIconContainer(),
             SizedBox(
-              height: 25.0,
+              height: 16.0,
             ),
             message(),
           ],

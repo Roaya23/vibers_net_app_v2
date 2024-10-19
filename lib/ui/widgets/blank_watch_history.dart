@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vibers_net/common/text_styles.dart';
 
 class BlankWatchHistory extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _BlankWatchHistoryState extends State<BlankWatchHistory> {
           children: [
             Icon(
               FontAwesomeIcons.solidCirclePlay,
-              size: 150,
+              size: 32,
             ),
           ],
         ),
@@ -36,9 +37,7 @@ class _BlankWatchHistoryState extends State<BlankWatchHistory> {
                       " " +
                       translate("elite_TV_appears_at_simply_least_cost"),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                  style: TextStyles.medium12().copyWith(height: 2),
                 ),
               ),
             ],

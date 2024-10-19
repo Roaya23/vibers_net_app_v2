@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/shared/app_image.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
@@ -544,175 +548,154 @@ class _WatchHistoryScreenState extends State<WatchHistoryScreen> {
           customAppBar2(context, translate("Watch_History"), _selectPopup1())
               as PreferredSizeWidget?,
       body: _visible == false
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const AppLoadingWidget()
           : watchHistoryList.length == 0
               ? BlankWatchHistory()
-              : ListView.builder(
+              : ListView.separated(
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 12,
+                  ),
                   itemCount: watchHistoryList.length,
-                  padding: EdgeInsets.only(
-                      left: 15.0, right: 15.0, top: 5.0, bottom: 10.0),
+                  padding: EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     watchHistoryList[index]
                         .genres!
                         .removeWhere((element) => element == null);
-                    String s =
+                    final String s =
                         "${watchHistoryList[index].genres}".replaceAll("[", "");
                     String genresName = "$s".replaceAll("]", "");
-                    return Column(
-                      children: [
-                        Container(
-                          child: ClipRRect(
+                    return InkWell(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutePaths.videoDetail,
+                          arguments: VideoDetailScreen(watchHistoryList[index]),
+                        );
+                      },
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                highlightColor: Colors.grey[800],
-                                child: Container(
-                                  height: 130,
-                                  color: Theme.of(context).primaryColorLight,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(5.0),
-                                            bottomLeft: Radius.circular(5.0)),
-                                        child: FadeInImage.assetNetwork(
-                                          placeholder:
-                                              "assets/placeholder_box.jpg",
-                                          image: watchHistoryList[index].type ==
-                                                  DatumType.M
-                                              ? '${APIData.movieImageUri}${watchHistoryList[index].thumbnail}'
-                                              : '${APIData.tvImageUriTv}${watchHistoryList[index].thumbnail}',
-                                          fit: BoxFit.cover,
-                                          width: 100,
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            return const Image(
-                                              width: 100,
-                                              image: AssetImage(
-                                                  "assets/placeholder_box.jpg"),
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(left: 10.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                BorderRadius.all(Radius.circular(8.0)),
+                            border: Border.all(color: kBorderColor)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            AppImage.rounded(
+                                path: watchHistoryList[index].type ==
+                                        DatumType.M
+                                    ? '${APIData.movieImageUri}${watchHistoryList[index].thumbnail}'
+                                    : '${APIData.tvImageUriTv}${watchHistoryList[index].thumbnail}',
+                                width: 100,
+                                height: 120,
+                                cacheImage: false,
+                                fit: BoxFit.cover,radius: 4),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${watchHistoryList[index].title}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyles.bold14(),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    '$genresName',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyles.medium14(
+                                      color: kMainLight,
+                                    ),
+                                  ),
+                                  watchHistoryList[index].duration == null
+                                      ? SizedBox.shrink()
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8),
+                                          child: Row(
                                             children: [
-                                              SizedBox(
-                                                height: 12,
+                                              Icon(
+                                                Icons.access_time,
+                                                size: 16,
+                                                color: kWhite100,
                                               ),
-                                              Text(
-                                                '${watchHistoryList[index].title}',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15.0,
+                                              const SizedBox(
+                                                width: 6,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  "${watchHistoryList[index].duration}\t\t" +
+                                                      translate("min_"),
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyles.regular12(
+                                                    color: kWhite100,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                '$genresName',
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              watchHistoryList[index]
-                                                          .duration ==
-                                                      null
-                                                  ? SizedBox.shrink()
-                                                  : Text(
-                                                      translate("Duration_") +
-                                                          ' : ${watchHistoryList[index].duration} ' +
-                                                          translate("min_"),
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: TextStyle(
-                                                        fontSize: 14.0,
-                                                      ),
-                                                    ),
-                                              Flexible(
-                                                flex: 1,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    RatingBar.builder(
-                                                      initialRating:
-                                                          watchHistoryList[
-                                                                          index]
-                                                                      .rating ==
-                                                                  null
-                                                              ? 0.0
-                                                              : double.parse(
-                                                                  "${watchHistoryList[index].rating / 2}"),
-                                                      minRating: 1,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemSize: 20,
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
-                                                        Icons.star,
-                                                        color: Colors.amber,
-                                                      ),
-                                                      onRatingUpdate: (rating) {
-                                                        print(rating);
-                                                      },
-                                                    ),
-                                                    SizedBox(
-                                                      width: 70.0,
-                                                    ),
-                                                    _selectPopup(
-                                                      watchHistoryList[index],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: RatingBar.builder(
+                                          initialRating: watchHistoryList[index]
+                                                      .rating ==
+                                                  null
+                                              ? 0.0
+                                              : double.parse(
+                                                  "${watchHistoryList[index].rating / 2}"),
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemSize: 16,
+                                          itemBuilder: (context, _) => Icon(
+                                            Icons.star_rate_rounded,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            print(rating);
+                                          },
+                                        ),
                                       ),
+                                      SizedBox(
+                                        width: 8.0,
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            removeHistory(
+                                                watchHistoryList[index].type,
+                                                watchHistoryList[index].id);
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            size: 16,
+                                            color: kRedColor,
+                                          )),
                                     ],
                                   ),
-                                ),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RoutePaths.videoDetail,
-                                    arguments: VideoDetailScreen(
-                                        watchHistoryList[index]),
-                                  );
-                                },
+                                ],
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        SizedBox(height: 10),
-                      ],
+                      ),
                     );
                   },
                 ),
