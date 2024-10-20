@@ -75,4 +75,5 @@ class RoutePaths {
   static const String accountsPage = 'accountsPage';
   static const String editAccountPage = "EditAccountPage";
   static const String createAccountProfilePage = "CreateAccountProfilePage";
+  static const String privacyPolicyPage = "PrivacyPolicyPage";
 }

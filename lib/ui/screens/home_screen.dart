@@ -11,12 +11,13 @@ import '/providers/menu_provider.dart';
 import '/providers/slider_provider.dart';
 import '/ui/shared/back_press.dart';
 import '/ui/screens/video_page.dart';
-import '/ui/shared/image_slider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import '/common/apipath.dart';
 import 'home-screen-shimmer.dart';
 import 'package:vibers_net/common/styles.dart';
+
+import 'home_ebook_list.dart';
+import 'home_images_list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -106,14 +107,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print("menudtalist: ${menuListData.length}");
     if (menuListData.length > 0) {
       return SafeArea(
         child: PopScope(
           child: DefaultTabController(
-            length: menuListData.length,
+            length: menuListData.length + 2,
             child: Scaffold(
               key: _scaffoldKey,
+              extendBodyBehindAppBar: true,
+              extendBody: true,
+              appBar: _sliverAppBar(myModel, menuListData),
               body: _scaffoldBody(myModel, menuListData),
               backgroundColor: Theme.of(context).primaryColorDark,
             ),
@@ -149,9 +152,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: DefaultTabController(
                     length: dataSnapshot.data == null
                         ? 0
-                        : dataSnapshot.data.length,
+                        : dataSnapshot.data.length + 2,
                     child: Scaffold(
                       key: _scaffoldKey,
+                      appBar: _sliverAppBar(myModel, dataSnapshot.data),
                       body: _scaffoldBody(myModel, dataSnapshot.data),
                       backgroundColor: Theme.of(context).primaryColorDark,
                     ),
@@ -187,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   //  Sliver app bar
-  Widget _sliverAppBar(innerBoxIsScrolled, myModel, menus) {
+  AppBar _sliverAppBar(myModel, menus) {
     // bool type = false;
     // var dWidth = MediaQuery.of(context).size.width;
     // var isPortrait =
@@ -201,21 +205,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // var logo =
     //     Provider.of<AppConfig>(context, listen: false).appModel!.config!.logo;
     final logo = "assets/logo.png";
-    return SliverAppBar(
+    final List<String> tabsNames = [
+      ...List.generate(
+        menus.length,
+        (int index) {
+          return '${menus[index].name}';
+        },
+      ),
+      "Images",
+      "EBook"
+    ];
+    return AppBar(
       elevation: 0.0,
-      stretch: true,
+      // stretch: true,
       // toolbarHeight: kTextTabBarHeight * 2,
-      expandedHeight:
-          MediaQuery.of(context).size.height * Constants.sliderHeight,
-      flexibleSpace: FlexibleSpaceBar(
-          stretchModes: [
-            StretchMode.zoomBackground,
-            StretchMode.blurBackground,
-            StretchMode.fadeTitle
-          ],
-          background: Container(
-            child: ImageSlider(),
-          )),
+      // expandedHeight:
+      //     MediaQuery.of(context).size.height * Constants.sliderHeight,
+      // flexibleSpace: FlexibleSpaceBar(
+      //   stretchModes: [
+      //     StretchMode.zoomBackground,
+      //     StretchMode.blurBackground,
+      //     StretchMode.fadeTitle
+      //   ],
+      // background: Container(
+      //   child: ImageSlider(),
+      // )
+      // ),
       leadingWidth: 0,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -223,14 +238,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           AppImage(
             path: logo,
-            scale: 2,
+            scale: 3,
           ),
         ],
       ),
-      backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),
-      pinned: true,
-      floating: true,
-      forceElevated: innerBoxIsScrolled,
+      backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.2),
+      // pinned: true,
+      // floating: true,
+      // forceElevated: innerBoxIsScrolled,
       automaticallyImplyLeading: false,
       surfaceTintColor: kScafoldBgColor,
       bottom: TabBar.secondary(
@@ -242,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         tabAlignment: TabAlignment.center,
         dividerColor: Colors.transparent,
         labelColor: Theme.of(context).textSelectionTheme.selectionColor,
-        unselectedLabelColor: Theme.of(context).hintColor,
+        unselectedLabelColor: kWhite100,
         unselectedLabelStyle:
             TextStyles.regular12(color: Theme.of(context).hintColor),
         indicator: BoxDecoration(
@@ -255,12 +270,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         isScrollable: true,
         tabs: List.generate(
-          menus.length,
+          tabsNames.length,
           (int index) {
             return Tab(
               child: Container(
                 child: Text(
-                  '${menus[index].name}',
+                  '${tabsNames[index]}',
                 ),
               ),
             );
@@ -272,28 +287,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 //  Scaffold body
   Widget _scaffoldBody(myModel, menus) {
-    return NestedScrollView(
-      controller: _scrollViewController,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          _sliverAppBar(innerBoxIsScrolled, myModel, menus),
-        ];
-      },
-      body: TabBarView(
-        children: List<Widget>.generate(
-          menus.length,
-          (int index) {
-            menuId = menus[index].id;
-            menuSlug = menus[index].slug;
-            return VideosPage(
-              loading: false,
-              menuId: menuId,
-              menuSlug: menuSlug,
-            );
-          },
-        ),
+    final List<Widget> tabBody = [
+      ...List<Widget>.generate(
+        menus.length,
+        (int index) {
+          menuId = menus[index].id;
+          menuSlug = menus[index].slug;
+          return VideosPage(
+            loading: false,
+            menuId: menuId,
+            menuSlug: menuSlug,
+          );
+        },
       ),
-    );
+      const HomeImagesList(),
+      const HomeEBookList(),
+    ];
+    return TabBarView(children: tabBody);
   }
 
   //  When menu length is not 0
@@ -301,10 +311,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return SafeArea(
       child: PopScope(
         child: DefaultTabController(
-          length: menus == null ? 0 : menus.length,
+          length: menus == null ? 0 : menus.length + 2,
           child: Scaffold(
             key: _scaffoldKey,
+            appBar: _sliverAppBar(myModel, menus),
             body: _scaffoldBody(myModel, menus),
+            extendBody: true,
+            extendBodyBehindAppBar: true,
             backgroundColor: Theme.of(context).primaryColorDark,
           ),
         ),

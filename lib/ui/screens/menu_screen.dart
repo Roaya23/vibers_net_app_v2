@@ -632,7 +632,9 @@ class _MenuScreenState extends State<MenuScreen> {
           _TileWidget(
             icon: Icons.privacy_tip_outlined,
             title: translate("privacy_policy"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(RoutePaths.privacyPolicyPage);
+            },
           ),
           help(),
           appConfig.config!.donation == 1 ||

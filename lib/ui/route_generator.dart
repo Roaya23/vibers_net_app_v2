@@ -14,6 +14,7 @@ import 'package:vibers_net/ui/screens/audioScreen.dart';
 import 'package:vibers_net/ui/screens/forget_password_screen.dart';
 import 'package:vibers_net/ui/screens/liveEventScreen.dart';
 import 'package:vibers_net/ui/screens/otp/otp_verification_screen.dart';
+import 'package:vibers_net/ui/screens/privacy_policy.dart';
 import 'package:vibers_net/ui/shared/recommended_grid_view.dart';
 import '/ui/gateways/in_app_payment.dart';
 import '/ui/screens/actors_movies_grid.dart';
@@ -337,6 +338,9 @@ class RouteGenerator {
       case RoutePaths.createAccountProfilePage:
         return MaterialPageRoute(
             builder: (context) => const CreateAccountProfilePage());
+      case RoutePaths.privacyPolicyPage:
+        return MaterialPageRoute(
+            builder: (context) => const PrivacyPolicyPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

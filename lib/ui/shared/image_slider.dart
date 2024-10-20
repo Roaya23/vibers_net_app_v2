@@ -6,7 +6,7 @@ import 'package:vibers_net/ui/shared/app_image.dart';
 import '../../common/global.dart';
 import '../../common/styles.dart';
 import '/models/datum.dart';
-import '/providers/movie_tv_provider.dart';
+// import '/providers/movie_tv_provider.dart';
 import '/providers/slider_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +20,10 @@ class _ImageSliderState extends State<ImageSlider> {
 
   Widget imageSlider() {
     final slider = Provider.of<SliderProvider>(context, listen: false);
-    final movieList =
-        Provider.of<MovieTVProvider>(context, listen: false).moviesList;
-    final tvList =
-        Provider.of<MovieTVProvider>(context, listen: false).tvSeriesList;
+    // final movieList =
+    //     Provider.of<MovieTVProvider>(context, listen: false).moviesList;
+    // final tvList =
+    //     Provider.of<MovieTVProvider>(context, listen: false).tvSeriesList;
     final slidersList = slider.sliderModel?.slider ?? [];
     final slidersLength = slidersList.length;
     return Column(
@@ -192,11 +192,11 @@ class _ImageSliderState extends State<ImageSlider> {
                   ),
           ),
         ),
-        Container(
-          height: kTextTabBarHeight,
-          width: double.infinity,
-          color: kScafoldBgColor,
-        )
+        // Container(
+        //   height: kTextTabBarHeight,
+        //   width: double.infinity,
+        //   color: kScafoldBgColor,
+        // )
       ],
     );
   }

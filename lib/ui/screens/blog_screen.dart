@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:vibers_net/common/styles.dart';
+import 'package:vibers_net/common/text_styles.dart';
 import '/common/apipath.dart';
 import '/providers/app_config.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +44,7 @@ class _BlogScreenState extends State<BlogScreen> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
+              // surfaceTintColor: Colors.transparent,
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
@@ -61,10 +64,10 @@ class _BlogScreenState extends State<BlogScreen> {
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(35.0),
-                            topRight: Radius.circular(35.0),
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
                           ),
                         ),
                         child: Column(
@@ -76,15 +79,13 @@ class _BlogScreenState extends State<BlogScreen> {
                                 left: 15.0,
                                 right: 15.0,
                                 bottom: 15.0,
-                                top: 30.0,
+                                top: 40.0,
                               ),
                               child: Text(
                                 '${blogList[widget.index].title}',
                                 softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                                style:
+                                    TextStyles.bold24(color: kWhiteTextColor),
                               ),
                             ),
                             Padding(
@@ -97,13 +98,10 @@ class _BlogScreenState extends State<BlogScreen> {
                                 softWrap: false,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: TextStyles.semiBold14(color: kMainLight),
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 6),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 15.0,
@@ -113,25 +111,20 @@ class _BlogScreenState extends State<BlogScreen> {
                                 DateFormat.yMd()
                                     .format(blogList[widget.index].updatedAt!),
                                 softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: TextStyles.semiBold12(),
                               ),
                             ),
                             const SizedBox(
-                              height: 10.0,
+                              height: 16.0,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0),
                               child: Text(
                                 '${blogList[widget.index].detail}',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  height: 1.5,
+                                style: TextStyles.regular14(
+                                  color: kWhiteTextColor,
                                 ),
-                                textAlign: TextAlign.justify,
                               ),
                             ),
                           ],

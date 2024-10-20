@@ -7,12 +7,12 @@ import 'package:vibers_net/providers/app_ui_shorting_provider.dart';
 import 'package:vibers_net/ui/screens/horizontal_audio_list.dart';
 import 'package:vibers_net/ui/screens/horizontal_liveEvent_list.dart';
 import 'package:vibers_net/ui/screens/recommended_video_list.dart';
+import 'package:vibers_net/ui/shared/image_slider.dart';
 import '../../common/facebook_ads.dart';
 import '/models/episode.dart';
 import '/providers/app_config.dart';
 import '/providers/main_data_provider.dart';
 import '/providers/menu_data_provider.dart';
-import '/ui/shared/actors_horizontal_list.dart';
 import '/ui/shared/heading1.dart';
 import '/ui/screens/horizental_genre_list.dart';
 import '/ui/screens/horizontal_movies_list.dart';
@@ -448,39 +448,50 @@ class _VideosPageState extends State<VideosPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); 
+    super.build(context);
     return RefreshIndicator(
       onRefresh: refreshList,
       color: Theme.of(context).primaryColor,
       backgroundColor: Theme.of(context).primaryColorLight,
-      child: FadeTransition(
-        opacity: _fadeInFadeOut,
-        child: Container(
-          child: _visible == false
-              ? Center(
-                  child: HomeScreenShimmer(
-                    loading: true,
-                  ),
-                )
-              : menuDataList.length == 0
-                  ? Center(
-                      child: Text(
-                        translate("No_data_available"),
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    )
-                  : Container(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        physics: ClampingScrollPhysics(),
-                        child: Column(
-                          key: _keyRed,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: widgetList(),
+      child: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(
+                height:
+                    MediaQuery.of(context).size.height * Constants.sliderHeight,
+                child: ImageSlider()),
+            FadeTransition(
+              opacity: _fadeInFadeOut,
+              child: Container(
+                child: _visible == false
+                    ? Center(
+                        child: HomeScreenShimmer(
+                          loading: true,
                         ),
-                      ),
-                    ),
+                      )
+                    : menuDataList.length == 0
+                        ? Center(
+                            child: Text(
+                              translate("No_data_available"),
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          )
+                        : Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              // physics: ClampingScrollPhysics(),
+                              child: Column(
+                                key: _keyRed,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: widgetList(),
+                              ),
+                            ),
+                          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
