@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 import 'package:vibers_net/common/styles.dart';
-import 'package:vibers_net/models/gender_type_enum.dart';
 import 'package:vibers_net/models/user_avatar_type_enum.dart';
+import 'package:vibers_net/providers/account/create_user_account_provider.dart';
 import 'package:vibers_net/ui/shared/app_image.dart';
 import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
 import 'package:vibers_net/ui/widgets/app_button.dart';
@@ -19,16 +20,18 @@ class CreateAccountProfilePage extends StatefulWidget {
 }
 
 class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
-  final _nameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  GenderTypeEnum? selectedGender;
-  UserAvatarTypeEnum? userAvatarTypeEnum;
-  bool isKidsMode = false;
 
-  bool get isRequiredDataHasFilled {
-    return _nameController.text.isNotEmpty &&
-        selectedGender != null &&
-        userAvatarTypeEnum != null;
+  CreateUserAccountParams _params = CreateUserAccountParams();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        context.read<CreateUserAccountProvider>().setStateInitial();
+      },
+    );
   }
 
   @override
@@ -46,7 +49,6 @@ class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               AppTextFormField(
-                controller: _nameController,
                 label: translate("Name_"),
                 validator: (text) {
                   if (text?.isEmpty == true) {
@@ -55,15 +57,17 @@ class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
                   return null;
                 },
                 onChanged: (text) {
-                  setState(() {});
+                  setState(() {
+                    _params = _params.copyWith(name: text);
+                  });
                 },
               ),
               SizedBox(height: 24),
               SelectGenderWidget(
-                selectedGender: selectedGender,
+                selectedGender: _params.gender,
                 onGenderSelected: (gender) {
                   setState(() {
-                    selectedGender = gender;
+                    _params = _params.copyWith(gender: gender);
                   });
                 },
               ),
@@ -83,12 +87,12 @@ class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
                   alignment: WrapAlignment.center,
                   children: UserAvatarTypeEnum.values.map(
                     (avatarType) {
-                      final bool isSelected = avatarType == userAvatarTypeEnum;
+                      final bool isSelected = avatarType == _params.avatar;
                       return InkWell(
                         borderRadius: BorderRadius.circular(22),
                         onTap: () {
                           setState(() {
-                            userAvatarTypeEnum = avatarType;
+                            _params = _params.copyWith(avatar: avatarType);
                           });
                         },
                         child: AnimatedContainer(
@@ -143,10 +147,10 @@ class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
               KidsTileWidget(
                   onToggle: (isKids) {
                     setState(() {
-                      isKidsMode = isKids;
+                      _params = _params.copyWith(isKidsMode: isKids);
                     });
                   },
-                  value: isKidsMode)
+                  value: _params.isKidsMode)
             ],
           ),
         ),
@@ -159,12 +163,28 @@ class _CreateAccountProfilePageState extends State<CreateAccountProfilePage> {
             bottom: true,
             top: false,
             child: AppButton(
-              isEnabled: isRequiredDataHasFilled,
+              isEnabled: _params.isNotEmpty,
               text: translate("create_profile"),
+              isLoading: context
+                  .watch<CreateUserAccountProvider>()
+                  .getUserAccountState
+                  .isLoading,
               onPressed: () {
                 final isValidForm = _formKey.currentState?.validate() ?? false;
                 if (isValidForm) {
-                  Navigator.pop(context);
+                  context
+                      .read<CreateUserAccountProvider>()
+                      .createAccount(_params)
+                      .then(
+                    (value) {
+                      if (value != null) {
+                        if (context.mounted) {
+                          Navigator.of(context).pop(value);
+                        }
+                      }
+                    },
+                  );
+                  // Navigator.pop(context);
                 }
               },
             ),

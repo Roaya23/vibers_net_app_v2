@@ -338,5 +338,6 @@
   "create_profile":"Create Profile",
   "profile_photo":"Profile Photo",
   "accounts":"Accounts",
-  "privacy_policy":"Privacy Policy"
+  "privacy_policy":"Privacy Policy",
+  "failToLoadtryAgain": "Fail to load ,please try again"
 }

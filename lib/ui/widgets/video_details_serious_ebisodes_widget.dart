@@ -6,7 +6,15 @@ import 'package:vibers_net/common/text_styles.dart';
 import 'package:vibers_net/ui/shared/app_image.dart';
 
 class VideDetailsEbisodesWidget extends StatelessWidget {
-  const VideDetailsEbisodesWidget({Key? key}) : super(key: key);
+  const VideDetailsEbisodesWidget(
+      {Key? key,
+      required this.seasons,
+      required this.onSeasonChanged,
+      required this.currentSeason})
+      : super(key: key);
+  final String currentSeason;
+  final List<String> seasons;
+  final void Function(int index) onSeasonChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +31,23 @@ class VideDetailsEbisodesWidget extends StatelessWidget {
                 style: TextStyles.semiBold12(color: kWhite100),
               ),
               const SizedBox(
-                width: 8,
+                width: 12,
               ),
               Expanded(
                   child: Align(
                 alignment: AlignmentDirectional.centerEnd,
                 child: AppMenuAnchor<String>(
-                  value: "Ep 1",
+                  value: currentSeason,
                   getValueText: (value) => value,
-                  values: ["Ep 1", "Ep 2", "Ep 3", "Ep 4"],
+                  onPopUpChange: (value, index) {
+                    onSeasonChanged(index);
+                  },
+                  values: seasons,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Ep 1",
+                        currentSeason,
                         textAlign: TextAlign.end,
                         style: TextStyles.semiBold12(color: kWhite100),
                       ),
@@ -56,68 +67,90 @@ class VideDetailsEbisodesWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 8,
+          height: 12,
         ),
-        SizedBox(
-          height: 110,
-          child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  width: 170,
-                  height: double.infinity,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AppImage(
-                        path:
-                            "https://m.media-amazon.com/images/M/MV5BNjE1MjY0Nzc4Nl5BMl5BanBnXkFtZTgwOTY5NjkyMDE@._V1_.jpg",
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Icon(
-                        Icons.play_circle_filled_rounded,
-                        color: kWhite100,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [
-                              Colors.transparent,
-                              Colors.transparent,
-                              Colors.transparent,
-                              Color(0xff5F5B55).withOpacity(.3),
-                              Color(0xff5F5B55).withOpacity(.5),
-                            ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter)),
-                      ),
-                      PositionedDirectional(
-                          start: 8,
-                          end: 8,
-                          bottom: 8,
-                          child: Text(
-                            translate(
-                              "EPISODE" + "\t${index + 1}",
-                            ),
-                            style: TextStyles.medium12(color: kWhite100),
-                          )),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(
-                    width: 6,
-                  ),
-              itemCount: 5),
-        )
       ],
+    );
+  }
+}
+
+class SeasonEpisodesListWidget extends StatelessWidget {
+  const SeasonEpisodesListWidget({required this.getTumbnail, required this.onTap});
+
+  final String Function(int index) getTumbnail;
+  final void Function(int index) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 110,
+      child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              width: 170,
+              height: double.infinity,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  AppImage(
+                    path: getTumbnail(index),
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                  Icon(
+                    Icons.play_circle_filled_rounded,
+                    color: kWhite100,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                          Colors.transparent,
+                          Colors.transparent,
+                          Colors.transparent,
+                          Color(0xff5F5B55).withOpacity(.3),
+                          Color(0xff5F5B55).withOpacity(.5),
+                        ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter)),
+                  ),
+                  PositionedDirectional(
+                      start: 8,
+                      end: 8,
+                      bottom: 8,
+                      child: Text(
+                        translate(
+                          "EPISODE" + "\t${index + 1}",
+                        ),
+                        style: TextStyles.medium12(color: kWhite100),
+                      )),
+                ],
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(
+                width: 6,
+              ),
+          itemCount: 5),
+    );
+  }
+}
+
+class _CommingSoonWidget extends StatelessWidget {
+  const _CommingSoonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Text("data"),
     );
   }
 }
@@ -141,7 +174,7 @@ class AppMenuAnchor<T> extends StatefulWidget {
   final void Function()? onClose;
   final String Function(T value) getValueText;
   final List<T> values;
-  final void Function(T? value)? onPopUpChange;
+  final void Function(T? value, int index)? onPopUpChange;
   final T? value;
   final double? menuWidth;
   final double dxMenu;
@@ -212,7 +245,7 @@ class _AppMenuAnchorState<T> extends State<AppMenuAnchor<T>> {
           highlightColor: Colors.transparent,
           onTap: () {
             if (widget.onPopUpChange != null) {
-              widget.onPopUpChange!(currentValue);
+              widget.onPopUpChange!(currentValue, index);
             }
             _menuController.close();
           },

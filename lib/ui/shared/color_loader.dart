@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibers_net/common/styles.dart';
 import 'dart:math';
 import '/ui/shared/dot_type.dart';
 
@@ -11,9 +12,9 @@ class ColorLoader extends StatefulWidget {
   final Icon dotIcon;
 
   ColorLoader(
-      {this.dotThreeColor = const Color.fromRGBO(72, 163, 198, 1.0),
-      this.dotOneColor = Colors.white70,
-      this.dotTwoColor = const Color.fromRGBO(125, 183, 91, 1.0),
+      {this.dotThreeColor = kMainLight,
+      this.dotOneColor = kMainLight,
+      this.dotTwoColor = kMainThemeColor,
       this.duration = const Duration(milliseconds: 1000),
       this.dotType = DotType.circle,
       this.dotIcon = const Icon(Icons.blur_on)});

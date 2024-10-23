@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
-import 'package:vibers_net/models/gender_type_enum.dart';
+import 'package:vibers_net/models/account/user_acount_model.dart';
 import 'package:vibers_net/models/user_avatar_type_enum.dart';
 import 'package:vibers_net/ui/shared/app_image.dart';
 import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
@@ -20,7 +20,7 @@ class EditAccountPage extends StatefulWidget {
 class _EditAccountPageState extends State<EditAccountPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  GenderTypeEnum? selectedGender;
+  UserAccountGenderEnum? selectedGender;
   UserAvatarTypeEnum? userAvatarTypeEnum = UserAvatarTypeEnum.values.first;
   bool isKidsMode = false;
 
@@ -141,8 +141,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
 class SelectGenderWidget extends StatelessWidget {
   const SelectGenderWidget(
       {this.selectedGender, required this.onGenderSelected});
-  final GenderTypeEnum? selectedGender;
-  final void Function(GenderTypeEnum? gender) onGenderSelected;
+  final UserAccountGenderEnum? selectedGender;
+  final void Function(UserAccountGenderEnum? gender) onGenderSelected;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -166,12 +166,12 @@ class SelectGenderWidget extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   activeColor: kMainLight,
                   title: Text(
-                    GenderTypeEnum.male.nameTranslated,
+                    UserAccountGenderEnum.male.nameTranslated,
                     style: TextStyles.medium14(color: kWhite100TextColor),
                   ),
                   useCupertinoCheckmarkStyle: true,
                   splashRadius: 8,
-                  value: GenderTypeEnum.male,
+                  value: UserAccountGenderEnum.male,
                   groupValue: selectedGender,
                   onChanged: onGenderSelected),
             ),
@@ -184,11 +184,11 @@ class SelectGenderWidget extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   activeColor: kMainLight,
                   title: Text(
-                    GenderTypeEnum.female.nameTranslated,
+                    UserAccountGenderEnum.female.nameTranslated,
                     style: TextStyles.medium14(color: kWhite100TextColor),
                   ),
                   useCupertinoCheckmarkStyle: true,
-                  value: GenderTypeEnum.female,
+                  value: UserAccountGenderEnum.female,
                   groupValue: selectedGender,
                   onChanged: onGenderSelected),
             ),

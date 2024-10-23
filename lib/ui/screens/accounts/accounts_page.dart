@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 import 'package:vibers_net/common/route_paths.dart';
 import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
-import 'package:vibers_net/models/user_avatar_type_enum.dart';
+import 'package:vibers_net/providers/account/get_all_user_accounts_provider.dart';
+import 'package:vibers_net/ui/shared/app_fail_widget.dart';
 import 'package:vibers_net/ui/shared/app_image.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import 'package:vibers_net/ui/widgets/app_bar_widget.dart';
 
 class AccountsPage extends StatefulWidget {
@@ -16,45 +19,72 @@ class AccountsPage extends StatefulWidget {
 
 class _AccountsPageState extends State<AccountsPage> {
   bool canEditAccounts = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _getAllAccounts();
+      },
+    );
+  }
+
+  void _getAllAccounts() {
+    context.read<GetAllUserAccountsProvider>().getAllAccounts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
         titleText: translate("who_watching"),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(32.0),
-        mainAxisSpacing: 32,
-        childAspectRatio: 1.2,
-        children: [
-          ...UserAvatarTypeEnum.values.map(
-            (e) {
-              return UserAvatarWidget(
-                avatr: e,
-                userName: "You",
-                canEditAccounts: canEditAccounts,
-                onTap: () {
-                  if (canEditAccounts) {
-                    Navigator.of(context).pushNamed(RoutePaths.editAccountPage);
-                  } else {
-                    // TODO : add change account feature
-                  }
-                },
-              );
-            },
-          ),
-          AnimatedOpacity(
-            opacity: canEditAccounts ? 0.0 : 1.0,
-            duration: Durations.medium1,
-            child: _AddNewProfileWidget(
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed(RoutePaths.createAccountProfilePage);
-              },
-            ),
-          )
-        ],
+      body: Consumer<GetAllUserAccountsProvider>(
+        builder: (context, GetAllUserAccountsProvider value, child) {
+          if (value.userAccountModel.isSuccess) {
+            final accounts = value.userAccountModel.data ?? [];
+            return GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(32.0),
+              mainAxisSpacing: 32,
+              childAspectRatio: .85,
+              crossAxisSpacing: 32,
+              children: [
+                ...accounts.map(
+                  (account) {
+                    return UserAvatarWidget(
+                      avatr: account.avatar ?? "",
+                      userName: account.name,
+                      canEditAccounts: canEditAccounts,
+                      onTap: () {
+                        if (canEditAccounts) {
+                          Navigator.of(context)
+                              .pushNamed(RoutePaths.editAccountPage);
+                        } else {
+                          // TODO : add change account feature
+                        }
+                      },
+                    );
+                  },
+                ),
+                AnimatedOpacity(
+                  opacity: canEditAccounts ? 0.0 : 1.0,
+                  duration: Durations.medium1,
+                  child: _AddNewProfileWidget(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(RoutePaths.createAccountProfilePage);
+                    },
+                  ),
+                )
+              ],
+            );
+          } else if (value.userAccountModel.isFailure) {
+            return AppFailWidget(onRetry: _getAllAccounts);
+          }
+          return const AppLoadingWidget();
+        },
       ),
       bottomNavigationBar: _ManageProfileWidget(
         canEditAccounts: canEditAccounts,
@@ -78,7 +108,7 @@ class UserAvatarWidget extends StatelessWidget {
       this.onTap})
       : super(key: key);
   final double? size;
-  final UserAvatarTypeEnum avatr;
+  final String avatr;
   final String userName;
   final bool canEditAccounts;
   final VoidCallback? onTap;
@@ -110,12 +140,15 @@ class UserAvatarWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 alignment: Alignment.center,
                 children: [
-                  AppImage(
-                    path: avatr.emojiPath,
+                  AppImage.rounded(
+                    path: avatr,
                     fit: BoxFit.cover,
                     cacheImage: false,
                     showFailIcon: false,
-                    placeholderColor: Colors.grey[100]!,
+                    radius: 22,
+                    width: double.infinity,
+                    height: double.infinity,
+                    bgColor: Colors.grey[100]!,
                   ),
                   AnimatedOpacity(
                     opacity: canEditAccounts ? 1.0 : 0.0,
@@ -159,7 +192,7 @@ class _AddNewProfileWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.add_circle,
-            size: 80,
+            size: 70,
             color: Colors.white,
           ),
           const SizedBox(

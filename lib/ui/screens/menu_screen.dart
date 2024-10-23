@@ -636,7 +636,7 @@ class _MenuScreenState extends State<MenuScreen> {
               Navigator.of(context).pushNamed(RoutePaths.privacyPolicyPage);
             },
           ),
-          help(),
+          // help(),
           appConfig.config!.donation == 1 ||
                   "${appConfig.config!.donation}" == "1"
               ? donate()

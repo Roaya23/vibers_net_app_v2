@@ -3,6 +3,10 @@ class APIData {
 
   static const String domainApiLink = domainLink + "api/";
 
+  // Api User Accounts
+    static const String allUserAccounts = domainApiLink + "profiles";
+    static const String createUserProfile = domainApiLink + "createProfile";
+
   // API Link
   static const String loginApi = domainApiLink + "login";
   static const String fbLoginApi = domainApiLink + "fblogin";

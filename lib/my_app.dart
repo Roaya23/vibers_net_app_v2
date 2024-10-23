@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:vibers_net/localization/language_provider.dart';
+import 'package:vibers_net/providers/account/create_user_account_provider.dart';
+import 'package:vibers_net/providers/account/get_all_user_accounts_provider.dart';
 import 'package:vibers_net/providers/all_user_provider.dart';
 import 'package:vibers_net/providers/app_ui_shorting_provider.dart';
 import 'package:vibers_net/providers/audio_provider.dart';
@@ -84,6 +86,8 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (_) => CountViewProvider()),
             ChangeNotifierProvider(create: (_) => UpiDetailsProvider()),
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
+            ChangeNotifierProvider(create: (_) => GetAllUserAccountsProvider()),
+            ChangeNotifierProvider(create: (_) => CreateUserAccountProvider()),
           ],
           child: Shortcuts(
             shortcuts: <LogicalKeySet, Intent>{

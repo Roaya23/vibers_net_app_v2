@@ -15,7 +15,7 @@ class AppImage extends StatelessWidget {
 
   const AppImage({
     required this.path,
-    this.placeholderColor = kScafoldBgColor,
+    this.placeholderColor = kLightAccent,
     this.fit = BoxFit.cover,
     this.height,
     this.width,
@@ -73,6 +73,7 @@ class AppImage extends StatelessWidget {
         path: path,
         fit: fit,
         height: height,
+        placeholderColor: bgColor ?? kGrey400,
         width: width,
         showFailIcon: showFailIcon,
         cacheImage: cacheImage,

@@ -30,16 +30,10 @@ import '/providers/app_config.dart';
 import '/providers/menu_data_provider.dart';
 import '/providers/movie_tv_provider.dart';
 import '/providers/user_profile_provider.dart';
-import '/services/download/download_episode_page.dart';
-import '/services/download/download_page.dart';
 import '/ui/shared/artist_list.dart';
 import '/ui/shared/color_loader.dart';
 import '/ui/shared/description_text.dart';
-import '/ui/shared/rate_us.dart';
-import '/ui/shared/seasons_artist_list.dart';
-import '/ui/shared/share_page.dart';
 import '/ui/shared/tab_widget.dart';
-import '/ui/shared/wishlist.dart';
 import '/ui/widgets/seasons_tab.dart';
 import '/ui/widgets/video_detail_header.dart';
 import 'package:provider/provider.dart';
@@ -1105,15 +1099,15 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
 
   //  Detailed page for tv series
   Widget _seasonsScrollView() {
-    var videoDetailCheck = widget.videoDetail;
-    var allSeasonsCheck = videoDetailCheck!.seasons![0];
+    // var videoDetailCheck = widget.videoDetail;
+    // var allSeasonsCheck = videoDetailCheck!.seasons![0];
+    final seasons = widget.videoDetail?.seasons ?? [];
     return NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           sliverList(),
-          SliverToBoxAdapter(child: VideDetailsEbisodesWidget()),
-          sliverAppbarSeasons(innerBoxIsScrolled),
+          // sliverAppbarSeasons(innerBoxIsScrolled),
         ];
       },
       body: SingleChildScrollView(
@@ -1121,6 +1115,24 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            VideDetailsEbisodesWidget(
+              currentSeason:
+                  translate("Season_") + ' ${seasons[cSeasonIndex].seasonNo}',
+              seasons: seasons
+                  .map(
+                    (season) => translate("Season_") + ' ${season.seasonNo}',
+                  )
+                  .toList(),
+              onSeasonChanged: (currentIndex) {
+                setState(() {
+                  cSeasonIndex = currentIndex;
+                  newSeasonIndex = currentIndex;
+                  seasonId = widget.videoDetail!.seasons![currentIndex].id;
+                  ser = widget.videoDetail!.seasons![currentIndex].id;
+                });
+                getData(currentIndex);
+              },
+            ),
             // SizedBox(
             //   height: 15.0,
             // ),
@@ -1190,7 +1202,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            tabBar(),
+            // tabBar(),
             episodesList(),
             cusAlsoWatchedText(),
             moreLikeThisSeasons(moreLikeThis),
@@ -1839,106 +1851,122 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
 
   //  Generate list of episodes
   Widget episodesList() {
-    final platform = Theme.of(context).platform;
-    return Padding(
-      padding:
-          const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
-      child: Column(
-        children: List.generate(
-            seasonEpisodeData == null ? 0 : seasonEpisodeData.length, (int i) {
-          dTasks = [];
-          dItems = [];
-          dTasks!.add(
-            TaskInfo(
-                eIndex: i,
-                name: "${seasonEpisodeData[i]['title']}",
-                ifLink: "${seasonEpisodeData[i]['video_link']['iframeurl']}",
-                hdLink: "${seasonEpisodeData[i]['video_link']['ready_url']}",
-                link360: "${seasonEpisodeData[i]['video_link']['url_360']}",
-                link480: "${seasonEpisodeData[i]['video_link']['url_480']}",
-                link720: "${seasonEpisodeData[i]['video_link']['url_720']}",
-                link1080: "${seasonEpisodeData[i]['video_link']['url_1080']}"),
-          );
-          dItems!.add(ItemHolder(name: dTasks![0].name, task: dTasks![0]));
-          return Container(
-            child: Column(
-              children: <Widget>[
-                new Container(
-                  decoration: new BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color.fromRGBO(34, 34, 34, 1.0),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: gestureDetector(i),
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          episodeTitle(i),
-                          episodeSubtitle(i),
-                          episodeThumbnail(i),
-                          episodeDetails(i),
-                        ],
-                      ),
-                    ),
-                    DownloadEpisodePage(
-                        widget.videoDetail,
-                        widget.videoDetail!.seasons![cSeasonIndex].id,
-                        seasonEpisodeData[i],
-                        dTasks,
-                        dItems,
-                        TaskInfo(
-                            eIndex: i,
-                            name: "${seasonEpisodeData[i]['title']}",
-                            ifLink:
-                                "${seasonEpisodeData[i]['video_link']['iframeurl']}",
-                            hdLink:
-                                "${seasonEpisodeData[i]['video_link']['ready_url']}",
-                            link360:
-                                "${seasonEpisodeData[i]['video_link']['url_360']}",
-                            link480:
-                                "${seasonEpisodeData[i]['video_link']['url_480']}",
-                            link720:
-                                "${seasonEpisodeData[i]['video_link']['url_720']}",
-                            link1080:
-                                "${seasonEpisodeData[i]['video_link']['url_1080']}"),
-                        platform)
-                  ],
-                ),
-              ],
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomRight,
-                stops: [0.1, 0.5, 0.7, 0.9],
-                colors: [
-                  Color.fromRGBO(72, 163, 198, 0.4).withOpacity(0.0),
-                  Color.fromRGBO(72, 163, 198, 0.3).withOpacity(0.1),
-                  Color.fromRGBO(72, 163, 198, 0.2).withOpacity(0.2),
-                  Color.fromRGBO(72, 163, 198, 0.1).withOpacity(0.3),
-                ],
-              ),
-            ),
-          );
-        }),
-      ),
+    // final platform = Theme.of(context).platform;
+    for (var i = 0;
+        i < (seasonEpisodeData == null ? 0 : seasonEpisodeData.length);
+        i) {
+      dTasks = [];
+      dItems = [];
+      dTasks!.add(
+        TaskInfo(
+            eIndex: i,
+            name: "${seasonEpisodeData[i]['title']}",
+            ifLink: "${seasonEpisodeData[i]['video_link']['iframeurl']}",
+            hdLink: "${seasonEpisodeData[i]['video_link']['ready_url']}",
+            link360: "${seasonEpisodeData[i]['video_link']['url_360']}",
+            link480: "${seasonEpisodeData[i]['video_link']['url_480']}",
+            link720: "${seasonEpisodeData[i]['video_link']['url_720']}",
+            link1080: "${seasonEpisodeData[i]['video_link']['url_1080']}"),
+      );
+      dItems!.add(ItemHolder(name: dTasks![0].name, task: dTasks![0]));
+    }
+    return SeasonEpisodesListWidget(
+      onTap: (index) {
+        gestureDetector(index);
+      },
+      getTumbnail: (index) =>
+          '${APIData.episodeThumbnail}${seasonEpisodeData[index]['thumbnail']}',
     );
+
+    // return Padding(
+    //   padding:
+    //       const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
+    //   child: Column(
+    //     children: List.generate(
+    //         seasonEpisodeData == null ? 0 : seasonEpisodeData.length, (int i) {
+    //       dTasks = [];
+    //       dItems = [];
+    //       dTasks!.add(
+    //         TaskInfo(
+    //             eIndex: i,
+    //             name: "${seasonEpisodeData[i]['title']}",
+    //             ifLink: "${seasonEpisodeData[i]['video_link']['iframeurl']}",
+    //             hdLink: "${seasonEpisodeData[i]['video_link']['ready_url']}",
+    //             link360: "${seasonEpisodeData[i]['video_link']['url_360']}",
+    //             link480: "${seasonEpisodeData[i]['video_link']['url_480']}",
+    //             link720: "${seasonEpisodeData[i]['video_link']['url_720']}",
+    //             link1080: "${seasonEpisodeData[i]['video_link']['url_1080']}"),
+    //       );
+    //       dItems!.add(ItemHolder(name: dTasks![0].name, task: dTasks![0]));
+    //       return Container(
+    //         child: Column(
+    //           children: <Widget>[
+    //             Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: <Widget>[
+    //                 Expanded(
+    //                   flex: 2,
+    //                   child: gestureDetector(i),
+    //                 ),
+    //                 Expanded(
+    //                   flex: 7,
+    //                   child: Column(
+    //                     crossAxisAlignment: CrossAxisAlignment.start,
+    //                     mainAxisAlignment: MainAxisAlignment.start,
+    //                     children: <Widget>[
+    //                       SizedBox(
+    //                         height: 10.0,
+    //                       ),
+    //                       episodeTitle(i),
+    //                       episodeSubtitle(i),
+    //                       episodeThumbnail(i),
+    //                       episodeDetails(i),
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 DownloadEpisodePage(
+    //                     widget.videoDetail,
+    //                     widget.videoDetail!.seasons![cSeasonIndex].id,
+    //                     seasonEpisodeData[i],
+    //                     dTasks,
+    //                     dItems,
+    //                     TaskInfo(
+    //                         eIndex: i,
+    //                         name: "${seasonEpisodeData[i]['title']}",
+    //                         ifLink:
+    //                             "${seasonEpisodeData[i]['video_link']['iframeurl']}",
+    //                         hdLink:
+    //                             "${seasonEpisodeData[i]['video_link']['ready_url']}",
+    //                         link360:
+    //                             "${seasonEpisodeData[i]['video_link']['url_360']}",
+    //                         link480:
+    //                             "${seasonEpisodeData[i]['video_link']['url_480']}",
+    //                         link720:
+    //                             "${seasonEpisodeData[i]['video_link']['url_720']}",
+    //                         link1080:
+    //                             "${seasonEpisodeData[i]['video_link']['url_1080']}"),
+    //                     platform)
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //         decoration: BoxDecoration(
+    //           gradient: LinearGradient(
+    //             begin: Alignment.topCenter,
+    //             end: Alignment.bottomRight,
+    //             stops: [0.1, 0.5, 0.7, 0.9],
+    //             colors: [
+    //               Color.fromRGBO(72, 163, 198, 0.4).withOpacity(0.0),
+    //               Color.fromRGBO(72, 163, 198, 0.3).withOpacity(0.1),
+    //               Color.fromRGBO(72, 163, 198, 0.2).withOpacity(0.2),
+    //               Color.fromRGBO(72, 163, 198, 0.1).withOpacity(0.3),
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     }),
+    //   ),
+    // );
   }
 
   Future<Null> _prepare() async {
@@ -1982,17 +2010,17 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
   }
 
   //  Sliver app bar that contains tab bar
-  Widget sliverAppbarSeasons(innerBoxIsScrolled) {
-    return SliverAppBar(
-      elevation: 0.0,
-      title: seasonsTabBar(),
-      pinned: false,
-      floating: true,
-      forceElevated: innerBoxIsScrolled,
-      automaticallyImplyLeading: false,
-      backgroundColor: Theme.of(context).primaryColorDark,
-    );
-  }
+  // Widget sliverAppbarSeasons(innerBoxIsScrolled) {
+  //   return SliverAppBar(
+  //     elevation: 0.0,
+  //     title: seasonsTabBar(),
+  //     pinned: false,
+  //     floating: true,
+  //     forceElevated: innerBoxIsScrolled,
+  //     automaticallyImplyLeading: false,
+  //     backgroundColor: Theme.of(context).primaryColorDark,
+  //   );
+  // }
 
   //  Seasons tab bar
   Widget seasonsTabBar() {
@@ -2032,7 +2060,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
 
   //  SliverList including detail header and row of my list, rate, share and download.
   Widget sliverList() {
-    final platform = Theme.of(context).platform;
+    // final platform = Theme.of(context).platform;
     if (widget.videoDetail!.seasons!.length != 0) {
       return SliverList(
           delegate: SliverChildBuilderDelegate((BuildContext context, int j) {

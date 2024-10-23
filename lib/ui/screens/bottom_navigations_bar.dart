@@ -189,12 +189,21 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               backgroundColor: Theme.of(context).primaryColorDark,
               bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
-                backgroundColor: Theme.of(context).primaryColorLight,
-                selectedIconTheme: Theme.of(context).primaryIconTheme,
-                unselectedIconTheme: Theme.of(context).iconTheme,
+                backgroundColor: const Color(0xff130E13),
+                selectedIconTheme: Theme.of(context).primaryIconTheme.copyWith(
+                      color: kMainThemeColor,
+                      size: 18,
+                    ),
+                unselectedIconTheme: Theme.of(context).iconTheme.copyWith(
+                      color: kWhite100,
+                      size: 18,
+                    ),
                 selectedItemColor:
                     Theme.of(context).textSelectionTheme.selectionColor,
-                unselectedItemColor: Theme.of(context).hintColor,
+                unselectedItemColor: kWhite100,
+                selectedFontSize: 10.sp,
+                unselectedFontSize: 10.sp,
+                iconSize: 18.sp,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       label: translate("Home_"), icon: Icon(Icons.home)),
@@ -203,11 +212,11 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   BottomNavigationBarItem(
                       label: translate("Wishlist_"),
                       icon: Icon(Icons.favorite_border)),
+                  // BottomNavigationBarItem(
+                  //     label: translate("Download_"),
+                  //     icon: Icon(Icons.file_download)),
                   BottomNavigationBarItem(
-                      label: translate("Download_"),
-                      icon: Icon(Icons.file_download)),
-                  BottomNavigationBarItem(
-                      label: translate("Menu_"), icon: Icon(Icons.menu)),
+                      label: translate("Menu_"), icon: Icon(Icons.account_circle_outlined)),
                 ],
                 currentIndex: _selectedIndex!,
                 selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),

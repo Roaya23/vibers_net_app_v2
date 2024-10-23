@@ -338,5 +338,6 @@
   "create_profile": "انشاء حساب",
   "profile_photo": "صورة الملف الشخصي",
   "accounts": "الحسابات",
-  "privacy_policy": "سياسة الخصوصية"
+  "privacy_policy": "سياسة الخصوصية",
+  "failToLoadtryAgain": "فشل التحميل ، يرجى المحاولة مرة أخرى"
 }

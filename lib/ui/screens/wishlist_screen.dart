@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vibers_net/common/styles.dart';
 import 'package:vibers_net/common/text_styles.dart';
+import 'package:vibers_net/ui/shared/app_loading_widget.dart';
 import '/common/apipath.dart';
 import '/common/global.dart';
 import '/common/route_paths.dart';
@@ -538,11 +539,7 @@ class _MoviesWishListState extends State<MoviesWishList> {
   @override
   Widget build(BuildContext context) {
     return widget._visible == false
-        ? Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-            ),
-          )
+        ? const AppLoadingWidget()
         : moviesWishList.length == 0
             ? BlankWishList()
             : Container(
